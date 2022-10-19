@@ -4,6 +4,7 @@
 //import 'package:circlight/ReadData.dart';
 import 'dart:convert';
 
+import 'package:circlight/Parent.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ class _EditTry extends State<EditTry1> {
   TextEditingController JobTitle = TextEditingController();
   //get docIDs
   Future getDocId() async {
-    await FirebaseFirestore.instance.collection("Parent1").get().then(
+    await FirebaseFirestore.instance.collection("Parent").get().then(
           (snapshot) => snapshot.docs.forEach((document) {
             // ignore: avoid_print
             print(document.reference);
@@ -49,16 +50,16 @@ class _EditTry extends State<EditTry1> {
 
   @override
   Widget build(BuildContext context) {
-    //final ReadData Read = new ReadData();
-    String Name = " ";
+    Parent parentx = new Parent(
+        Name: "",
+        Email: "",
+        PUserName: "",
+        PNationalID: "",
+        PJobTitle: "",
+        PPhoneNumber: "",
+        PAltPhoneNumber: "",
+        PNationality: "");
 
-    String Email = ' ';
-
-    String PUserName = ' ';
-    String PNationalID = ' ';
-
-    String PNationality = " ";
-    String PJobTitle = " ";
     final double height = MediaQuery.of(context).size.height;
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     CollectionReference Parents =
@@ -70,13 +71,15 @@ class _EditTry extends State<EditTry1> {
             Map<String, dynamic> data =
                 snapshot.data!.data() as Map<String, dynamic>;
             final String jsonString = jsonEncode(data);
-            Name = data["Name"];
+            parentx.Name = data["Name"];
 
-            Email = data["Email"];
-            PUserName = data["UserName"];
-            PNationalID = data["NationalID"];
-            PNationality = data["Nationality"];
-            PJobTitle = data["JobTitle"];
+            parentx.Email = data["Email"];
+            parentx.PUserName = data["UserName"];
+            parentx.PNationalID = data["NationalID"];
+            parentx.PNationality = data["Nationality"];
+            parentx.PJobTitle = data["JobTitle"];
+            parentx.PPhoneNumber = data["PhoneNumber"];
+            parentx.PAltPhoneNumber = data["AltPhoneNumber"];
           }
           return Scaffold(
               key: _scaffoldKey,
@@ -115,7 +118,8 @@ class _EditTry extends State<EditTry1> {
                                     Directionality(
                                       textDirection: TextDirection.rtl,
                                       child: TextFormField(
-                                        controller: parentName..text = Name,
+                                        controller: parentName
+                                          ..text = parentx.Name,
                                         //to take text from user input
                                         textAlign: TextAlign.right,
 
@@ -138,7 +142,7 @@ class _EditTry extends State<EditTry1> {
                                       textDirection: TextDirection.rtl,
                                       child: TextFormField(
                                         controller: parentUserName
-                                          ..text = PUserName,
+                                          ..text = parentx.PUserName,
                                         //to take text from user input
                                         textAlign: TextAlign.right,
 
@@ -160,7 +164,8 @@ class _EditTry extends State<EditTry1> {
                                     Directionality(
                                       textDirection: TextDirection.rtl,
                                       child: TextFormField(
-                                        controller: parentEmail..text = Email,
+                                        controller: parentEmail
+                                          ..text = parentx.Email,
                                         //to take text from user input
                                         textAlign: TextAlign.right,
 
@@ -183,7 +188,7 @@ class _EditTry extends State<EditTry1> {
                                       textDirection: TextDirection.rtl,
                                       child: TextFormField(
                                         controller: NationalID
-                                          ..text = PNationalID,
+                                          ..text = parentx.PNationalID,
                                         //to take text from user input
                                         textAlign: TextAlign.right,
 
@@ -207,14 +212,13 @@ class _EditTry extends State<EditTry1> {
                                       textDirection: TextDirection.rtl,
                                       child: TextFormField(
                                         controller: Nationality
-                                          ..text = PNationality,
+                                          ..text = parentx.PNationality,
                                         //to take text from user input
                                         textAlign: TextAlign.right,
 
                                         decoration: InputDecoration(
-                                            hintText:
-                                                "أدخل رقم الهوية/الاقامة ",
-                                            labelText: "رقم الهوية/ الاقامة"),
+                                            hintText: "الجنسية",
+                                            labelText: "ماهي جنسيتك؟"),
                                         validator: (value) {
                                           if (value!.isEmpty)
                                             return "Please Enter a the empty fields ";
@@ -230,7 +234,8 @@ class _EditTry extends State<EditTry1> {
                                     Directionality(
                                       textDirection: TextDirection.rtl,
                                       child: TextFormField(
-                                        controller: JobTitle..text = PJobTitle,
+                                        controller: JobTitle
+                                          ..text = parentx.PJobTitle,
                                         //to take text from user input
                                         textAlign: TextAlign.right,
 
@@ -246,23 +251,69 @@ class _EditTry extends State<EditTry1> {
                                         },
                                       ),
                                     ),
-                                    /*  OutlinedButton(
-                      child: Text("إضافه"),
-                      onPressed: () {},
-                      style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                      side: BorderSide(
-                                          color: Color.fromARGB(
-                                              255, 54, 187, 244))))))*/
+                                    SizedBox(
+                                      height: height * 0.05,
+                                    ),
+                                    Directionality(
+                                      textDirection: TextDirection.rtl,
+                                      child: TextFormField(
+                                        controller: JobTitle
+                                          ..text = parentx.PPhoneNumber,
+                                        //to take text from user input
+                                        textAlign: TextAlign.right,
+
+                                        decoration: InputDecoration(
+                                            hintText: "رقم الجوال",
+                                            labelText: "أدخل رقم الجوال"),
+                                        validator: (value) {
+                                          if (value!.isEmpty)
+                                            return "Please Enter a the empty fields ";
+                                          else {
+                                            return value;
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: height * 0.05,
+                                    ),
+                                    Directionality(
+                                      textDirection: TextDirection.rtl,
+                                      child: TextFormField(
+                                        controller: JobTitle
+                                          ..text = parentx.PAltPhoneNumber,
+                                        //to take text from user input
+                                        textAlign: TextAlign.right,
+
+                                        decoration: InputDecoration(
+                                            hintText: " رقم جوال آخر",
+                                            labelText: "أدخل رقم حوال آخر"),
+                                        validator: (value) {
+                                          if (value!.isEmpty)
+                                            return "Please Enter a the empty fields ";
+                                          else {
+                                            return value;
+                                          }
+                                        },
+                                      ),
+                                    ),
                                     Container(
                                       child: Align(
                                           alignment: Alignment.center,
                                           child: ElevatedButton(
-                                            child:
-                                                Text("          تحديث        "),
+                                            child: Container(
+                                              child: Text(
+                                                  "          تحديث        "),
+                                              decoration: const BoxDecoration(
+                                                gradient: LinearGradient(
+                                                    colors: [
+                                                      Colors.purple,
+                                                      Colors.green,
+                                                    ],
+                                                    begin: Alignment(-1, -0.7),
+                                                    end: Alignment(1, 0.7)),
+                                              ),
+                                            ),
                                             onPressed: () async {
                                               await userRef
                                                   .collection("Parent")
@@ -270,12 +321,10 @@ class _EditTry extends State<EditTry1> {
                                                   .set({
                                                 'Name': parentName.text
                                               });
-                                              ;
+
                                               print(parentName.text);
                                             },
                                             style: ElevatedButton.styleFrom(
-                                              primary: Color.fromARGB(
-                                                  255, 54, 165, 244),
                                               onPrimary: Colors.white,
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
@@ -299,140 +348,4 @@ class _EditTry extends State<EditTry1> {
             // return Center(child: CircularProgressIndicator());
             ));
   }
-
-  // ignore: non_constant_identifier_names
-  getName(DicId) {
-    CollectionReference Parents =
-        FirebaseFirestore.instance.collection("Parent1");
-    return FutureBuilder<DocumentSnapshot>(
-      future: Parents.doc(DicId).get(),
-      builder: ((context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data =
-              snapshot.data!.data() as Map<String, dynamic>;
-          // ignore: prefer_const_constructors
-          return Directionality(
-            textDirection: TextDirection.rtl,
-            child: TextFormField(
-              textAlign: TextAlign.right,
-              autofocus: true,
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: "ایمیل",
-                  hintText: "ایمیل خود را وارد کنید"),
-              initialValue: "${data['Name']}",
-            ),
-          );
-        }
-        return Text("  ");
-      }),
-    );
-  }
-
-  getNationality(DicId) {
-    CollectionReference Parents =
-        FirebaseFirestore.instance.collection("Parent1");
-    return FutureBuilder<DocumentSnapshot>(
-      future: Parents.doc(DicId).get(),
-      builder: ((context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data =
-              snapshot.data!.data() as Map<String, dynamic>;
-          // ignore: prefer_const_constructors
-          return Directionality(
-            textDirection: TextDirection.rtl,
-            child: TextFormField(
-              textAlign: TextAlign.right,
-              autofocus: true,
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: "ایمیل",
-                  hintText: "ایمیل خود را وارد کنید"),
-              initialValue: "${data['Name']}",
-            ),
-          );
-        }
-        return Text("  ");
-      }),
-    );
-  }
 }
-/*
-ListView.builder(
-                              itemCount: 1,
-                              itemBuilder: ((context, index) {
-                                return getName(x);
-                              }),
-                            ),
-
-
-
-
-*/
-
-/*
-Buttton
-
-MaterialButton(
-              onPressed: () {
-                Text:
-                Text("hello");
-              },
-              color: Colors.deepPurple[200],
-              child: Text('sign out'),
-            )
-
-
-            */
-            /*  getName(DicId) {
-    CollectionReference Parents =
-        FirebaseFirestore.instance.collection("Parent1");
-    return FutureBuilder<DocumentSnapshot>(
-      future: Parents.doc(DicId).get(),
-      builder: ((context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data =
-              snapshot.data!.data() as Map<String, dynamic>;
-          return Text('الاسم: ${data['Name']}');
-        }
-        return Text("  ");
-      }),
-    );
-  }*/
-  /*        return TextField(
-            textAlign: TextAlign.right,
-
-            decoration: InputDecoration(
-              hintText: "الوظيفة ",
-              labelStyle: TextStyle(color: Colors.black87, fontSize: 17),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.purple),
-              ),
-              enabledBorder: new UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey, width: 1.0)),
-            ),
-            //  controller: _passwordController,
-            // obscureText: true,
-          );
-          */
-          /*
-          ///////////////////////CENTER//////////////
-          ///return TextField(
-            textAlign: TextAlign.right,
-
-            decoration: InputDecoration(
-              label: const Center(
-                child: Text("Your Centered Label Text"),
-              ),
-              hintText: "الوظيفة ",
-              labelStyle: TextStyle(color: Colors.black87, fontSize: 17),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.purple),
-              ),
-              enabledBorder: new UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey, width: 1.0)),
-            ),
-            //  controller: _passwordController,
-            // obscureText: true,
-          );
-          */
