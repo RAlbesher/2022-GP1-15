@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'firebase_options.dart';
+import 'package:cool_alert/cool_alert.dart';
 
 class ParentAddform extends StatefulWidget {
   @override
@@ -12,6 +14,14 @@ class _ParentAddFormState extends State<ParentAddform> {
   final formKey = GlobalKey<FormState>(); //key for form
   String name = "";
   TextEditingController parentName = TextEditingController();
+  TextEditingController username = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController IDNo = TextEditingController();
+  TextEditingController nationality = TextEditingController();
+  TextEditingController jobTitle = TextEditingController();
+  TextEditingController phoneNumber = TextEditingController();
+  TextEditingController altphoneNumber = TextEditingController();
+
   final userRef = FirebaseFirestore.instance;
 
   @override
@@ -43,34 +53,22 @@ class _ParentAddFormState extends State<ParentAddform> {
                   SizedBox(
                     height: height * 0.05,
                   ),
-                  TextFormField(
-                    //to take text from user input
-                    controller: parentName,
-                    textAlign: TextAlign.right,
-                    decoration: InputDecoration(hintText: "اسم ولي الامر"),
+                  Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: TextFormField(
+                      //to take text from user input
+                      controller: parentName,
+                      textAlign: TextAlign.right,
+                      decoration: InputDecoration(labelText: "اسم ولي الامر"),
 
-                    validator: (value) {
-                      if (value!.isEmpty)
-                        return "Please Enter a the empty fields ";
-                      else {
-                        return null;
-                      }
-                    },
-                  ),
-                  SizedBox(
-                    height: height * 0.05,
-                  ),
-                  TextFormField(
-                    //to take text from user input
-                    textAlign: TextAlign.right,
-                    decoration: InputDecoration(hintText: "اسم المستخدم"),
-                    validator: (value) {
-                      if (value!.isEmpty)
-                        return "Please Enter a the empty fields ";
-                      else {
-                        return value;
-                      }
-                    },
+                      validator: (value) {
+                        if (value!.isEmpty)
+                          return "أرجو منك تعبئه الحقل الفارغ ";
+                        else {
+                          return null;
+                        }
+                      },
+                    ),
                   ),
                   SizedBox(
                     height: height * 0.05,
@@ -79,15 +77,14 @@ class _ParentAddFormState extends State<ParentAddform> {
                     textDirection: TextDirection.rtl,
                     child: TextFormField(
                       //to take text from user input
+                      controller: username,
                       textAlign: TextAlign.right,
-                      decoration: InputDecoration(
-                          hintText: "البريد الالكتروني ",
-                          labelText: "لبريد الالكتروني "),
+                      decoration: InputDecoration(labelText: "اسم المستخدم"),
                       validator: (value) {
                         if (value!.isEmpty)
-                          return "Please Enter a the empty fields ";
+                          return "أرجو منك تعبئه الحقل الفارغ ";
                         else {
-                          return value;
+                          return null;
                         }
                       },
                     ),
@@ -95,104 +92,141 @@ class _ParentAddFormState extends State<ParentAddform> {
                   SizedBox(
                     height: height * 0.05,
                   ),
-                  TextFormField(
-                    //to take text from user input
-                    textAlign: TextAlign.right,
-                    decoration:
-                        InputDecoration(hintText: "رقم الهوية /الإقامة"),
-                    validator: (value) {
-                      if (value!.isEmpty)
-                        return "Please Enter a the empty fields ";
-                      else {
-                        return value;
-                      }
-                    },
-                  ),
-                  SizedBox(
-                    height: height * 0.05,
-                  ),
-                  TextFormField(
-                    //to take text from user input
-                    textAlign: TextAlign.right,
-                    decoration: InputDecoration(hintText: "الجنسية"),
-                    validator: (value) {
-                      if (value!.isEmpty)
-                        return "Please Enter a the empty fields ";
-                      else {
-                        return value;
-                      }
-                    },
-                  ),
-                  SizedBox(
-                    height: height * 0.05,
-                  ),
-                  TextFormField(
-                    //to take text from user input
-                    textAlign: TextAlign.right,
-                    decoration: InputDecoration(hintText: "الوظيفة "),
-                    validator: (value) {
-                      if (value!.isEmpty)
-                        return "Please Enter a the empty fields ";
-                      else {
-                        return value;
-                      }
-                    },
-                  ),
-                  SizedBox(
-                    height: height * 0.05,
-                  ),
-                  TextFormField(
-                    //to take text from user input
-                    textAlign: TextAlign.right,
-                    decoration: InputDecoration(hintText: "رقم الجوال"),
-                    validator: (value) {
-                      if (value!.isEmpty)
-                        return "Please Enter a the empty fields ";
-                      else {
-                        return value;
-                      }
-                    },
-                  ),
-                  SizedBox(
-                    height: height * 0.05,
-                  ),
-                  TextFormField(
-                    //to take text from user input
-                    textAlign: TextAlign.right,
-                    decoration: InputDecoration(
-                      hintText: "رقم جوال آخر ",
+                  Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: TextFormField(
+                      //to take text from user input
+                      controller: email,
+                      textAlign: TextAlign.right,
+                      decoration:
+                          InputDecoration(labelText: "البريد الالكتروني"),
+                      validator: (value) {
+                        if (value!.isEmpty ||
+                            !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(value!))
+                          return "أرجو منك تعبئه الحقل بطريقه صحيحه ";
+                        else {
+                          return null;
+                        }
+                      },
                     ),
-                    validator: (value) {
-                      if (value!.isEmpty)
-                        return "Please Enter a the empty fields ";
-                      else {
-                        return value;
-                      }
-                    },
                   ),
-                  /*  OutlinedButton(
-                      child: Text("إضافه"),
-                      onPressed: () {},
-                      style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                      side: BorderSide(
-                                          color: Color.fromARGB(
-                                              255, 54, 187, 244))))))*/
+                  SizedBox(
+                    height: height * 0.05,
+                  ),
+                  Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: TextFormField(
+                      //to take text from user input
+                      controller: IDNo,
+                      textAlign: TextAlign.right,
+                      decoration:
+                          InputDecoration(labelText: "رقم الهوية /الإقامة"),
+                      validator: (value) {
+                        if (value!.isEmpty ||
+                            !RegExp(r'^[0-9]{10}$').hasMatch(value!))
+                          return "أرجو منك تعبئه الحقل بطريقه صحيحه حيث يتكون من 10 ارقام";
+                        else {
+                          return null;
+                        }
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: height * 0.05,
+                  ),
+                  Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: TextFormField(
+                      //to take text from user input
+                      controller: nationality,
+                      textAlign: TextAlign.right,
+                      decoration: InputDecoration(labelText: "الجنسية"),
+                      validator: (value) {
+                        if (value!.isEmpty)
+                          return "أرجو منك تعبئه الحقل الفارغ ";
+                        else {
+                          return null;
+                        }
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: height * 0.05,
+                  ),
+                  Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: TextFormField(
+                      //to take text from user input
+                      controller: jobTitle,
+                      textAlign: TextAlign.right,
+                      decoration: InputDecoration(labelText: "الوظيفة "),
+                      validator: (value) {
+                        if (value!.isEmpty)
+                          return "أرجو منك تعبئه الحقل الفارغ ";
+                        else {
+                          return null;
+                        }
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: height * 0.05,
+                  ),
+                  Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: TextFormField(
+                      //to take text from user input
+                      controller: phoneNumber,
+                      textAlign: TextAlign.right,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
+                      decoration: InputDecoration(labelText: "رقم الجوال"),
+                      validator: (value) {
+                        if (value!.isEmpty ||
+                            !RegExp(r'^(?:[+0][1-9])?[0-9]{10,12}$')
+                                .hasMatch(value!))
+                          return "أرجو منك تعبئه الحقل بطريقه صحيحه";
+                        else {
+                          return null;
+                        }
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: height * 0.05,
+                  ),
+                  Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: TextFormField(
+                      //to take text from user input
+                      controller: altphoneNumber,
+                      textAlign: TextAlign.right,
+                      decoration: InputDecoration(
+                        labelText: "رقم جوال قريب ",
+                      ),
+                      validator: (value) {
+                        if (value!.isEmpty ||
+                            !RegExp(r'^(?:[+0][1-9])?[0-9]{10,12}$')
+                                .hasMatch(value!))
+                          return "أرجو منك تعبئه الحقل بطريقه صحيحه";
+                        else {
+                          return null;
+                        }
+                      },
+                    ),
+                  ),
                   Container(
                     child: Align(
                         alignment: Alignment.center,
                         child: ElevatedButton(
                           child: Text("          إضافه        "),
                           onPressed: () async {
-                            await userRef
-                                .collection("Parent")
-                                .doc("1314")
-                                .set({'Name': parentName.text});
-                            ;
-                            print(parentName.text);
+                            if (formKey.currentState!.validate()) {
+                              await addParent();
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             primary: Color.fromARGB(255, 54, 165, 244),
@@ -211,12 +245,23 @@ class _ParentAddFormState extends State<ParentAddform> {
   }
 
   addParent() async {
-    await userRef
-        .collection("Parent")
-        .doc("1314")
-        .set({'Name': parentName.text, 'username': parentName.text});
-
-    // return colectionID.id;
+    await userRef.collection("Parent").add({
+      'Name': parentName.text,
+      'Username': username.text,
+      'Email': email.text,
+      'NationalID': IDNo.text,
+      'Password': IDNo.text,
+      'PhoneNumber': phoneNumber.text,
+      'AltPhoneNumber': altphoneNumber.text,
+      'Nationality': nationality.text,
+      'JobTitle': jobTitle.text,
+      'LateStatus': false,
+    });
+    CoolAlert.show(
+      context: context,
+      type: CoolAlertType.success,
+      text: "لقد تمت عمليه الاضافه بنجاح ",
+    );
   }
 }
 /*

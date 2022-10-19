@@ -2,6 +2,9 @@ import 'package:circlight/ManageParent.dart';
 import 'package:circlight/ParentAddform.dart';
 import 'package:circlight/Reassign.dart';
 import 'package:circlight/TryReadUpdate.dart';
+
+import 'package:circlight/displayParent.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,6 +21,6 @@ Future main() async {
   //end firebase connection
 
   runApp(MaterialApp(
-    home: EditTry1(),
+    home: ParentAddform(),
   ));
 }
