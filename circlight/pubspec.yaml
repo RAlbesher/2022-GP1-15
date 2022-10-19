@@ -40,6 +40,7 @@ dependencies:
   firebase_core: ^1.24.0
   cloud_firestore: ^3.5.1
   reference: ^0.4.3+1
+  cool_alert: ^1.1.0
   
 
 dev_dependencies:
