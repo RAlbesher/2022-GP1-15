@@ -29,29 +29,6 @@ class Parent {
       required this.PAltPhoneNumber,
       required this.PNationality,
       required this.PRelativeRelation});
-  /*
-  Map<String, dynamic> toJson() => {
-        'Name': Name,
-        'Email': Email,
-        'UserName': PUserName,
-        'NationalID': PNationalID,
-        'Nationality': PNationality,
-        'JobTitle': PJobTitle,
-        'PhoneNumber': PPhoneNumber,
-        'AltPhoneNumber': PAltPhoneNumber
-      };*/
-/*
-  static Parent fromJson(Map<String, dynamic> json) => Parent(
-      Name: json['Name'],
-      Email: json['Email'],
-      PUserName: json['UserName'],
-      PNationalID: json['NationalID'],
-      PNationality: json['Nationality'],
-      PJobTitle: json['JobTitle'],
-      PPhoneNumber: json['PhoneNumber'],
-      PAltPhoneNumber: json['AltPhoneNumber']);*/
-
-  //String DocID = "H7P2rU79FU1e6x7MvMP1";
 
   UpdateParent(DocId, Name, UserName, Email, NationalID, Nationality, JobTitle,
       Phone, AltPhone, PRelativeRelation) async {
