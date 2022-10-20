@@ -10,7 +10,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:circlight/TryReadUpdate.dart';
 import 'package:firebase_core/firebase_core.dart' show Firebase;
 import 'firebase_options.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class Parent {
   String Name = " "; //
