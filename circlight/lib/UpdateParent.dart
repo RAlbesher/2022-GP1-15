@@ -21,14 +21,14 @@ import 'package:firebase_core/firebase_core.dart' show Firebase;
 import 'firebase_options.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class EditTry1 extends StatefulWidget {
-  const EditTry1({super.key});
+class UpdateParent extends StatefulWidget {
+  const UpdateParent({super.key});
 
   @override
-  State<EditTry1> createState() => _EditTry();
+  State<UpdateParent> createState() => _UpdateParent();
 }
 
-class _EditTry extends State<EditTry1> {
+class _UpdateParent extends State<UpdateParent> {
   final formKey = GlobalKey<FormState>();
   final userRef = FirebaseFirestore.instance;
   Parent parentx = new Parent(
