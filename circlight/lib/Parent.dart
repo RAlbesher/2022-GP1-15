@@ -17,6 +17,7 @@ class Parent {
   String PJobTitle = " "; //
   String PPhoneNumber = ""; //
   String PAltPhoneNumber = ""; //
+  String PRelativeRelation = "";
 
   Parent(
       {required this.Name,
@@ -26,7 +27,8 @@ class Parent {
       required this.PJobTitle,
       required this.PPhoneNumber,
       required this.PAltPhoneNumber,
-      required this.PNationality});
+      required this.PNationality,
+      required this.PRelativeRelation});
   /*
   Map<String, dynamic> toJson() => {
         'Name': Name,
@@ -52,7 +54,7 @@ class Parent {
   //String DocID = "H7P2rU79FU1e6x7MvMP1";
 
   UpdateParent(DocId, Name, UserName, Email, NationalID, Nationality, JobTitle,
-      Phone, AltPhone) async {
+      Phone, AltPhone, PRelativeRelation) async {
     CollectionReference Parents =
         FirebaseFirestore.instance.collection("Parent");
     await Parents.doc(DocId).set({
@@ -66,6 +68,7 @@ class Parent {
       'Nationality': Nationality,
       'JobTitle': JobTitle,
       'LateStatus': false,
+      "RelativeRelation": PRelativeRelation
     });
   }
 }//END OF CLASS

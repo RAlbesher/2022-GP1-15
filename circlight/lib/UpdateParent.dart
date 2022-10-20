@@ -39,7 +39,8 @@ class _EditTry extends State<EditTry1> {
       PJobTitle: "",
       PPhoneNumber: "",
       PAltPhoneNumber: "",
-      PNationality: "");
+      PNationality: "",
+      PRelativeRelation: "");
   CollectionReference Parents = FirebaseFirestore.instance.collection("Parent");
   final ParentRef = FirebaseFirestore.instance;
   List<String> docIDs = [];
@@ -53,6 +54,7 @@ class _EditTry extends State<EditTry1> {
   TextEditingController JobTitle = TextEditingController();
   TextEditingController Phone = TextEditingController();
   TextEditingController AltPhone = TextEditingController();
+  TextEditingController RelativeRelation = TextEditingController();
   //get docIDs
   Future getDocId() async {
     await FirebaseFirestore.instance.collection("Parent").get().then(
@@ -86,11 +88,11 @@ class _EditTry extends State<EditTry1> {
               parentx.PNationalID = data["NationalID"];
               parentx.PNationality = data["Nationality"];
               parentx.PJobTitle = data["JobTitle"];
-              print(data["JobTitle"]);
+
               parentx.PPhoneNumber = data["PhoneNumber"];
-              print(data["PhoneNumber"]);
+
               parentx.PAltPhoneNumber = data["AltPhoneNumber"];
-              print(data["AltPhoneNumber"]);
+              parentx.PRelativeRelation = data["RelativeRelation"];
             }
           } catch (e) {
             // print("xxxxxxxxxxxxxxxxxxxxxxxx");
@@ -322,6 +324,29 @@ class _EditTry extends State<EditTry1> {
                                     SizedBox(
                                       height: height * 0.05,
                                     ),
+                                    Directionality(
+                                      textDirection: TextDirection.rtl,
+                                      child: TextFormField(
+                                        controller: RelativeRelation
+                                          ..text = parentx.PRelativeRelation,
+                                        //to take text from user input
+                                        textAlign: TextAlign.right,
+
+                                        decoration: InputDecoration(
+                                            hintText: "أدخل صلة القرابه",
+                                            labelText: "صلة القرابه"),
+                                        validator: (value) {
+                                          if (value!.isEmpty)
+                                            return "أرجو منك تعبئه الحقل الفارغ ";
+                                          else {
+                                            return null;
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: height * 0.05,
+                                    ),
                                     Container(
                                       child: Align(
                                           alignment: Alignment.center,
@@ -343,7 +368,8 @@ class _EditTry extends State<EditTry1> {
                                                     Nationality.text,
                                                     JobTitle.text,
                                                     Phone.text,
-                                                    AltPhone.text);
+                                                    AltPhone.text,
+                                                    RelativeRelation.text);
                                                 showCupertinoDialog(
                                                     context: context,
                                                     builder: CreateDialog);
