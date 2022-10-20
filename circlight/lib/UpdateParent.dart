@@ -5,13 +5,15 @@
 import 'dart:convert';
 
 import 'package:circlight/Parent.dart';
-import 'package:cool_alert/cool_alert.dart';
+
+///import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:adobe_xd/pinned.dart';
+////import 'package:adobe_xd/pinned.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:adobe_xd/adobe_xd.dart';
+//import 'package:adobe_xd/adobe_xd.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:circlight/create_parent_profile.dart';
@@ -38,8 +40,7 @@ class _EditTry extends State<EditTry1> {
       PPhoneNumber: "",
       PAltPhoneNumber: "",
       PNationality: "");
-  CollectionReference Parents =
-      FirebaseFirestore.instance.collection("Parent1");
+  CollectionReference Parents = FirebaseFirestore.instance.collection("Parent");
   final ParentRef = FirebaseFirestore.instance;
   List<String> docIDs = [];
   TextEditingController parentName = TextEditingController();
@@ -79,17 +80,20 @@ class _EditTry extends State<EditTry1> {
               parentx.Name = data["Name"];
 
               parentx.Email = data["Email"];
-              print(data["UserName"]);
+
               parentx.PUserName = data["UserName"];
 
               parentx.PNationalID = data["NationalID"];
               parentx.PNationality = data["Nationality"];
               parentx.PJobTitle = data["JobTitle"];
+              print(data["JobTitle"]);
               parentx.PPhoneNumber = data["PhoneNumber"];
+              print(data["PhoneNumber"]);
               parentx.PAltPhoneNumber = data["AltPhoneNumber"];
+              print(data["AltPhoneNumber"]);
             }
           } catch (e) {
-            print("xxxxxxxxxxxxxxxxxxxxxxxx");
+            // print("xxxxxxxxxxxxxxxxxxxxxxxx");
           }
           return Scaffold(
               key: _scaffoldKey,
@@ -315,6 +319,9 @@ class _EditTry extends State<EditTry1> {
                                         },
                                       ),
                                     ),
+                                    SizedBox(
+                                      height: height * 0.05,
+                                    ),
                                     Container(
                                       child: Align(
                                           alignment: Alignment.center,
@@ -324,8 +331,22 @@ class _EditTry extends State<EditTry1> {
                                             onPressed: () async {
                                               if (formKey.currentState!
                                                   .validate()) {
-                                                await UpdateParent(
-                                                    "H7P2rU79FU1e6x7MvMP1");
+                                                // Name, UserName, Email, NationalID, Nationality, JobTitle,
+                                                //  Phone, AltPhone
+                                                //
+                                                await parentx.UpdateParent(
+                                                    "H7P2rU79FU1e6x7MvMP1",
+                                                    parentName.text,
+                                                    parentUserName.text,
+                                                    parentEmail.text,
+                                                    NationalID.text,
+                                                    Nationality.text,
+                                                    JobTitle.text,
+                                                    Phone.text,
+                                                    AltPhone.text);
+                                                showCupertinoDialog(
+                                                    context: context,
+                                                    builder: CreateDialog);
                                               }
                                             },
                                             style: ElevatedButton.styleFrom(
@@ -392,10 +413,25 @@ class _EditTry extends State<EditTry1> {
             ));
   }
 
+  Widget CreateDialog(BuildContext context) => CupertinoAlertDialog(
+        title: Text("تحديث معلومات ولي الأمر", style: TextStyle(fontSize: 18)),
+        content: Text(
+          "تم تحديث المعلومات بنجاح",
+          style: TextStyle(fontSize: 14),
+        ),
+        actions: [
+          CupertinoDialogAction(
+            child: Text("OK"),
+            onPressed: () => Navigator.pop(context),
+          )
+        ],
+      );
+
+/*
   UpdateParent(DocId) async {
     await Parents.doc(DocId).set({
       'Name': parentName.text,
-      'Username': parentUserName.text,
+      'UserName': parentUserName.text,
       'Email': parentEmail.text,
       'NationalID': NationalID.text,
       'Password': NationalID.text,
@@ -410,5 +446,5 @@ class _EditTry extends State<EditTry1> {
       type: CoolAlertType.success,
       text: "لقد تمت عمليه التحديث بنجاح ",
     );
-  }
+  }*/
 }
