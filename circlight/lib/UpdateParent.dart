@@ -5,12 +5,15 @@
 import 'dart:convert';
 
 import 'package:circlight/Parent.dart';
+
+///import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:adobe_xd/pinned.dart';
+////import 'package:adobe_xd/pinned.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:adobe_xd/adobe_xd.dart';
+//import 'package:adobe_xd/adobe_xd.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:circlight/create_parent_profile.dart';
@@ -28,15 +31,30 @@ class EditTry1 extends StatefulWidget {
 class _EditTry extends State<EditTry1> {
   final formKey = GlobalKey<FormState>();
   final userRef = FirebaseFirestore.instance;
+  Parent parentx = new Parent(
+      Name: "",
+      Email: "",
+      PUserName: "",
+      PNationalID: "",
+      PJobTitle: "",
+      PPhoneNumber: "",
+      PAltPhoneNumber: "",
+      PNationality: "",
+      PRelativeRelation: "");
+  CollectionReference Parents = FirebaseFirestore.instance.collection("Parent");
+  final ParentRef = FirebaseFirestore.instance;
   List<String> docIDs = [];
   TextEditingController parentName = TextEditingController();
   TextEditingController parentNationality = TextEditingController();
   TextEditingController parentEmail = TextEditingController();
   TextEditingController parentUserName = TextEditingController();
-  TextEditingController ParentNationalID = TextEditingController();
+
   TextEditingController NationalID = TextEditingController();
   TextEditingController Nationality = TextEditingController();
   TextEditingController JobTitle = TextEditingController();
+  TextEditingController Phone = TextEditingController();
+  TextEditingController AltPhone = TextEditingController();
+  TextEditingController RelativeRelation = TextEditingController();
   //get docIDs
   Future getDocId() async {
     await FirebaseFirestore.instance.collection("Parent").get().then(
@@ -50,36 +68,34 @@ class _EditTry extends State<EditTry1> {
 
   @override
   Widget build(BuildContext context) {
-    Parent parentx = new Parent(
-        Name: "",
-        Email: "",
-        PUserName: "",
-        PNationalID: "",
-        PJobTitle: "",
-        PPhoneNumber: "",
-        PAltPhoneNumber: "",
-        PNationality: "");
-
     final double height = MediaQuery.of(context).size.height;
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-    CollectionReference Parents =
-        FirebaseFirestore.instance.collection("Parent1");
+
     return FutureBuilder<DocumentSnapshot>(
         future: Parents.doc("H7P2rU79FU1e6x7MvMP1").get(),
         builder: ((context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            Map<String, dynamic> data =
-                snapshot.data!.data() as Map<String, dynamic>;
-            final String jsonString = jsonEncode(data);
-            parentx.Name = data["Name"];
+          try {
+            if (snapshot.connectionState == ConnectionState.done) {
+              Map<String, dynamic> data =
+                  snapshot.data!.data() as Map<String, dynamic>;
+              final String jsonString = jsonEncode(data);
+              parentx.Name = data["Name"];
 
-            parentx.Email = data["Email"];
-            parentx.PUserName = data["UserName"];
-            parentx.PNationalID = data["NationalID"];
-            parentx.PNationality = data["Nationality"];
-            parentx.PJobTitle = data["JobTitle"];
-            parentx.PPhoneNumber = data["PhoneNumber"];
-            parentx.PAltPhoneNumber = data["AltPhoneNumber"];
+              parentx.Email = data["Email"];
+
+              parentx.PUserName = data["UserName"];
+
+              parentx.PNationalID = data["NationalID"];
+              parentx.PNationality = data["Nationality"];
+              parentx.PJobTitle = data["JobTitle"];
+
+              parentx.PPhoneNumber = data["PhoneNumber"];
+
+              parentx.PAltPhoneNumber = data["AltPhoneNumber"];
+              parentx.PRelativeRelation = data["RelativeRelation"];
+            }
+          } catch (e) {
+            // print("xxxxxxxxxxxxxxxxxxxxxxxx");
           }
           return Scaffold(
               key: _scaffoldKey,
@@ -128,9 +144,9 @@ class _EditTry extends State<EditTry1> {
                                             labelText: "اسم ولي الامر"),
                                         validator: (value) {
                                           if (value!.isEmpty)
-                                            return "Please Enter a the empty fields ";
+                                            return "أرجو منك تعبئه الحقل الفارغ ";
                                           else {
-                                            return value;
+                                            return null;
                                           }
                                         },
                                       ),
@@ -151,9 +167,9 @@ class _EditTry extends State<EditTry1> {
                                             labelText: "اسم المستخدم"),
                                         validator: (value) {
                                           if (value!.isEmpty)
-                                            return "Please Enter a the empty fields ";
+                                            return "أرجو منك تعبئه الحقل الفارغ ";
                                           else {
-                                            return value;
+                                            return null;
                                           }
                                         },
                                       ),
@@ -173,10 +189,12 @@ class _EditTry extends State<EditTry1> {
                                             hintText: "البريد الالكتروني ",
                                             labelText: "لبريد الالكتروني "),
                                         validator: (value) {
-                                          if (value!.isEmpty)
-                                            return "Please Enter a the empty fields ";
+                                          if (value!.isEmpty ||
+                                              !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                                  .hasMatch(value!))
+                                            return "أرجو منك تعبئه الحقل بطريقه صحيحه ";
                                           else {
-                                            return value;
+                                            return null;
                                           }
                                         },
                                       ),
@@ -197,10 +215,12 @@ class _EditTry extends State<EditTry1> {
                                                 "أدخل رقم الهوية/الاقامة ",
                                             labelText: "رقم الهوية/ الاقامة"),
                                         validator: (value) {
-                                          if (value!.isEmpty)
-                                            return "Please Enter a the empty fields ";
+                                          if (value!.isEmpty ||
+                                              !RegExp(r'^[0-9]{10}$')
+                                                  .hasMatch(value!))
+                                            return "أرجو منك تعبئه الحقل بطريقه صحيحه حيث يتكون من 10 ارقام";
                                           else {
-                                            return value;
+                                            return null;
                                           }
                                         },
                                       ),
@@ -221,9 +241,9 @@ class _EditTry extends State<EditTry1> {
                                             labelText: "ماهي جنسيتك؟"),
                                         validator: (value) {
                                           if (value!.isEmpty)
-                                            return "Please Enter a the empty fields ";
+                                            return "أرجو منك تعبئه الحقل الفارغ ";
                                           else {
-                                            return value;
+                                            return null;
                                           }
                                         },
                                       ),
@@ -244,9 +264,9 @@ class _EditTry extends State<EditTry1> {
                                             labelText: "الوظيفة"),
                                         validator: (value) {
                                           if (value!.isEmpty)
-                                            return "Please Enter a the empty fields ";
+                                            return "أرجو منك تعبئه الحقل الفارغ ";
                                           else {
-                                            return value;
+                                            return null;
                                           }
                                         },
                                       ),
@@ -257,7 +277,7 @@ class _EditTry extends State<EditTry1> {
                                     Directionality(
                                       textDirection: TextDirection.rtl,
                                       child: TextFormField(
-                                        controller: JobTitle
+                                        controller: Phone
                                           ..text = parentx.PPhoneNumber,
                                         //to take text from user input
                                         textAlign: TextAlign.right,
@@ -266,10 +286,12 @@ class _EditTry extends State<EditTry1> {
                                             hintText: "رقم الجوال",
                                             labelText: "أدخل رقم الجوال"),
                                         validator: (value) {
-                                          if (value!.isEmpty)
-                                            return "Please Enter a the empty fields ";
+                                          if (value!.isEmpty ||
+                                              !RegExp(r'^(?:[+0][1-9])?[0-9]{10,12}$')
+                                                  .hasMatch(value!))
+                                            return "أرجو منك تعبئه الحقل بطريقه صحيحه";
                                           else {
-                                            return value;
+                                            return null;
                                           }
                                         },
                                       ),
@@ -280,23 +302,91 @@ class _EditTry extends State<EditTry1> {
                                     Directionality(
                                       textDirection: TextDirection.rtl,
                                       child: TextFormField(
-                                        controller: JobTitle
+                                        controller: AltPhone
                                           ..text = parentx.PAltPhoneNumber,
                                         //to take text from user input
                                         textAlign: TextAlign.right,
 
                                         decoration: InputDecoration(
-                                            hintText: " رقم جوال آخر",
-                                            labelText: "أدخل رقم حوال آخر"),
+                                            hintText: " رقم جوال قريب ",
+                                            labelText: "أدخل رقم جوال قريب "),
                                         validator: (value) {
-                                          if (value!.isEmpty)
-                                            return "Please Enter a the empty fields ";
+                                          if (value!.isEmpty ||
+                                              !RegExp(r'^(?:[+0][1-9])?[0-9]{10,12}$')
+                                                  .hasMatch(value!))
+                                            return "أرجو منك تعبئه الحقل بطريقه صحيحه";
                                           else {
-                                            return value;
+                                            return null;
                                           }
                                         },
                                       ),
                                     ),
+                                    SizedBox(
+                                      height: height * 0.05,
+                                    ),
+                                    Directionality(
+                                      textDirection: TextDirection.rtl,
+                                      child: TextFormField(
+                                        controller: RelativeRelation
+                                          ..text = parentx.PRelativeRelation,
+                                        //to take text from user input
+                                        textAlign: TextAlign.right,
+
+                                        decoration: InputDecoration(
+                                            hintText: "أدخل صلة القرابه",
+                                            labelText: "صلة القرابه"),
+                                        validator: (value) {
+                                          if (value!.isEmpty)
+                                            return "أرجو منك تعبئه الحقل الفارغ ";
+                                          else {
+                                            return null;
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: height * 0.05,
+                                    ),
+                                    Container(
+                                      child: Align(
+                                          alignment: Alignment.center,
+                                          child: ElevatedButton(
+                                            child:
+                                                Text("          تحديث        "),
+                                            onPressed: () async {
+                                              if (formKey.currentState!
+                                                  .validate()) {
+                                                // Name, UserName, Email, NationalID, Nationality, JobTitle,
+                                                //  Phone, AltPhone
+                                                //
+                                                await parentx.UpdateParent(
+                                                    "H7P2rU79FU1e6x7MvMP1",
+                                                    parentName.text,
+                                                    parentUserName.text,
+                                                    parentEmail.text,
+                                                    NationalID.text,
+                                                    Nationality.text,
+                                                    JobTitle.text,
+                                                    Phone.text,
+                                                    AltPhone.text,
+                                                    RelativeRelation.text);
+                                                showCupertinoDialog(
+                                                    context: context,
+                                                    builder: CreateDialog);
+                                              }
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Color.fromARGB(
+                                                  255, 54, 165, 244),
+                                              onPrimary: Colors.white,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(32.0),
+                                              ),
+                                            ),
+                                          )),
+                                    )
+                                    /*
                                     Container(
                                       child: Align(
                                           alignment: Alignment.center,
@@ -332,7 +422,7 @@ class _EditTry extends State<EditTry1> {
                                               ),
                                             ),
                                           )),
-                                    )
+                                    )*/
                                   ],
                                 ),
                               ),
@@ -348,4 +438,39 @@ class _EditTry extends State<EditTry1> {
             // return Center(child: CircularProgressIndicator());
             ));
   }
+
+  Widget CreateDialog(BuildContext context) => CupertinoAlertDialog(
+        title: Text("تحديث معلومات ولي الأمر", style: TextStyle(fontSize: 18)),
+        content: Text(
+          "تم تحديث المعلومات بنجاح",
+          style: TextStyle(fontSize: 14),
+        ),
+        actions: [
+          CupertinoDialogAction(
+            child: Text("OK"),
+            onPressed: () => Navigator.pop(context),
+          )
+        ],
+      );
+
+/*
+  UpdateParent(DocId) async {
+    await Parents.doc(DocId).set({
+      'Name': parentName.text,
+      'UserName': parentUserName.text,
+      'Email': parentEmail.text,
+      'NationalID': NationalID.text,
+      'Password': NationalID.text,
+      'PhoneNumber': Phone.text,
+      'AltPhoneNumber': AltPhone.text,
+      'Nationality': Nationality.text,
+      'JobTitle': JobTitle.text,
+      'LateStatus': false,
+    });
+    CoolAlert.show(
+      context: context,
+      type: CoolAlertType.success,
+      text: "لقد تمت عمليه التحديث بنجاح ",
+    );
+  }*/
 }
