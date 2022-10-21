@@ -371,9 +371,9 @@ class _UpdateParent extends State<UpdateParent> {
                                                     RelativeRelation.text);
                                                 showCupertinoDialog(
                                                     context: context,
-                                                    builder: CreateDialog);*/
+                                                    builder: CreateDialog);
                                                 await parentx.DeleteParent(
-                                                    "3utSRXLiFJdWE8nc2pEg");
+                                                    "3utSRXLiFJdWE8nc2pEg");*/
                                               }
                                             },
                                             style: ElevatedButton.styleFrom(
