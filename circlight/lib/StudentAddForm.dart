@@ -1,11 +1,12 @@
 import 'dart:async';
-
+import 'package:circlight/Parent.dart'; //for parent class
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'firebase_options.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:flutter/cupertino.dart';
 
 class StudentAddform extends StatefulWidget {
   final DocumentSnapshot documentSnapshot;
@@ -20,6 +21,16 @@ class StudentAddform extends StatefulWidget {
 class _StudentAddFormState extends State<StudentAddform> {
   final formKey = GlobalKey<FormState>(); //key for form
   String name = "";
+  Parent parentz = new Parent(
+      Name: "",
+      Email: "",
+      PUserName: "",
+      PNationalID: "",
+      PJobTitle: "",
+      PPhoneNumber: "",
+      PAltPhoneNumber: "",
+      PNationality: "",
+      PRelativeRelation: "");
 
   TextEditingController studentName = TextEditingController();
   TextEditingController Studentusername = TextEditingController();
@@ -68,7 +79,8 @@ class _StudentAddFormState extends State<StudentAddform> {
                       //to take text from user input
                       controller: studentName,
                       textAlign: TextAlign.right,
-                      decoration: InputDecoration(labelText: " اسم الطالب "),
+                      decoration: InputDecoration(
+                          labelText: " اسم الطالب ", hintText: " اسم الطالب "),
 
                       validator: (value) {
                         if (value!.isEmpty)
@@ -88,7 +100,8 @@ class _StudentAddFormState extends State<StudentAddform> {
                       //to take text from user input
                       controller: Studentusername,
                       textAlign: TextAlign.right,
-                      decoration: InputDecoration(labelText: "اسم المستخدم"),
+                      decoration: InputDecoration(
+                          labelText: "اسم المستخدم", hintText: "اسم المستخدم"),
                       validator: (value) {
                         if (value!.isEmpty)
                           return "أرجو منك تعبئه الحقل الفارغ ";
@@ -107,8 +120,9 @@ class _StudentAddFormState extends State<StudentAddform> {
                       //to take text from user input
                       controller: StudentIDNo,
                       textAlign: TextAlign.right,
-                      decoration:
-                          InputDecoration(labelText: "رقم الهوية /الإقامة"),
+                      decoration: InputDecoration(
+                          labelText: "رقم الهوية /الإقامة",
+                          hintText: "رقم الهوية /الإقامة"),
                       validator: (value) {
                         if (value!.isEmpty ||
                             !RegExp(r'^[0-9]{10}$').hasMatch(value!))
@@ -128,7 +142,8 @@ class _StudentAddFormState extends State<StudentAddform> {
                       //to take text from user input
                       controller: StudentNationality,
                       textAlign: TextAlign.right,
-                      decoration: InputDecoration(labelText: "الجنسية"),
+                      decoration: InputDecoration(
+                          labelText: "الجنسية", hintText: "الجنسية"),
                       validator: (value) {
                         if (value!.isEmpty)
                           return "أرجو منك تعبئه الحقل الفارغ ";
@@ -148,7 +163,8 @@ class _StudentAddFormState extends State<StudentAddform> {
                       controller: Studentclass,
                       textAlign: TextAlign.right,
 
-                      decoration: InputDecoration(labelText: " الصف "),
+                      decoration: InputDecoration(
+                          labelText: " الصف ", hintText: " الصف "),
                       validator: (value) {
                         if (value!.isEmpty)
                           return "أرجو منك تعبئه الحقل الفارغ ";
@@ -168,8 +184,7 @@ class _StudentAddFormState extends State<StudentAddform> {
                       controller: StudentBloodType,
                       textAlign: TextAlign.right,
                       decoration: InputDecoration(
-                        labelText: "فصيله الدم",
-                      ),
+                          labelText: "فصيله الدم", hintText: "فصيله الدم"),
                       validator: (value) {
                         if (value!.isEmpty)
                           return "أرجو منك تعبئه الحقل الفارغ";
@@ -186,7 +201,15 @@ class _StudentAddFormState extends State<StudentAddform> {
                           child: Text("          إضافه        "),
                           onPressed: () async {
                             if (formKey.currentState!.validate()) {
-                              // await addParent();
+                              /* await parentz.addStudent(
+                                  studentName.text,
+                                  Studentusername.text,
+                                  StudentIDNo.text,
+                                  StudentNationality.text,
+                                  Studentclass.text,
+                                  StudentBloodType.text);
+                              showCupertinoDialog(
+                                  context: context, builder: CreateDialog);*/
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -204,6 +227,21 @@ class _StudentAddFormState extends State<StudentAddform> {
           ),
         ));
   }
+
+  Widget CreateDialog(BuildContext context) => CupertinoAlertDialog(
+        title: Text("إضافة الطالب ", style: TextStyle(fontSize: 18)),
+        content: Text(
+          "تم إضافة المعلومات بنجاح",
+          style: TextStyle(fontSize: 14),
+        ),
+        actions: [
+          CupertinoDialogAction(
+            child: Text("OK"),
+            onPressed: () => Navigator.pop(context),
+          )
+        ],
+      );
+}
 /*
   addParent() async {
     await userRef.collection("Parent").add({
@@ -224,7 +262,7 @@ class _StudentAddFormState extends State<StudentAddform> {
       text: "لقد تمت عمليه الاضافه بنجاح ",
     );
   }*/
-}
+
 /*
 
 addStudent(colID) {

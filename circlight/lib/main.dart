@@ -22,6 +22,6 @@ Future main() async {
   //end firebase connection
 
   runApp(MaterialApp(
-    home: UpdateParent(),
+    home: ParentAddform(),
   ));
 }

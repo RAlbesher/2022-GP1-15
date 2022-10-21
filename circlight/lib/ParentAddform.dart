@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'firebase_options.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:circlight/Parent.dart'; //import for parent class
+import 'package:flutter/cupertino.dart';
 
 class ParentAddform extends StatefulWidget {
   @override
@@ -13,6 +14,16 @@ class ParentAddform extends StatefulWidget {
 class _ParentAddFormState extends State<ParentAddform> {
   final formKey = GlobalKey<FormState>(); //key for form
   String name = "";
+  Parent parenty = new Parent(
+      Name: "",
+      Email: "",
+      PUserName: "",
+      PNationalID: "",
+      PJobTitle: "",
+      PPhoneNumber: "",
+      PAltPhoneNumber: "",
+      PNationality: "",
+      PRelativeRelation: "");
   TextEditingController parentName = TextEditingController();
   TextEditingController Parentusername = TextEditingController();
   TextEditingController email = TextEditingController();
@@ -21,7 +32,7 @@ class _ParentAddFormState extends State<ParentAddform> {
   TextEditingController jobTitle = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
   TextEditingController altphoneNumber = TextEditingController();
-
+  TextEditingController RelativeRelation = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
@@ -57,7 +68,9 @@ class _ParentAddFormState extends State<ParentAddform> {
                       //to take text from user input
                       controller: parentName,
                       textAlign: TextAlign.right,
-                      decoration: InputDecoration(labelText: "اسم ولي الامر"),
+                      decoration: InputDecoration(
+                          labelText: "اسم ولي الامر",
+                          hintText: "اسم ولي الامر"),
 
                       validator: (value) {
                         if (value!.isEmpty)
@@ -77,7 +90,8 @@ class _ParentAddFormState extends State<ParentAddform> {
                       //to take text from user input
                       controller: Parentusername,
                       textAlign: TextAlign.right,
-                      decoration: InputDecoration(labelText: "اسم المستخدم"),
+                      decoration: InputDecoration(
+                          labelText: "اسم المستخدم", hintText: "اسم المستخدم"),
                       validator: (value) {
                         if (value!.isEmpty)
                           return "أرجو منك تعبئه الحقل الفارغ ";
@@ -96,8 +110,9 @@ class _ParentAddFormState extends State<ParentAddform> {
                       //to take text from user input
                       controller: email,
                       textAlign: TextAlign.right,
-                      decoration:
-                          InputDecoration(labelText: "البريد الالكتروني"),
+                      decoration: InputDecoration(
+                          labelText: "البريد الالكتروني",
+                          hintText: "البريد الالكتروني"),
                       validator: (value) {
                         if (value!.isEmpty ||
                             !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -118,8 +133,9 @@ class _ParentAddFormState extends State<ParentAddform> {
                       //to take text from user input
                       controller: ParentIDNo,
                       textAlign: TextAlign.right,
-                      decoration:
-                          InputDecoration(labelText: "رقم الهوية /الإقامة"),
+                      decoration: InputDecoration(
+                          labelText: "رقم الهوية /الإقامة",
+                          hintText: "رقم الهوية /الإقامة"),
                       validator: (value) {
                         if (value!.isEmpty ||
                             !RegExp(r'^[0-9]{10}$').hasMatch(value!))
@@ -139,7 +155,8 @@ class _ParentAddFormState extends State<ParentAddform> {
                       //to take text from user input
                       controller: nationality,
                       textAlign: TextAlign.right,
-                      decoration: InputDecoration(labelText: "الجنسية"),
+                      decoration: InputDecoration(
+                          labelText: "الجنسية", hintText: "الجنسية"),
                       validator: (value) {
                         if (value!.isEmpty)
                           return "أرجو منك تعبئه الحقل الفارغ ";
@@ -158,7 +175,8 @@ class _ParentAddFormState extends State<ParentAddform> {
                       //to take text from user input
                       controller: jobTitle,
                       textAlign: TextAlign.right,
-                      decoration: InputDecoration(labelText: "الوظيفة "),
+                      decoration: InputDecoration(
+                          labelText: "الوظيفة ", hintText: "الوظيفة "),
                       validator: (value) {
                         if (value!.isEmpty)
                           return "أرجو منك تعبئه الحقل الفارغ ";
@@ -181,7 +199,8 @@ class _ParentAddFormState extends State<ParentAddform> {
                       inputFormatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.digitsOnly
                       ],
-                      decoration: InputDecoration(labelText: "رقم الجوال"),
+                      decoration: InputDecoration(
+                          labelText: "رقم الجوال", hintText: "رقم الجوال"),
                       validator: (value) {
                         if (value!.isEmpty ||
                             !RegExp(r'^(?:[+0][1-9])?[0-9]{10,12}$')
@@ -203,13 +222,36 @@ class _ParentAddFormState extends State<ParentAddform> {
                       controller: altphoneNumber,
                       textAlign: TextAlign.right,
                       decoration: InputDecoration(
-                        labelText: "رقم جوال قريب ",
-                      ),
+                          labelText: "رقم جوال قريب ",
+                          hintText: "رقم جوال قريب "),
                       validator: (value) {
                         if (value!.isEmpty ||
                             !RegExp(r'^(?:[+0][1-9])?[0-9]{10,12}$')
                                 .hasMatch(value!))
                           return "أرجو منك تعبئه الحقل بطريقه صحيحه";
+                        else {
+                          return null;
+                        }
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: height * 0.05,
+                  ),
+                  Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: TextFormField(
+                      controller: RelativeRelation,
+
+                      //to take text from user input
+                      textAlign: TextAlign.right,
+
+                      decoration: InputDecoration(
+                          hintText: "أدخل صلة القرابه",
+                          labelText: "صلة القرابه"),
+                      validator: (value) {
+                        if (value!.isEmpty)
+                          return "أرجو منك تعبئه الحقل الفارغ ";
                         else {
                           return null;
                         }
@@ -223,7 +265,19 @@ class _ParentAddFormState extends State<ParentAddform> {
                           child: Text("          إضافه        "),
                           onPressed: () async {
                             if (formKey.currentState!.validate()) {
-                              await addParent();
+                              await parenty.addParent(
+                                  parentName.text,
+                                  Parentusername.text,
+                                  email.text,
+                                  ParentIDNo.text,
+                                  phoneNumber.text,
+                                  altphoneNumber.text,
+                                  nationality.text,
+                                  jobTitle.text,
+                                  RelativeRelation.text);
+
+                              showCupertinoDialog(
+                                  context: context, builder: CreateDialog);
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -242,29 +296,21 @@ class _ParentAddFormState extends State<ParentAddform> {
         ));
   }
 
-  addParent() async {
-    final userRef = await FirebaseFirestore.instance.collection("Parent");
-
-    userRef.add({
-      'Name': parentName.text,
-      'UserName': Parentusername.text,
-      'Email': email.text,
-      'NationalID': ParentIDNo.text,
-      'Password': ParentIDNo.text,
-      'PhoneNumber': phoneNumber.text,
-      'AltPhoneNumber': altphoneNumber.text,
-      'Nationality': nationality.text,
-      'JobTitle': jobTitle.text,
-      'LateStatus': false,
-    });
-    CoolAlert.show(
-      context: context,
-      type: CoolAlertType.success,
-      text: "لقد تمت عمليه الاضافه بنجاح ",
-    );
-
-  }
+  Widget CreateDialog(BuildContext context) => CupertinoAlertDialog(
+        title: Text("إضافة ولي الأمر", style: TextStyle(fontSize: 18)),
+        content: Text(
+          "تم إضافة المعلومات بنجاح",
+          style: TextStyle(fontSize: 14),
+        ),
+        actions: [
+          CupertinoDialogAction(
+            child: Text("OK"),
+            onPressed: () => Navigator.pop(context),
+          )
+        ],
+      );
 }
+ 
 /*
 
 addStudent(colID) {
