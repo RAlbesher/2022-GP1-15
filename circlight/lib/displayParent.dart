@@ -1,5 +1,6 @@
 import 'package:circlight/ParentAddform.dart';
 import 'package:circlight/StudentAddForm.dart';
+import 'package:circlight/UpdateStudent.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,20 +11,10 @@ class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<MainScreen> createState() => _MainScreen();
 }
 
-class _MainScreenState extends State<MainScreen> {
-  Parent parentx = new Parent(
-      Name: "",
-      Email: "",
-      PUserName: "",
-      PNationalID: "",
-      PJobTitle: "",
-      PPhoneNumber: "",
-      PAltPhoneNumber: "",
-      PNationality: "",
-      PRelativeRelation: "");
+class _MainScreen extends State<MainScreen> {
   @override
   List<String> docIDS = [];
 
@@ -81,108 +72,84 @@ class _MainScreenState extends State<MainScreen> {
                       // print(v);
                       //  print(snap[index]['Name']);
                       return Container(
-                          height: 70,
-                          width: double.infinity,
-                          margin: const EdgeInsets.only(bottom: 12),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black26,
-                                offset: Offset(2, 2),
-                                blurRadius: 10,
+                        height: 70,
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(bottom: 12),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(2, 2),
+                              blurRadius: 10,
+                            ),
+                          ],
+                        ),
+                        child: Stack(
+                          children: [
+                            Container(
+                              //for profile image
+                              margin: const EdgeInsets.only(left: 30),
+                              alignment: Alignment.centerRight,
+                              child: Material(
+                                elevation: 8,
+                                borderRadius: BorderRadius.circular(30),
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                child: InkWell(
+                                  splashColor: Colors.black26,
+                                  onTap: () {},
+                                  child: Ink.image(
+                                    image: NetworkImage(
+                                        'assets/images/profileicon.png'),
+                                    height: 50,
+                                    width: 50,
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
                               ),
-                            ],
-                          ),
-                          child: Stack(
-                            children: [
-                              Container(
-                                //for profile image
-                                margin: const EdgeInsets.only(left: 30),
+                            ),
+                            //var v = docIDS[index] ;
+
+                            Container(
+                              margin: const EdgeInsets.only(left: 50),
+                              alignment: Alignment.center,
+                              child: Text(
+                                snap[index]['Name'],
+                                style: const TextStyle(
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Container(
+                                margin: const EdgeInsets.only(right: 20),
                                 alignment: Alignment.centerRight,
-                                child: Material(
-                                  elevation: 8,
-                                  borderRadius: BorderRadius.circular(30),
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  child: InkWell(
-                                    splashColor: Colors.black26,
-                                    onTap: () {},
-                                    child: Ink.image(
-                                      image: NetworkImage(
-                                          'assets/images/profileicon.png'),
-                                      height: 50,
-                                      width: 50,
-                                      fit: BoxFit.contain,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              //var v = docIDS[index] ;
-
-                              Container(
-                                margin: const EdgeInsets.only(left: 50),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  snap[index]['Name'],
-                                  style: const TextStyle(
-                                    color: Colors.black54,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              SingleChildScrollView(
-                                child: Container(
-                                  margin: const EdgeInsets.only(right: 20),
-                                  alignment: Alignment.centerRight,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          /* ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 14,
-                                                      vertical: 8),
-                                                  textStyle:
-                                                      TextStyle(fontSize: 10)),
-                                              child: Text("add student"),
-                                              onPressed: () {
-                                                //String ID = docIDS[index] as String;
-                                                // parentx.DeleteParent(ID);
-                                                // print(docIDS[index]);
-
-                                                Navigator.of(context)
-                                                    .push(MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      UpdateParent(
-                                                    documentId: docIDS[index],
-                                                  ),
-                                                ));
-                                              }),*/
-                                          Scaffold(
-                                            body: Icon(
-                                              Icons.ac_unit_rounded,
-                                              size: 100,
-                                              color: Color.fromARGB(
-                                                  255, 217, 52, 41),
-                                            ),
+                                child: Row(children: [
+                                  ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 14, vertical: 8),
+                                          textStyle: TextStyle(fontSize: 10)),
+                                      child: Text("Update Parent"),
+                                      onPressed: () {
+                                        // print(docIDS[index]);
+                                        Navigator.of(context)
+                                            .push(MaterialPageRoute(
+                                          builder: (context) => UpdateParent(
+                                            documentId: docIDS[index],
                                           ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
+                                        ));
+                                      })
+                                ])),
 
                             /*child: RaisedButton(onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ParentAddform();),
                                 })*/
                             // ),
-                          ));
+                          ],
+                        ),
+                      );
                     },
                   );
                 } else {
