@@ -279,6 +279,8 @@ class _ParentAddFormState extends State<ParentAddform> {
                               showCupertinoDialog(
                                   context: context, builder: CreateDialog);
                             }
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ParentAddform()));
                           },
                           style: ElevatedButton.styleFrom(
                             primary: Color.fromARGB(255, 54, 165, 244),

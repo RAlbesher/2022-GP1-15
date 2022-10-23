@@ -22,7 +22,9 @@ import 'firebase_options.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class UpdateStudent extends StatefulWidget {
-  const UpdateStudent({super.key});
+  final String documentId;
+
+  const UpdateStudent({super.key, required this.documentId});
 
   @override
   State<UpdateStudent> createState() => _UpdateStudent();
@@ -53,24 +55,16 @@ class _UpdateStudent extends State<UpdateStudent> {
   TextEditingController STUserName = TextEditingController();
   TextEditingController BloodType = TextEditingController();
 
-  //get docIDs
-  Future getDocId() async {
-    await FirebaseFirestore.instance.collection("Parent").get().then(
-          (snapshot) => snapshot.docs.forEach((document) {
-            // ignore: avoid_print
-            print(document.reference);
-            docIDs.add(document.reference.id);
-          }),
-        );
-  }
+  String CurrentID = "";
 
   @override
   Widget build(BuildContext context) {
+    CurrentID = widget.documentId;
     final double height = MediaQuery.of(context).size.height;
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
     return FutureBuilder<DocumentSnapshot>(
-        future: Students.doc("rZrLtHkMfiXlnm9rxHjK").get(),
+        future: Students.doc(CurrentID).get(),
         builder: ((context, snapshot) {
           try {
             if (snapshot.connectionState == ConnectionState.done) {
@@ -103,7 +97,6 @@ class _UpdateStudent extends State<UpdateStudent> {
                   children: [
                     Expanded(
                       child: FutureBuilder(
-                        future: getDocId(),
                         builder: ((context, snapshot) {
                           return Container(
                             padding: const EdgeInsets.only(left: 40, right: 40),
@@ -327,7 +320,7 @@ class _UpdateStudent extends State<UpdateStudent> {
                                                 // UpdateStudent(
                                                 //                     Class, SBloodType) async {
                                                 await Studentx.UpdateStudent(
-                                                    "rZrLtHkMfiXlnm9rxHjK",
+                                                    CurrentID,
                                                     StudentName.text,
                                                     StudID.text,
                                                     STUserName.text,

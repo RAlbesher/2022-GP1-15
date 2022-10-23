@@ -5,7 +5,7 @@ import 'package:circlight/UpdateParent.dart';
 import 'package:circlight/UpdateStudent.dart';
 
 import 'package:circlight/displayParent.dart';
-
+import 'package:circlight/displayStudent.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

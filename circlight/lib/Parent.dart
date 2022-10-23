@@ -69,6 +69,12 @@ class Parent {
       "RelativeRelation": PRelativeRelation,
     });
   }
+
+  DeleteParent(String DocId) async {
+    CollectionReference Parents =
+        FirebaseFirestore.instance.collection("Parent");
+    await Parents.doc(DocId).delete();
+  }
 /*
   addStudent() {
     final userRef = FirebaseFirestore.instance.collection("Parent");

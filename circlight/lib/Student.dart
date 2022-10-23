@@ -42,7 +42,7 @@ class Student {
     });
   }
 
-  DeleteParent(DocId) async {
+  DeleteStudent(DocId) async {
     CollectionReference Parents =
         FirebaseFirestore.instance.collection("Student");
     await Parents.doc(DocId).delete();

@@ -3,6 +3,8 @@ import 'package:circlight/StudentAddForm.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:circlight/UpdateParent.dart';
+import 'package:circlight/Parent.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -12,6 +14,16 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  Parent parentx = new Parent(
+      Name: "",
+      Email: "",
+      PUserName: "",
+      PNationalID: "",
+      PJobTitle: "",
+      PPhoneNumber: "",
+      PAltPhoneNumber: "",
+      PNationality: "",
+      PRelativeRelation: "");
   @override
   List<String> docIDS = [];
 
@@ -23,10 +35,12 @@ class _MainScreenState extends State<MainScreen> {
             docIDS.add(document.reference.id);
           }),
         );
+    //print(docIDS[0]);
   }
 
   @override
   Widget build(BuildContext context) {
+    getDocId();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white54,
@@ -62,81 +76,113 @@ class _MainScreenState extends State<MainScreen> {
                     primary: false,
                     itemCount: snap.length,
                     itemBuilder: (context, index) {
+                      dynamic v = docIDS[index];
+                      // print("object");
+                      // print(v);
+                      //  print(snap[index]['Name']);
                       return Container(
-                        height: 70,
-                        width: double.infinity,
-                        margin: const EdgeInsets.only(bottom: 12),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black26,
-                              offset: Offset(2, 2),
-                              blurRadius: 10,
-                            ),
-                          ],
-                        ),
-                        child: Stack(
-                          children: [
-                            Container(
-                              //for profile image
-                              margin: const EdgeInsets.only(left: 30),
-                              alignment: Alignment.centerRight,
-                              child: Material(
-                                elevation: 8,
-                                borderRadius: BorderRadius.circular(30),
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                child: InkWell(
-                                  splashColor: Colors.black26,
-                                  onTap: () {},
-                                  child: Ink.image(
-                                    image: NetworkImage(
-                                        'assets/images/profileicon.png'),
-                                    height: 50,
-                                    width: 50,
-                                    fit: BoxFit.contain,
+                          height: 70,
+                          width: double.infinity,
+                          margin: const EdgeInsets.only(bottom: 12),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black26,
+                                offset: Offset(2, 2),
+                                blurRadius: 10,
+                              ),
+                            ],
+                          ),
+                          child: Stack(
+                            children: [
+                              Container(
+                                //for profile image
+                                margin: const EdgeInsets.only(left: 30),
+                                alignment: Alignment.centerRight,
+                                child: Material(
+                                  elevation: 8,
+                                  borderRadius: BorderRadius.circular(30),
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  child: InkWell(
+                                    splashColor: Colors.black26,
+                                    onTap: () {},
+                                    child: Ink.image(
+                                      image: NetworkImage(
+                                          'assets/images/profileicon.png'),
+                                      height: 50,
+                                      width: 50,
+                                      fit: BoxFit.contain,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
+                              //var v = docIDS[index] ;
 
-                            Container(
-                              margin: const EdgeInsets.only(left: 50),
-                              alignment: Alignment.center,
-                              child: Text(
-                                snap[index]['Name'],
-                                style: const TextStyle(
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold,
+                              Container(
+                                margin: const EdgeInsets.only(left: 50),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  snap[index]['Name'],
+                                  style: const TextStyle(
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Container(
-                                margin: const EdgeInsets.only(right: 20),
-                                alignment: Alignment.centerRight,
-                                child: Row(children: [
-                                  ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 14, vertical: 8),
-                                          textStyle: TextStyle(fontSize: 10)),
-                                      child: Text("add student"),
-                                      onPressed: () {
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                          builder: (context) => StudentAddform(
-                                              documentId: docIDS[index]),
-                                        ));
-                                      })
-                                ]))
+                              SingleChildScrollView(
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 20),
+                                  alignment: Alignment.centerRight,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          /* ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 14,
+                                                      vertical: 8),
+                                                  textStyle:
+                                                      TextStyle(fontSize: 10)),
+                                              child: Text("add student"),
+                                              onPressed: () {
+                                                //String ID = docIDS[index] as String;
+                                                // parentx.DeleteParent(ID);
+                                                // print(docIDS[index]);
+
+                                                Navigator.of(context)
+                                                    .push(MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      UpdateParent(
+                                                    documentId: docIDS[index],
+                                                  ),
+                                                ));
+                                              }),*/
+                                          Scaffold(
+                                            body: Icon(
+                                              Icons.ac_unit_rounded,
+                                              size: 100,
+                                              color: Color.fromARGB(
+                                                  255, 217, 52, 41),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+
                             /*child: RaisedButton(onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ParentAddform();),
                                 })*/
                             // ),
-                          ],
-                        ),
-                      );
+                          ));
                     },
                   );
                 } else {

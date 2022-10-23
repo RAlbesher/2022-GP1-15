@@ -1,5 +1,3 @@
-//import 'dart:html';
-
 //import 'package:circlight/ReadData.dart';
 //import 'package:circlight/ReadData.dart';
 import 'dart:convert';
@@ -22,7 +20,9 @@ import 'firebase_options.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class UpdateParent extends StatefulWidget {
-  const UpdateParent({super.key});
+  final String documentId;
+
+  const UpdateParent({super.key, required this.documentId});
 
   @override
   State<UpdateParent> createState() => _UpdateParent();
@@ -31,6 +31,9 @@ class UpdateParent extends StatefulWidget {
 class _UpdateParent extends State<UpdateParent> {
   final formKey = GlobalKey<FormState>();
   final userRef = FirebaseFirestore.instance;
+  final Relation = ["أم", "أب", "أخت", "أخ", "خالة", "خال", "عمة", "عم"];
+  String? value = "أم";
+
   Parent parentx = new Parent(
       Name: "",
       Email: "",
@@ -41,6 +44,7 @@ class _UpdateParent extends State<UpdateParent> {
       PAltPhoneNumber: "",
       PNationality: "",
       PRelativeRelation: "");
+  String CurreID = "";
   CollectionReference Parents = FirebaseFirestore.instance.collection("Parent");
   final ParentRef = FirebaseFirestore.instance;
   List<String> docIDs = [];
@@ -55,23 +59,16 @@ class _UpdateParent extends State<UpdateParent> {
   TextEditingController AltPhone = TextEditingController();
   TextEditingController RelativeRelation = TextEditingController();
   //get docIDs
-  Future getDocId() async {
-    await FirebaseFirestore.instance.collection("Parent").get().then(
-          (snapshot) => snapshot.docs.forEach((document) {
-            // ignore: avoid_print
-            print(document.reference);
-            docIDs.add(document.reference.id);
-          }),
-        );
-  }
 
   @override
   Widget build(BuildContext context) {
+    String CurrentID = widget.documentId;
+
     final double height = MediaQuery.of(context).size.height;
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
     return FutureBuilder<DocumentSnapshot>(
-        future: Parents.doc("H7P2rU79FU1e6x7MvMP1").get(),
+        future: Parents.doc(CurrentID).get(),
         builder: ((context, snapshot) {
           try {
             if (snapshot.connectionState == ConnectionState.done) {
@@ -79,7 +76,7 @@ class _UpdateParent extends State<UpdateParent> {
                   snapshot.data!.data() as Map<String, dynamic>;
               final String jsonString = jsonEncode(data);
               parentx.Name = data["Name"];
-
+              //parentx.Name = CurrentID;
               parentx.Email = data["Email"];
 
               parentx.PUserName = data["UserName"];
@@ -109,7 +106,6 @@ class _UpdateParent extends State<UpdateParent> {
                   children: [
                     Expanded(
                       child: FutureBuilder(
-                        future: getDocId(),
                         builder: ((context, snapshot) {
                           return Container(
                             padding: const EdgeInsets.only(left: 40, right: 40),
@@ -300,24 +296,30 @@ class _UpdateParent extends State<UpdateParent> {
                                     ),
                                     Directionality(
                                       textDirection: TextDirection.rtl,
-                                      child: TextFormField(
-                                        controller: AltPhone
-                                          ..text = parentx.PAltPhoneNumber,
-                                        //to take text from user input
-                                        textAlign: TextAlign.right,
+                                      child: Container(
+                                        child: Align(
+                                          alignment: Alignment.bottomRight,
+                                          child: TextFormField(
+                                            controller: AltPhone
+                                              ..text = parentx.PAltPhoneNumber,
+                                            //to take text from user input
+                                            textAlign: TextAlign.right,
 
-                                        decoration: InputDecoration(
-                                            hintText: " أدخل رقم جوال قريب ",
-                                            labelText: " رقم جوال قريب "),
-                                        validator: (value) {
-                                          if (value!.isEmpty ||
-                                              !RegExp(r'^(?:[+0][1-9])?[0-9]{10,12}$')
-                                                  .hasMatch(value!))
-                                            return "أرجو منك تعبئه الحقل بطريقه صحيحه";
-                                          else {
-                                            return null;
-                                          }
-                                        },
+                                            decoration: InputDecoration(
+                                                hintText:
+                                                    " أدخل رقم جوال قريب ",
+                                                labelText: " رقم جوال قريب "),
+                                            validator: (value) {
+                                              if (value!.isEmpty ||
+                                                  !RegExp(r'^(?:[+0][1-9])?[0-9]{10,12}$')
+                                                      .hasMatch(value!))
+                                                return "أرجو منك تعبئه الحقل بطريقه صحيحه";
+                                              else {
+                                                return null;
+                                              }
+                                            },
+                                          ),
+                                        ),
                                       ),
                                     ),
                                     SizedBox(
@@ -325,22 +327,42 @@ class _UpdateParent extends State<UpdateParent> {
                                     ),
                                     Directionality(
                                       textDirection: TextDirection.rtl,
-                                      child: TextFormField(
-                                        controller: RelativeRelation
-                                          ..text = parentx.PRelativeRelation,
-                                        //to take text from user input
-                                        textAlign: TextAlign.right,
-
-                                        decoration: InputDecoration(
-                                            hintText: "أدخل صلة القرابة",
-                                            labelText: "صلة القرابة"),
-                                        validator: (value) {
-                                          if (value!.isEmpty)
-                                            return "أرجو منك تعبئه الحقل الفارغ ";
-                                          else {
-                                            return null;
-                                          }
-                                        },
+                                      child: Align(
+                                        alignment: Alignment.bottomRight,
+                                        child: Container(
+                                          width: 500,
+                                          height: 58,
+                                          // margin: EdgeInsets.all(40),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 12, vertical: 4),
+                                          /* decoration: BoxDecoration(
+                                            
+                                              border: Border.all(
+                                                  color: Color.fromARGB(
+                                                      255, 146, 145, 145),
+                                                  width: 0.5),
+                                              borderRadius:
+                                                  BorderRadius.circular(8)),*/
+                                          child: DropdownButtonHideUnderline(
+                                            child:
+                                                DropdownButtonFormField<String>(
+                                              decoration: InputDecoration(
+                                                labelText: "صلة القرابة",
+                                                border: UnderlineInputBorder(),
+                                              ),
+                                              isExpanded: true,
+                                              iconSize: 30,
+                                              icon: Icon(Icons.arrow_drop_down,
+                                                  color: Color.fromARGB(
+                                                      255, 157, 159, 157)),
+                                              value: value,
+                                              items: Relation.map(BuildMenuItem)
+                                                  .toList(),
+                                              onChanged: (value) => setState(
+                                                  () => this.value = value),
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ),
                                     SizedBox(
@@ -358,8 +380,8 @@ class _UpdateParent extends State<UpdateParent> {
                                                 // Name, UserName, Email, NationalID, Nationality, JobTitle,
                                                 //  Phone, AltPhone
                                                 //
-                                                /* await parentx.DeleteParent(
-                                                    "H7P2rU79FU1e6x7MvMP1",
+                                                await parentx.UpdateParent(
+                                                    CurrentID,
                                                     parentName.text,
                                                     parentUserName.text,
                                                     parentEmail.text,
@@ -368,11 +390,11 @@ class _UpdateParent extends State<UpdateParent> {
                                                     JobTitle.text,
                                                     Phone.text,
                                                     AltPhone.text,
-                                                    RelativeRelation.text);
+                                                    value);
                                                 showCupertinoDialog(
                                                     context: context,
                                                     builder: CreateDialog);
-                                                await parentx.DeleteParent(
+                                                /*await parentx.DeleteParent(
                                                     "3utSRXLiFJdWE8nc2pEg");*/
                                               }
                                             },
@@ -439,6 +461,14 @@ class _UpdateParent extends State<UpdateParent> {
             // return Center(child: CircularProgressIndicator());
             ));
   }
+
+  DropdownMenuItem<String> BuildMenuItem(String item) => DropdownMenuItem(
+        value: item,
+        child: Text(
+          item,
+          style: TextStyle(fontWeight: FontWeight.w300, fontSize: 14),
+        ),
+      );
 
   Widget CreateDialog(BuildContext context) => CupertinoAlertDialog(
         title: Text("تحديث معلومات ولي الأمر", style: TextStyle(fontSize: 18)),
