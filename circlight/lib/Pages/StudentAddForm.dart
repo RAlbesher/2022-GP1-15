@@ -1,7 +1,7 @@
-import 'package:circlight/Parent.dart'; //for parent class
+import 'package:circlight/Pages/Parent.dart'; //for parent class
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
+import 'package:circlight/Pages/Student.dart'; //for parent class
 import 'package:flutter/services.dart';
 import 'firebase_options.dart';
 
@@ -18,19 +18,19 @@ class StudentAddform extends StatefulWidget {
 
 class _StudentAddFormState extends State<StudentAddform> {
   final formKey = GlobalKey<FormState>(); //key for form
-  String name = "";
 
-  Parent parentz = new Parent(
-      Name: "",
-      Email: "",
-      PUserName: "",
-      PNationalID: "",
-      PJobTitle: "",
-      PPhoneNumber: "",
-      PAltPhoneNumber: "",
-      PNationality: "",
-      PRelativeRelation: "");
+  Student Studentx = new Student(
+    Name: "",
+    StudentID: "",
+    Class: "",
+    SNationalID: "",
+    SNationality: "",
+    SUserName: "",
+    SBloodType: "",
+  );
+  String currentID = "";
 
+  List<String> docIDs = [];
   TextEditingController studentName = TextEditingController();
   TextEditingController Studentusername = TextEditingController();
   TextEditingController StudentIDNo = TextEditingController();
@@ -39,11 +39,14 @@ class _StudentAddFormState extends State<StudentAddform> {
   TextEditingController StudentBloodType = TextEditingController();
 
   final userRef = FirebaseFirestore.instance;
-
+  CollectionReference student =
+      FirebaseFirestore.instance.collection("Student");
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+    String CurrentID = widget.documentId;
 
     return Scaffold(
         key: _scaffoldKey,
@@ -200,15 +203,17 @@ class _StudentAddFormState extends State<StudentAddform> {
                           child: Text("          إضافه        "),
                           onPressed: () async {
                             if (formKey.currentState!.validate()) {
-                              /* await parentz.addStudent(
+                              await Studentx.addStudent(
+                                  CurrentID,
                                   studentName.text,
                                   Studentusername.text,
                                   StudentIDNo.text,
                                   StudentNationality.text,
                                   Studentclass.text,
                                   StudentBloodType.text);
+
                               showCupertinoDialog(
-                                  context: context, builder: CreateDialog);*/
+                                  context: context, builder: CreateDialog);
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -228,7 +233,7 @@ class _StudentAddFormState extends State<StudentAddform> {
   }
 
   Widget CreateDialog(BuildContext context) => CupertinoAlertDialog(
-        title: Text("إضافة الطالب ", style: TextStyle(fontSize: 18)),
+        title: Text("إضافة ولي الأمر", style: TextStyle(fontSize: 18)),
         content: Text(
           "تم إضافة المعلومات بنجاح",
           style: TextStyle(fontSize: 14),
@@ -241,37 +246,3 @@ class _StudentAddFormState extends State<StudentAddform> {
         ],
       );
 }
-/*
-  addParent() async {
-    await userRef.collection("Parent").add({
-      'Name': parentName.text,
-      'Username': username.text,
-      'Email': email.text,
-      'NationalID': IDNo.text,
-      'Password': IDNo.text,
-      'PhoneNumber': phoneNumber.text,
-      'AltPhoneNumber': altphoneNumber.text,
-      'Nationality': nationality.text,
-      'JobTitle': jobTitle.text,
-      'LateStatus': false,
-    });
-    CoolAlert.show(
-      context: context,
-      type: CoolAlertType.success,
-      text: "لقد تمت عمليه الاضافه بنجاح ",
-    );
-  }*/
-
-/*
-
-addStudent(colID) {
-  final userRef = FirebaseFirestore.instance.collection("Parent");
-  userRef.doc(colID).collection("Studet").add({
-    "BloodType": "lamaalmajhad",
-    "Class": "lamaalmajhad@outlook.com",
-    "Name": "lama school",
-    "Nationality": "False",
-    "StudentID": "first student",
-    "UserName": "سعودي",
-  });
-}*/

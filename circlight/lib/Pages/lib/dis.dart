@@ -1,37 +1,22 @@
-import 'package:circlight/ParentAddform.dart';
-import 'package:circlight/StudentAddForm.dart';
-import 'package:circlight/UpdateStudent.dart';
+import 'package:circlight/Pages/ParentAddform.dart';
+import 'package:circlight/Pages/StudentAddForm.dart';
+import 'package:circlight/Pages/UpdateStudent.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:circlight/UpdateParent.dart';
-import 'package:circlight/Parent.dart';
+import 'package:circlight/Pages/UpdateParent.dart';
+import 'package:circlight/Pages/Parent.dart';
 
-class DisplayStudent extends StatefulWidget {
-  const DisplayStudent({Key? key}) : super(key: key);
+class MainScreen12 extends StatefulWidget {
+  const MainScreen12({Key? key}) : super(key: key);
 
   @override
-  State<DisplayStudent> createState() => _DisplayStudent();
+  State<MainScreen12> createState() => _MainScreenState12();
 }
 
-class _DisplayStudent extends State<DisplayStudent> {
-  @override
-  List<String> docIDS = [];
-
-  //get doc id
-  Future getDocId() async {
-    await FirebaseFirestore.instance.collection("Student").get().then(
-          (snapshot) => snapshot.docs.forEach((document) {
-            // print(document.reference);
-            docIDS.add(document.reference.id);
-          }),
-        );
-    //print(docIDS[0]);
-  }
-
+class _MainScreenState12 extends State<MainScreen12> {
   @override
   Widget build(BuildContext context) {
-    getDocId();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white54,
@@ -57,7 +42,7 @@ class _DisplayStudent extends State<DisplayStudent> {
           children: [
             StreamBuilder<QuerySnapshot>(
               stream:
-                  FirebaseFirestore.instance.collection("Student").snapshots(),
+                  FirebaseFirestore.instance.collection("Parent").snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {
@@ -67,10 +52,6 @@ class _DisplayStudent extends State<DisplayStudent> {
                     primary: false,
                     itemCount: snap.length,
                     itemBuilder: (context, index) {
-                      dynamic v = docIDS[index];
-                      // print("object");
-                      // print(v);
-                      //  print(snap[index]['Name']);
                       return Container(
                         height: 70,
                         width: double.infinity,
@@ -109,7 +90,6 @@ class _DisplayStudent extends State<DisplayStudent> {
                                 ),
                               ),
                             ),
-                            //var v = docIDS[index] ;
 
                             Container(
                               margin: const EdgeInsets.only(left: 50),
@@ -133,16 +113,14 @@ class _DisplayStudent extends State<DisplayStudent> {
                                           textStyle: TextStyle(fontSize: 10)),
                                       child: Text("add student"),
                                       onPressed: () {
-                                        // print(docIDS[index]);
+                                        /*
                                         Navigator.of(context)
                                             .push(MaterialPageRoute(
-                                          builder: (context) => UpdateStudent(
-                                            documentId: docIDS[index],
-                                          ),
-                                        ));
+                                          builder: (context) =>
+                                              StudentAddform(),
+                                        ));*/
                                       })
-                                ])),
-
+                                ]))
                             /*child: RaisedButton(onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ParentAddform();),
                                 })*/

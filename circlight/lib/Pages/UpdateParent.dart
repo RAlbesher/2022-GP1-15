@@ -2,7 +2,7 @@
 //import 'package:circlight/ReadData.dart';
 import 'dart:convert';
 
-import 'package:circlight/Parent.dart';
+import 'package:circlight/Pages/Parent.dart';
 
 ///import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -14,7 +14,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 //import 'package:adobe_xd/adobe_xd.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:circlight/create_parent_profile.dart';
+import 'package:circlight/Pages/create_parent_profile.dart';
 import 'package:firebase_core/firebase_core.dart' show Firebase;
 import 'firebase_options.dart';
 import 'package:flutter/src/widgets/framework.dart';

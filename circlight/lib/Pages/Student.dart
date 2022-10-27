@@ -47,4 +47,26 @@ class Student {
         FirebaseFirestore.instance.collection("Student");
     await Parents.doc(DocId).delete();
   }
+
+  addStudent(
+    DocId,
+    Name,
+    SUserName,
+    StudentID,
+    SNationality,
+    Class,
+    SBloodType,
+  ) async {
+    final Parents = FirebaseFirestore.instance;
+    await Parents.collection("Student").doc(DocId).set({
+      "ParentId": DocId,
+      'Name': Name,
+      'UserName': SUserName,
+      'StudentID': StudentID,
+      'NationalID': SNationalID,
+      'Nationality': SNationality,
+      'Class': Class,
+      'BloodType': SBloodType
+    });
+  }
 }//END OF CLASS

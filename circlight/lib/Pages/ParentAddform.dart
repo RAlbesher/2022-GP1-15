@@ -1,9 +1,10 @@
+import 'package:circlight/Pages/displayParent.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'firebase_options.dart';
-import 'package:cool_alert/cool_alert.dart';
-import 'package:circlight/Parent.dart'; //import for parent class
+
+import 'package:circlight/Pages/Parent.dart'; //import for parent class
 import 'package:flutter/cupertino.dart';
 
 class ParentAddform extends StatefulWidget {
@@ -24,6 +25,7 @@ class _ParentAddFormState extends State<ParentAddform> {
       PAltPhoneNumber: "",
       PNationality: "",
       PRelativeRelation: "");
+
   TextEditingController parentName = TextEditingController();
   TextEditingController Parentusername = TextEditingController();
   TextEditingController email = TextEditingController();
@@ -37,7 +39,8 @@ class _ParentAddFormState extends State<ParentAddform> {
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
+    CollectionReference Parent =
+        FirebaseFirestore.instance.collection("Parent");
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
@@ -276,11 +279,12 @@ class _ParentAddFormState extends State<ParentAddform> {
                                   jobTitle.text,
                                   RelativeRelation.text);
 
-                              showCupertinoDialog(
+                              await showCupertinoDialog(
                                   context: context, builder: CreateDialog);
+
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => Paretdisplay()));
                             }
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ParentAddform()));
                           },
                           style: ElevatedButton.styleFrom(
                             primary: Color.fromARGB(255, 54, 165, 244),
@@ -312,17 +316,3 @@ class _ParentAddFormState extends State<ParentAddform> {
         ],
       );
 }
- 
-/*
-
-addStudent(colID) {
-  final userRef = FirebaseFirestore.instance.collection("Parent");
-  userRef.doc(colID).collection("Studet").add({
-    "BloodType": "lamaalmajhad",
-    "Class": "lamaalmajhad@outlook.com",
-    "Name": "lama school",
-    "Nationality": "False",
-    "StudentID": "first student",
-    "UserName": "سعودي",
-  });
-}*/

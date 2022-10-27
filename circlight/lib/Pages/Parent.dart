@@ -53,9 +53,9 @@ class Parent {
 
   addParent(PN, PUserName, Email, PID, ParenPhoneNo, AltPhoneNum, Nationality,
       JobT, PRelativeRelation) async {
-    final userRef = await FirebaseFirestore.instance.collection("Parent");
-
-    userRef.add({
+    CollectionReference Parents =
+        FirebaseFirestore.instance.collection("Parent");
+    Parents.add({
       'Name': PN,
       'UserName': PUserName,
       'Email': Email,
@@ -75,6 +75,8 @@ class Parent {
         FirebaseFirestore.instance.collection("Parent");
     await Parents.doc(DocId).delete();
   }
+
+ 
 /*
   addStudent() {
     final userRef = FirebaseFirestore.instance.collection("Parent");
