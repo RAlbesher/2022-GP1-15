@@ -203,7 +203,12 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                   animation: _ColorAnimationController,
                   builder: (context, child) => AppBar(
                     leading: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => Paretdisplay()));
+                      },
                       icon: Icon(
                         Icons.arrow_back_ios_new,
                         size: 16,
@@ -228,22 +233,6 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                     iconTheme: IconThemeData(
                       color: _iconColorTween.value,
                     ),
-                    actions: <Widget>[
-                      Container(
-                        padding: const EdgeInsets.only(right: 5),
-                        child: CupertinoButton(
-                          child: Text(
-                            "حفظ",
-                            style: TextStyle(
-                                color: _icon2ColorTween.value,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          onPressed: () async {
-                            if (formKey.currentState!.validate()) {}
-                          },
-                        ),
-                      ),
-                    ],
                   ),
                 ),
               ),

@@ -1,7 +1,9 @@
 import 'package:circlight/Pages/ParentAddform.dart';
+import 'package:circlight/Pages/Student.dart';
 import 'package:circlight/Pages/StudentAddForm.dart';
 import 'package:circlight/Pages/UpdateStudent.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:circlight/Pages/UpdateParent.dart';
@@ -20,9 +22,17 @@ class Studentdispaly extends StatefulWidget {
 class _Studentdispaly extends State<Studentdispaly> {
   @override
   List<String> docIDS = [];
-
+  Student Studentx = new Student(
+    Name: "",
+    StudentID: "",
+    Class: "",
+    SNationalID: "",
+    SNationality: "",
+    SUserName: "",
+    SBloodType: "",
+  );
   //get doc id
-
+  String CurrentID = "";
   Future getDocId() async {
     await FirebaseFirestore.instance.collection("Student").get().then(
           (snapshot) => snapshot.docs.forEach((document) {
@@ -125,7 +135,16 @@ class _Studentdispaly extends State<Studentdispaly> {
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
                                 child: InkWell(
                                     splashColor: Colors.black26,
-                                    onTap: () {},
+                                    onTap: () {
+                                      int Tab = 7;
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) => Nav(
+                                          documentId: docIDS[index],
+                                          TabValue: 7,
+                                        ),
+                                      ));
+                                    },
                                     child: Image.asset(
                                       'assets/images/Profile.png',
                                       height: 50,
@@ -156,12 +175,13 @@ class _Studentdispaly extends State<Studentdispaly> {
                                 InkWell(
                                     onTap: () {
                                       // print(docIDS[index]);
-                                      int Tab = 6;
+
+                                      int Tab = 5;
                                       Navigator.of(context)
                                           .push(MaterialPageRoute(
                                         builder: (context) => Nav(
                                           documentId: docIDS[index],
-                                          TabValue: 6,
+                                          TabValue: 5,
                                         ),
                                       ));
                                     },
@@ -181,6 +201,10 @@ class _Studentdispaly extends State<Studentdispaly> {
                                               builder: (context) =>
                                                   //askkkkk faten where should it go ??;
 */
+                                      CurrentID = docIDS[index];
+                                      showCupertinoDialog(
+                                          context: context,
+                                          builder: CreateDialog3);
                                     },
                                     child: Image.asset(
                                       'assets/images/delete.png',
@@ -201,6 +225,29 @@ class _Studentdispaly extends State<Studentdispaly> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget CreateDialog3(BuildContext context) {
+    String Msg = "تجاهل التغييرات";
+    return CupertinoAlertDialog(
+      title: Text("حذف الطالب"),
+      content: Text("هل انت متأكد انك تريد حذف الطالب؟"),
+      actions: [
+        CupertinoDialogAction(
+            onPressed: () {
+              Navigator.push(context,
+                  CupertinoPageRoute(builder: (context) => Studentdispaly()));
+            },
+            child: Text("الغاء")),
+        CupertinoDialogAction(
+            isDefaultAction: true,
+            onPressed: () {
+              Navigator.pop(context);
+              Studentx.DeleteStudent(CurrentID);
+            },
+            child: Text("موافق")),
+      ],
     );
   }
 }

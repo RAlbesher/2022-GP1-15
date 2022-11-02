@@ -8,7 +8,7 @@ import 'package:circlight/Pages/UpdateParent.dart';
 import 'package:circlight/Pages/Parent.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:circlight/Pages/Nav.dart';
-
+import 'package:flutter/cupertino.dart';
 import 'CreateParent.dart';
 
 class Paretdisplay extends StatefulWidget {
@@ -33,7 +33,7 @@ class _Paretdisplay extends State<Paretdisplay> {
   List<String> docIDS = [];
 
   //get doc id
-
+  String CurrentID = "";
   Future getDocId() async {
     await FirebaseFirestore.instance.collection("Parent").get().then(
           (snapshot) => snapshot.docs.forEach((document) {
@@ -193,10 +193,12 @@ class _Paretdisplay extends State<Paretdisplay> {
                                 InkWell(
                                     // height: 80,
                                     onTap: () {
+                                      int Tab = 7;
                                       Navigator.of(context)
                                           .push(MaterialPageRoute(
-                                        builder: (context) => StudentAddform(
+                                        builder: (context) => Nav(
                                           documentId: docIDS[index],
+                                          TabValue: 7,
                                         ),
                                       ));
                                     },
@@ -235,7 +237,10 @@ class _Paretdisplay extends State<Paretdisplay> {
                                               builder: (context) =>
                                                   //askkkkk faten where should it go ??;
 */
-                                      parentx.DeleteParent(docIDS[index]);
+                                      CurrentID = docIDS[index];
+                                      showCupertinoDialog(
+                                          context: context,
+                                          builder: CreateDialog3);
                                     },
                                     child: Image.asset(
                                       'assets/images/delete.png',
@@ -366,6 +371,30 @@ class _Paretdisplay extends State<Paretdisplay> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget CreateDialog3(BuildContext context) {
+    String Msg = "تجاهل التغييرات";
+
+    return CupertinoAlertDialog(
+      title: Text("حذف ولي أمر"),
+      content: Text("هل انت متأكد انك تريد حذف ولي الأمر؟"),
+      actions: [
+        CupertinoDialogAction(
+            onPressed: () {
+              Navigator.push(context,
+                  CupertinoPageRoute(builder: (context) => Paretdisplay()));
+            },
+            child: Text("الغاء")),
+        CupertinoDialogAction(
+            isDefaultAction: true,
+            onPressed: () {
+              Navigator.pop(context);
+              parentx.DeleteParent(CurrentID);
+            },
+            child: Text("موافق")),
+      ],
     );
   }
 }

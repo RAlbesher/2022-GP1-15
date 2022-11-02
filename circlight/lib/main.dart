@@ -53,21 +53,23 @@ class LoginUiApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Login UI',
-        theme: ThemeData(
-          primaryColor: _primaryColor,
-          accentColor: _accentColor,
-          scaffoldBackgroundColor: Colors.grey.shade100,
-          primarySwatch: Colors.grey,
-        ),
-        /* home: editparent6(
+      title: 'Flutter Login UI',
+      theme: ThemeData(
+        primaryColor: _primaryColor,
+        accentColor: _accentColor,
+        scaffoldBackgroundColor: Colors.grey.shade100,
+        primarySwatch: Colors.grey,
+      ),
+      /* home: editparent6(
             Confirm: false,
             Index: 1,
             documentId: "21AqxvymlaHWM4DfLFtS",
             whichpag: 0,
             TheValue: "")*/
-        home: StudentAddform(
-          documentId: "GpRfqodKgYCqobAL2r6w",
-        ));
+      //  home: StudentAddform(
+      //    documentId: "GpRfqodKgYCqobAL2r6w",
+      //   ),
+      home: Studentdispaly(),
+    );
   }
 }
