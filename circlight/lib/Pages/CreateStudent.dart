@@ -117,6 +117,7 @@ class _CreateStudentState extends State<CreateStudent>
     super.dispose();
   }
 
+  final formKey = GlobalKey<FormState>();
   String name = "";
 
   double _headerHeight = 250;
@@ -131,7 +132,7 @@ class _CreateStudentState extends State<CreateStudent>
   @override
   Widget build(BuildContext context) {
     Real = List<String>.filled(5, "");
-    final formKey = GlobalKey<FormState>();
+
     final double height = MediaQuery.of(context).size.height;
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     CollectionReference student =
@@ -200,7 +201,7 @@ class _CreateStudentState extends State<CreateStudent>
                       padding: EdgeInsets.symmetric(horizontal: 35),
                       child: Form(
                         key: formKey,
-                        child: GetWidget(widget.index, formKey),
+                        child: GetWidget(widget.index),
                       ),
                     ),
                     const SizedBox(
@@ -298,7 +299,7 @@ class _CreateStudentState extends State<CreateStudent>
     );
   }
 
-  Widget GetWidget(Index, formKey) {
+  Widget GetWidget(Index) {
     Widget Fields = Text("");
 
     switch (Index) {
@@ -1048,29 +1049,20 @@ class _CreateStudentState extends State<CreateStudent>
                     child: FittedBox(
                       child: FloatingActionButton(
                         onPressed: () async {
+                          if (formKey.currentState!.validate()) {}
                           await Studentx.addStudent(
                               widget.documentId,
                               widget.Name,
                               widget.username,
                               widget.SID,
+                              StudentNationalID.text,
                               StudentNationality.text,
                               Numvalue,
                               blood,
-                              docAdmin[0]);
-                          if (formKey.currentState!.validate()) {
-                            await Studentx.addStudent(
-                                widget.documentId,
-                                widget.Name,
-                                widget.username,
-                                widget.SID,
-                                StudentNationality.text,
-                                Numvalue,
-                                blood,
-                                docAdmin[0]);
+                              "gqvxZab1CsHCgT9kZgel");
 
-                            showCupertinoDialog(
-                                context: context, builder: CreateDialog);
-                          }
+                          showCupertinoDialog(
+                              context: context, builder: CreateDialog);
 
                           //  if (formKey.currentState!.validate()) {}
                         },
