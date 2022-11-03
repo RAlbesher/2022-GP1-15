@@ -7,6 +7,7 @@ import 'package:circlight/Pages/UpdateStudent.dart';
 
 import 'package:circlight/Pages/displayParent.dart';
 import 'package:circlight/Pages/displayStudent.dart';
+import 'package:circlight/Pages/oldedit.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ import 'package:circlight/Pages/firebase_options.dart';
 
 import 'package:circlight/Pages/Nav.dart';
 
+import 'Pages/CreateStudent.dart';
 import 'Pages/StudentAddForm.dart';
 import 'Pages/appbar.dart';
 
@@ -53,23 +55,32 @@ class LoginUiApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Login UI',
-      theme: ThemeData(
-        primaryColor: _primaryColor,
-        accentColor: _accentColor,
-        scaffoldBackgroundColor: Colors.grey.shade100,
-        primarySwatch: Colors.grey,
-      ),
-      /* home: editparent6(
+        title: 'Flutter Login UI',
+        theme: ThemeData(
+          primaryColor: _primaryColor,
+          accentColor: _accentColor,
+          scaffoldBackgroundColor: Colors.grey.shade100,
+          primarySwatch: Colors.grey,
+        ),
+        /* home: editparent6(
             Confirm: false,
             Index: 1,
             documentId: "21AqxvymlaHWM4DfLFtS",
             whichpag: 0,
             TheValue: "")*/
-      //  home: StudentAddform(
-      //    documentId: "GpRfqodKgYCqobAL2r6w",
-      //   ),
-      home: Studentdispaly(),
-    );
+        //  home: StudentAddform(
+        //    documentId: "GpRfqodKgYCqobAL2r6w",
+        //   ),
+        /* home: editparent5(
+          Confirm: false,
+          Index: 1,
+          TheValue: "",
+          documentId: "Cu5WEwZNoe5eqIl0NOJp",
+          whichpag: 0,
+          DropDown: false),*/
+        home: Nav(
+          documentId: "Cu5WEwZNoe5eqIl0NOJp",
+          TabValue: 0,
+        ));
   }
 }

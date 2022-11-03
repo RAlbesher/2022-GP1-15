@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:convert';
-
+//import 'package:validators///validators.dart';
 import 'package:circlight/Pages/Parent.dart';
 import 'package:circlight/Pages/AdminHome.dart';
 import 'package:circlight/Pages/DashBoard.dart';
@@ -23,30 +23,26 @@ import 'displayParent.dart';
 
 import 'header_widget.dart';
 
-class editparent5 extends StatefulWidget {
+class editparent6 extends StatefulWidget {
   var isChanged = "";
-  var isDropDown = false;
   var whichpag = 0;
   var Index = 1;
   var TheValue = "";
-
   bool Confirm;
-  bool DropDown;
   String documentId;
 
-  editparent5(
+  editparent6(
       {Key? key,
       required this.documentId,
       required this.whichpag,
       // ignore: non_constant_identifier_names
       required this.Index,
       required this.TheValue,
-      required this.Confirm,
-      required this.DropDown})
+      required this.Confirm})
       : super(key: key);
 
   @override
-  State<editparent5> createState() => _editState();
+  State<editparent6> createState() => _editState();
   getData(change) {
     isChanged = change;
     print("in getData");
@@ -54,14 +50,14 @@ class editparent5 extends StatefulWidget {
   }
 }
 
-class _editState extends State<editparent5> with TickerProviderStateMixin {
-  int t = 0;
-  late bool isDrop = widget.DropDown;
-  bool isDropDown = false;
+class _editState extends State<editparent6> with TickerProviderStateMixin {
   var IsSave;
   double _headerHeight = 250;
   int _changedNumber = 0, _selectedNumber = 1;
-  var DropValue;
+  late String value = "أم";
+  var Oldval;
+
+  int InCount = 0;
   int C = 0;
   late String DBvalue = "";
   final Relation = ["أم", "أب", "أخت", "أخ", "خالة", "خال", "عمة", "عم"];
@@ -81,7 +77,6 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
       PRelativeRelation: "");
   bool RelativeCh = false;
 
-  late String Dvalue;
   late int Inx;
   CollectionReference Parents = FirebaseFirestore.instance.collection("Parent");
   final ParentRef = FirebaseFirestore.instance;
@@ -96,19 +91,17 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
   TextEditingController Phone = TextEditingController();
   TextEditingController AltPhone = TextEditingController();
   TextEditingController RelativeRelation = TextEditingController();
-
   bool isEmailCorrect = false;
   bool isDone = false;
 
   String Field = "None";
   String UpdatedValue = "";
-  int DIndex = 1;
+  int Index = 2;
   late bool save;
   late TextEditingController controller;
 
   late FixedExtentScrollController scrollController;
   String Title = "";
-  int DropIndex = 0;
   late AnimationController _ColorAnimationController;
   late AnimationController _TextAnimationController;
   late Animation _colorTween, _iconColorTween, _icon2ColorTween;
@@ -134,9 +127,8 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
 
     _transTween = Tween(begin: Offset(-10, 40), end: Offset(-10, 0))
         .animate(_TextAnimationController);
-    scrollController = FixedExtentScrollController(initialItem: DIndex);
-    controller = TextEditingController(text: Relation[DIndex]);
-    Dvalue = parentx.PRelativeRelation;
+    scrollController = FixedExtentScrollController(initialItem: Index);
+    controller = TextEditingController(text: Relation[Index]);
   }
 
   @override
@@ -154,21 +146,19 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
     JobTitle.dispose();
     Phone.dispose();
     AltPhone.dispose();
+    RelativeRelation.dispose();
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
+    Oldval = new List.filled(10, null, growable: false);
+    String val = value;
     // ignore: deprecated_member_use
     IsSave = List<int>.filled(5, 0);
-    DropValue = List<String>.generate(10, growable: true, (index) => "null");
-    DropValue[DropIndex] = "أم";
-    DropIndex += 1;
     print("fffffffffffffffff");
 
     bool isSaved = widget.Confirm;
-
     int whichpagee = widget.whichpag;
     String TheValuee = widget.TheValue;
     int WIndex = widget.Index;
@@ -212,14 +202,10 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
               parentx.PPhoneNumber = data["PhoneNumber"];
 
               parentx.PAltPhoneNumber = data["AltPhoneNumber"];
-
-              DropValue[DropIndex] = data["RelativeRelation"];
-              DropIndex += 1;
-              if (t == 0) {
-                Dvalue = data["RelativeRelation"];
-              }
-              t += 1;
               parentx.PRelativeRelation = data["RelativeRelation"];
+              value = parentx.PRelativeRelation;
+              Oldval[InCount] = value;
+              InCount += 1;
             }
           } catch (e) {
             // print("xxxxxxxxxxxxxxxxxxxxxxxx");
@@ -272,10 +258,11 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
                 Navigator.pop(context);
               }
               if (save == true) {
-                print(value);
-
                 showCupertinoDialog(context: context, builder: CreateDialog3);
               }
+              print(value);
+              parentx.UpdateParent(
+                  widget.documentId, "RelativeRelation", Oldval);
             },
             icon: Icon(
               Icons.arrow_back_ios_new,
@@ -301,7 +288,7 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
               child: CupertinoButton(
                 child: Text(
                   "حفظ",
-                  style: TextStyle(color: const Color(0xff42c98d)),
+                  style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {
@@ -337,7 +324,7 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
 
                         break;
                       case "RelativeRelation":
-                        UpdatedValue = Dvalue;
+                        // UpdatedValue = value;
                         break;
                     }
 
@@ -357,13 +344,12 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
                         Navigator.push(
                             context,
                             CupertinoPageRoute(
-                                builder: (context) => editparent5(
+                                builder: (context) => editparent6(
                                       documentId: widget.documentId,
                                       Confirm: save,
                                       Index: 1,
                                       TheValue: "",
                                       whichpag: 0,
-                                      DropDown: isDrop,
                                     )));
                       });
                     }
@@ -435,41 +421,38 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
             controller: parentName..text = parentx.Name,
             //to take text from user input
             textAlign: TextAlign.right,
-            style: GoogleFonts.poppins(
-                fontSize: 14,
-                //fontWeight: FontWeight.w600,
-                color: Colors.grey),
+            style: const TextStyle(color: const Color(0xff0da6c2)),
             showCursor: true,
             decoration: InputDecoration(
               hintText: "أدخل اسم ولي الامر ",
               labelText: "اسم ولي الامر",
-              hintStyle: const TextStyle(color: Colors.grey, fontSize: 12),
+              hintStyle: const TextStyle(color: Colors.grey, fontSize: 15),
               labelStyle: const TextStyle(
-                  color: const Color(0xff57d77a),
-                  fontSize: 12,
+                  color: const Color(0xff0da6c2),
+                  fontSize: 16,
                   fontWeight: FontWeight.w300),
               prefixIcon: const Icon(
                 Icons.email_outlined,
-                size: 21,
-                color: const Color(0xff57d77a),
+                color: const Color(0xff0da6c2),
               ),
               enabledBorder: UnderlineInputBorder(
                   borderSide:
-                      BorderSide(color: const Color(0xff57d77a), width: 1),
+                      BorderSide(color: const Color(0xff0da6c2), width: 1),
                   borderRadius: BorderRadius.circular(10)),
               floatingLabelStyle: const TextStyle(
-                  color: const Color(0xff57d77a),
-                  fontSize: 12,
+                  color: Colors.white,
+                  fontSize: 18,
                   fontWeight: FontWeight.w300),
               focusedBorder: UnderlineInputBorder(
                 borderSide:
-                    BorderSide(color: const Color(0xff57d77a), width: 2),
+                    BorderSide(color: const Color(0xff0da6c2), width: 2),
                 borderRadius: BorderRadius.circular(15),
               ),
             ),
             validator: (value) {
               if (OldValue != parentName.text) {
                 save = true;
+                print("isSaved is trueeeeeeeeeee");
               }
 
               if (value!.isEmpty)
@@ -491,37 +474,33 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
             //to take text from user input
             textAlign: TextAlign.right,
 
-            style: GoogleFonts.poppins(
-                fontSize: 14,
-                //fontWeight: FontWeight.w600,
-                color: Colors.grey),
+            style: const TextStyle(color: const Color(0xff0da6c2)),
             showCursor: true,
-            cursorColor: const Color(0xff57d77a),
+            cursorColor: const Color(0xff0da6c2),
 
             decoration: InputDecoration(
               hintText: " أدخل اسم المستخدم",
               labelText: "اسم المستخدم",
-              hintStyle: const TextStyle(color: Colors.grey, fontSize: 12),
+              hintStyle: const TextStyle(color: Colors.grey, fontSize: 15),
               labelStyle: const TextStyle(
-                  color: const Color(0xff57d77a),
-                  fontSize: 12,
+                  color: const Color(0xff0da6c2),
+                  fontSize: 16,
                   fontWeight: FontWeight.w300),
               prefixIcon: const Icon(
                 Icons.email_outlined,
-                size: 21,
-                color: const Color(0xff57d77a),
+                color: const Color(0xff0da6c2),
               ),
               enabledBorder: UnderlineInputBorder(
                   borderSide:
-                      BorderSide(color: const Color(0xff57d77a), width: 1),
+                      BorderSide(color: const Color(0xff0da6c2), width: 1),
                   borderRadius: BorderRadius.circular(10)),
               floatingLabelStyle: const TextStyle(
-                  color: const Color(0xff57d77a),
-                  fontSize: 12,
+                  color: Colors.white,
+                  fontSize: 18,
                   fontWeight: FontWeight.w300),
               focusedBorder: UnderlineInputBorder(
                 borderSide:
-                    BorderSide(color: const Color(0xff57d77a), width: 2),
+                    BorderSide(color: const Color(0xff0da6c2), width: 2),
                 borderRadius: BorderRadius.circular(15),
               ),
             ),
@@ -547,35 +526,32 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
           child: TextFormField(
             controller: parentEmail..text = parentx.Email,
             textAlign: TextAlign.right,
-            style: GoogleFonts.poppins(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: Color(0xffA7A7A7)),
+            style: const TextStyle(color: const Color(0xff0da6c2)),
             showCursor: true,
-            cursorColor: const Color(0xff57d77a),
+            cursorColor: const Color(0xff0da6c2),
             decoration: InputDecoration(
               labelText: "البريد الالكتروني ",
               hintText: "something@email.com",
-              hintStyle: const TextStyle(color: Colors.grey, fontSize: 12),
+              hintStyle: const TextStyle(color: Colors.grey, fontSize: 15),
               labelStyle: const TextStyle(
-                  color: const Color(0xff57d77a),
-                  fontSize: 12,
+                  color: const Color(0xff0da6c2),
+                  fontSize: 16,
                   fontWeight: FontWeight.w300),
               prefixIcon: const Icon(
                 Icons.email_outlined,
-                color: const Color(0xff57d77a),
+                color: const Color(0xff0da6c2),
               ),
               enabledBorder: UnderlineInputBorder(
                   borderSide:
-                      BorderSide(color: const Color(0xff57d77a), width: 1),
+                      BorderSide(color: const Color(0xff0da6c2), width: 1),
                   borderRadius: BorderRadius.circular(10)),
               floatingLabelStyle: const TextStyle(
-                  color: const Color(0xff57d77a),
-                  fontSize: 12,
+                  color: Colors.white,
+                  fontSize: 18,
                   fontWeight: FontWeight.w300),
               focusedBorder: UnderlineInputBorder(
                 borderSide:
-                    BorderSide(color: const Color(0xff57d77a), width: 2),
+                    BorderSide(color: const Color(0xff0da6c2), width: 2),
                 borderRadius: BorderRadius.circular(15),
               ),
             ),
@@ -607,38 +583,34 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
             //to take text from user input
             textAlign: TextAlign.right,
 
-            style: GoogleFonts.poppins(
-                fontSize: 14,
-                //fontWeight: FontWeight.w600,
-                color: Colors.grey),
+            style: const TextStyle(color: const Color(0xff0da6c2)),
             showCursor: true,
-            cursorColor: const Color(0xff57d77a),
+            cursorColor: const Color(0xff0da6c2),
 
             maxLength: 10,
             decoration: InputDecoration(
               hintText: "أدخل رقم الهوية/الإقامة",
               labelText: "رقم الهوية/الإقامة",
-              hintStyle: const TextStyle(color: Colors.grey, fontSize: 12),
+              hintStyle: const TextStyle(color: Colors.grey, fontSize: 15),
               labelStyle: const TextStyle(
-                  color: const Color(0xff57d77a),
-                  fontSize: 12,
+                  color: const Color(0xff0da6c2),
+                  fontSize: 16,
                   fontWeight: FontWeight.w300),
               prefixIcon: const Icon(
                 Icons.email_outlined,
-                size: 21,
-                color: const Color(0xff57d77a),
+                color: const Color(0xff0da6c2),
               ),
               enabledBorder: UnderlineInputBorder(
                   borderSide:
-                      BorderSide(color: const Color(0xff57d77a), width: 1),
+                      BorderSide(color: const Color(0xff0da6c2), width: 1),
                   borderRadius: BorderRadius.circular(10)),
               floatingLabelStyle: const TextStyle(
-                  color: const Color(0xff57d77a),
-                  fontSize: 12,
+                  color: Colors.white,
+                  fontSize: 18,
                   fontWeight: FontWeight.w300),
               focusedBorder: UnderlineInputBorder(
                 borderSide:
-                    BorderSide(color: const Color(0xff57d77a), width: 2),
+                    BorderSide(color: const Color(0xff0da6c2), width: 2),
                 borderRadius: BorderRadius.circular(15),
               ),
             ),
@@ -666,37 +638,33 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
             //to take text from user input
             textAlign: TextAlign.right,
 
-            style: GoogleFonts.poppins(
-                fontSize: 14,
-                //fontWeight: FontWeight.w600,
-                color: Colors.grey),
+            style: const TextStyle(color: const Color(0xff0da6c2)),
             showCursor: true,
-            cursorColor: const Color(0xff57d77a),
+            cursorColor: const Color(0xff0da6c2),
 
             decoration: InputDecoration(
               hintText: "ماهي جنسيتك؟",
               labelText: "الجنسية",
               hintStyle: const TextStyle(color: Colors.grey, fontSize: 15),
               labelStyle: const TextStyle(
-                  color: const Color(0xff57d77a),
-                  fontSize: 12,
+                  color: const Color(0xff0da6c2),
+                  fontSize: 16,
                   fontWeight: FontWeight.w300),
               prefixIcon: const Icon(
                 Icons.email_outlined,
-                size: 21,
-                color: const Color(0xff57d77a),
+                color: const Color(0xff0da6c2),
               ),
               enabledBorder: UnderlineInputBorder(
                   borderSide:
-                      BorderSide(color: const Color(0xff57d77a), width: 1),
+                      BorderSide(color: const Color(0xff0da6c2), width: 1),
                   borderRadius: BorderRadius.circular(10)),
               floatingLabelStyle: const TextStyle(
-                  color: const Color(0xff57d77a),
-                  fontSize: 12,
+                  color: Colors.white,
+                  fontSize: 18,
                   fontWeight: FontWeight.w300),
               focusedBorder: UnderlineInputBorder(
                 borderSide:
-                    BorderSide(color: const Color(0xff57d77a), width: 2),
+                    BorderSide(color: const Color(0xff0da6c2), width: 2),
                 borderRadius: BorderRadius.circular(15),
               ),
             ),
@@ -724,37 +692,33 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
             //to take text from user input
             textAlign: TextAlign.right,
 
-            style: GoogleFonts.poppins(
-                fontSize: 14,
-                //fontWeight: FontWeight.w600,
-                color: Colors.grey),
+            style: const TextStyle(color: const Color(0xff0da6c2)),
             showCursor: true,
-            cursorColor: const Color(0xff57d77a),
+            cursorColor: const Color(0xff0da6c2),
 
             decoration: InputDecoration(
               hintText: "أدخل الوظيفة",
               labelText: "الوظيفة",
-              hintStyle: const TextStyle(color: Colors.grey, fontSize: 12),
+              hintStyle: const TextStyle(color: Colors.grey, fontSize: 15),
               labelStyle: const TextStyle(
-                  color: const Color(0xff57d77a),
-                  fontSize: 12,
+                  color: const Color(0xff0da6c2),
+                  fontSize: 16,
                   fontWeight: FontWeight.w300),
               prefixIcon: const Icon(
                 Icons.email_outlined,
-                size: 21,
-                color: const Color(0xff57d77a),
+                color: const Color(0xff0da6c2),
               ),
               enabledBorder: UnderlineInputBorder(
                   borderSide:
-                      BorderSide(color: const Color(0xff57d77a), width: 1),
+                      BorderSide(color: const Color(0xff0da6c2), width: 1),
                   borderRadius: BorderRadius.circular(10)),
               floatingLabelStyle: const TextStyle(
                   color: Colors.white,
-                  fontSize: 12,
+                  fontSize: 18,
                   fontWeight: FontWeight.w300),
               focusedBorder: UnderlineInputBorder(
                 borderSide:
-                    BorderSide(color: const Color(0xff57d77a), width: 2),
+                    BorderSide(color: const Color(0xff0da6c2), width: 2),
                 borderRadius: BorderRadius.circular(15),
               ),
             ),
@@ -783,38 +747,34 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
             //to take text from user input
             textAlign: TextAlign.right,
 
-            style: GoogleFonts.poppins(
-                fontSize: 14,
-                //fontWeight: FontWeight.w600,
-                color: Colors.grey),
+            style: const TextStyle(color: const Color(0xff0da6c2)),
             showCursor: true,
-            cursorColor: const Color(0xff57d77a),
+            cursorColor: const Color(0xff0da6c2),
 
             maxLength: 10,
             decoration: InputDecoration(
               hintText: "أدخل رقم الجوال",
               labelText: " رقم الجوال",
-              hintStyle: const TextStyle(color: Colors.grey, fontSize: 12),
+              hintStyle: const TextStyle(color: Colors.grey, fontSize: 15),
               labelStyle: const TextStyle(
-                  color: const Color(0xff57d77a),
-                  fontSize: 12,
+                  color: const Color(0xff0da6c2),
+                  fontSize: 16,
                   fontWeight: FontWeight.w300),
               prefixIcon: const Icon(
                 Icons.email_outlined,
-                size: 21,
-                color: const Color(0xff57d77a),
+                color: const Color(0xff0da6c2),
               ),
               enabledBorder: UnderlineInputBorder(
                   borderSide:
-                      BorderSide(color: const Color(0xff57d77a), width: 1),
+                      BorderSide(color: const Color(0xff0da6c2), width: 1),
                   borderRadius: BorderRadius.circular(10)),
               floatingLabelStyle: const TextStyle(
-                  color: const Color(0xff57d77a),
-                  fontSize: 12,
+                  color: Colors.white,
+                  fontSize: 18,
                   fontWeight: FontWeight.w300),
               focusedBorder: UnderlineInputBorder(
                 borderSide:
-                    BorderSide(color: const Color(0xff57d77a), width: 2),
+                    BorderSide(color: const Color(0xff0da6c2), width: 2),
                 borderRadius: BorderRadius.circular(15),
               ),
             ),
@@ -849,32 +809,31 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
 
                 style: const TextStyle(color: const Color(0xff0da6c2)),
                 showCursor: true,
-                cursorColor: const Color(0xff57d77a),
+                cursorColor: const Color(0xff0da6c2),
 
                 decoration: InputDecoration(
                   hintText: " أدخل رقم جوال قريب ",
                   labelText: " رقم جوال قريب ",
-                  hintStyle: const TextStyle(color: Colors.grey, fontSize: 12),
+                  hintStyle: const TextStyle(color: Colors.grey, fontSize: 15),
                   labelStyle: const TextStyle(
-                      color: const Color(0xff57d77a),
-                      fontSize: 12,
+                      color: const Color(0xff0da6c2),
+                      fontSize: 16,
                       fontWeight: FontWeight.w300),
                   prefixIcon: const Icon(
                     Icons.email_outlined,
-                    size: 21,
-                    color: const Color(0xff57d77a),
+                    color: const Color(0xff0da6c2),
                   ),
                   enabledBorder: UnderlineInputBorder(
                       borderSide:
-                          BorderSide(color: const Color(0xff57d77a), width: 1),
+                          BorderSide(color: const Color(0xff0da6c2), width: 1),
                       borderRadius: BorderRadius.circular(10)),
                   floatingLabelStyle: const TextStyle(
-                      color: const Color(0xff57d77a),
-                      fontSize: 12,
+                      color: Colors.white,
+                      fontSize: 18,
                       fontWeight: FontWeight.w300),
                   focusedBorder: UnderlineInputBorder(
                     borderSide:
-                        BorderSide(color: const Color(0xff57d77a), width: 2),
+                        BorderSide(color: const Color(0xff0da6c2), width: 2),
                     borderRadius: BorderRadius.circular(15),
                   ),
                 ),
@@ -904,7 +863,61 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
         extendBodyBehindAppBar: true,
         key: _scaffoldKey,
         // appBar: AppBar(title: Text("Faten")),
+        appBar: AppBar(
+          elevation: 0,
+          leading: IconButton(
+              onPressed: () {
+                if (isSaved == true) {
+                  showCupertinoDialog(context: context, builder: CreateDialog);
+                }
+                if (isSaved != true) {
+                  Navigator.pop(context);
 
+                  parentx.UpdateParent(
+                      widget.documentId, "RelativeRelation", Oldval[0]);
+                }
+              },
+              icon: Icon(
+                Icons.arrow_back_ios_new,
+                size: 16,
+                color: Colors.white,
+              ),
+              color: Colors.white),
+          title: Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              padding: const EdgeInsets.only(left: 20),
+              child: Text(
+                "تحديث معلومات ولي الأمر",
+                textAlign: TextAlign.start,
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+          actions: [
+            Container(
+              padding: const EdgeInsets.only(right: 5),
+              child: CupertinoButton(
+                child: Text("حفظ",
+                    style: TextStyle(color: const Color(0xff0da6c2))),
+                onPressed: () async {
+                  if (isSaved != true) {
+                    Navigator.pop(context);
+                  }
+                  print(isSaved);
+                  if (isSaved == true) {
+                    showCupertinoDialog(
+                        context: context, builder: CreateDialog2);
+                  }
+                  await parentx.UpdateParent(
+                      widget.documentId, "RelativeRelation", value);
+                },
+              ),
+            ),
+          ],
+          //   backgroundColor: Color.fromARGB(255, 24, 2, 2).withOpacity(0),
+          backgroundColor: Color.fromARGB(255, 24, 2, 2).withOpacity(0),
+        ),
         backgroundColor: Color(0xFFffffff),
         body: NotificationListener<ScrollNotification>(
             onNotification: _scrollListener,
@@ -977,7 +990,7 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
                                           left: 0.0,
                                           child: Icon(
                                             Icons.arrow_back_ios_outlined,
-                                            color: const Color(0xff57d77a),
+                                            color: Color(0xffA7A7A7),
                                             size: 16,
                                           ),
                                         ),
@@ -988,10 +1001,9 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
                                               left: 2, bottom: 10),
                                           child: Text(
                                             style: GoogleFonts.poppins(
-                                                fontSize: 13.5,
+                                                fontSize: 14,
                                                 fontWeight: FontWeight.w600,
-                                                color: Color.fromARGB(
-                                                    255, 188, 187, 187)),
+                                                color: Color(0xffA7A7A7)),
                                             parentx.Name,
                                             maxLines: 2,
                                             textAlign: TextAlign.left,
@@ -1006,7 +1018,7 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
                                             style: GoogleFonts.poppins(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w600,
-                                                color: const Color(0xff57d77a)),
+                                                color: Color(0xffA7A7A7)),
                                             'اسم ولي الامر',
                                             maxLines: 2,
                                             textAlign: TextAlign.right,
@@ -1018,379 +1030,18 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
                                   decoration: BoxDecoration(
                                     border: Border(
                                       bottom: BorderSide(
-                                          width: 1.0,
-                                          color: const Color(0xff57d77a)),
+                                          width: 1.0, color: Color(0xffA7A7A7)),
                                     ),
                                   ),
                                 ),
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => editparent5(
+                                    builder: (context) => editparent6(
                                       Index: 1,
                                       documentId: widget.documentId,
                                       TheValue: parentName.text,
                                       whichpag: 1,
                                       Confirm: false,
-                                      DropDown: isDrop,
-                                    ),
-                                  ));
-                                },
-                              ),
-                              const SizedBox(
-                                height: 32,
-                              ),
-                              InkWell(
-                                child: Container(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        padding: EdgeInsets.only(bottom: 10),
-                                        child: Positioned(
-                                          left: 0.0,
-                                          child: Icon(
-                                            Icons.arrow_back_ios_outlined,
-                                            color: const Color(0xff57d77a),
-                                            size: 16,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                              left: 2, bottom: 10),
-                                          child: Text(
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 13.5,
-                                                fontWeight: FontWeight.w600,
-                                                color: Color.fromARGB(
-                                                    255, 188, 187, 187)),
-                                            parentx.PUserName,
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                              right: 10, bottom: 10),
-                                          child: Text(
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                                color: const Color(0xff57d77a)),
-                                            'اسم المستخدم',
-                                            maxLines: 2,
-                                            textAlign: TextAlign.right,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      bottom: BorderSide(
-                                          width: 1.0,
-                                          color: const Color(0xff57d77a)),
-                                    ),
-                                  ),
-                                ),
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => editparent5(
-                                      Index: 2,
-                                      documentId: widget.documentId,
-                                      TheValue: parentUserName.text,
-                                      whichpag: 1,
-                                      Confirm: false,
-                                      DropDown: isDrop,
-                                    ),
-                                  ));
-                                },
-                              ),
-                              const SizedBox(
-                                height: 32,
-                              ),
-                              InkWell(
-                                child: Container(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        padding: EdgeInsets.only(bottom: 10),
-                                        child: Positioned(
-                                          left: 0.0,
-                                          child: Icon(
-                                            Icons.arrow_back_ios_outlined,
-                                            color: const Color(0xff57d77a),
-                                            size: 16,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                              left: 2, bottom: 10),
-                                          child: Text(
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 13.5,
-                                                fontWeight: FontWeight.w600,
-                                                color: Color.fromARGB(
-                                                    255, 188, 187, 187)),
-                                            parentx.Email,
-                                            maxLines: 2,
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                              right: 10, bottom: 10),
-                                          child: Text(
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                                color: const Color(0xff57d77a)),
-                                            "البريد الالكتروني ",
-                                            maxLines: 2,
-                                            textAlign: TextAlign.right,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      bottom: BorderSide(
-                                          width: 1.0,
-                                          color: const Color(0xff57d77a)),
-                                    ),
-                                  ),
-                                ),
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => editparent5(
-                                      Index: 3,
-                                      documentId: widget.documentId,
-                                      TheValue: parentEmail.text,
-                                      whichpag: 1,
-                                      Confirm: false,
-                                      DropDown: isDrop,
-                                    ),
-                                  ));
-                                },
-                              ),
-                              const SizedBox(
-                                height: 32,
-                              ),
-                              InkWell(
-                                child: Container(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        padding: EdgeInsets.only(bottom: 10),
-                                        child: Positioned(
-                                          left: 0.0,
-                                          child: Icon(
-                                            Icons.arrow_back_ios_outlined,
-                                            color: const Color(0xff57d77a),
-                                            size: 16,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                              left: 2, bottom: 10),
-                                          child: Text(
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 13.5,
-                                                fontWeight: FontWeight.w600,
-                                                color: Color.fromARGB(
-                                                    255, 188, 187, 187)),
-                                            parentx.PNationalID,
-                                            maxLines: 2,
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                              right: 10, bottom: 10),
-                                          child: Text(
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                                color: const Color(0xff57d77a)),
-                                            "رقم الهوية/الإقامة",
-                                            maxLines: 2,
-                                            textAlign: TextAlign.right,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      bottom: BorderSide(
-                                          width: 1.0,
-                                          color: const Color(0xff57d77a)),
-                                    ),
-                                  ),
-                                ),
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => editparent5(
-                                      Index: 4,
-                                      documentId: widget.documentId,
-                                      TheValue: NationalID.text,
-                                      whichpag: 1,
-                                      Confirm: false,
-                                      DropDown: isDrop,
-                                    ),
-                                  ));
-                                },
-                              ),
-                              const SizedBox(
-                                height: 32,
-                              ),
-                              InkWell(
-                                child: Container(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        padding: EdgeInsets.only(bottom: 10),
-                                        child: Positioned(
-                                          left: 0.0,
-                                          child: Icon(
-                                            Icons.arrow_back_ios_outlined,
-                                            color: const Color(0xff57d77a),
-                                            size: 16,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                              left: 2, bottom: 10),
-                                          child: Text(
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 13.5,
-                                                fontWeight: FontWeight.w600,
-                                                color: Color.fromARGB(
-                                                    255, 188, 187, 187)),
-                                            parentx.PNationality,
-                                            maxLines: 2,
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                              right: 10, bottom: 10),
-                                          child: Text(
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                                color: const Color(0xff57d77a)),
-                                            "الجنسية",
-                                            maxLines: 2,
-                                            textAlign: TextAlign.right,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      bottom: BorderSide(
-                                          width: 1.0,
-                                          color: const Color(0xff57d77a)),
-                                    ),
-                                  ),
-                                ),
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => editparent5(
-                                      Index: 5,
-                                      documentId: widget.documentId,
-                                      TheValue: Nationality.text,
-                                      whichpag: 1,
-                                      Confirm: false,
-                                      DropDown: isDrop,
-                                    ),
-                                  ));
-                                },
-                              ),
-                              const SizedBox(
-                                height: 32,
-                              ),
-                              InkWell(
-                                child: Container(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        padding: EdgeInsets.only(bottom: 10),
-                                        child: Positioned(
-                                          left: 0.0,
-                                          child: Icon(
-                                            Icons.arrow_back_ios_outlined,
-                                            color: const Color(0xff57d77a),
-                                            size: 16,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                              left: 2, bottom: 10),
-                                          child: Text(
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 13.5,
-                                                fontWeight: FontWeight.w600,
-                                                color: Color.fromARGB(
-                                                    255, 188, 187, 187)),
-                                            parentx.PJobTitle,
-                                            maxLines: 2,
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                              right: 10, bottom: 10),
-                                          child: Text(
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                                color: const Color(0xff57d77a)),
-                                            "الوظيفة",
-                                            maxLines: 2,
-                                            textAlign: TextAlign.right,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      bottom: BorderSide(
-                                          width: 1.0,
-                                          color: const Color(0xff57d77a)),
-                                    ),
-                                  ),
-                                ),
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => editparent5(
-                                      Index: 6,
-                                      documentId: widget.documentId,
-                                      TheValue: JobTitle.text,
-                                      whichpag: 1,
-                                      Confirm: false,
-                                      DropDown: isDrop,
                                     ),
                                   ));
                                 },
@@ -1421,9 +1072,8 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
                                             style: GoogleFonts.poppins(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w600,
-                                                color: Color.fromARGB(
-                                                    255, 188, 187, 187)),
-                                            parentx.PPhoneNumber,
+                                                color: Color(0xffA7A7A7)),
+                                            parentx.PUserName,
                                             maxLines: 2,
                                             textAlign: TextAlign.left,
                                           ),
@@ -1435,11 +1085,10 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
                                               right: 10, bottom: 10),
                                           child: Text(
                                             style: GoogleFonts.poppins(
-                                                fontSize: 13.5,
+                                                fontSize: 14,
                                                 fontWeight: FontWeight.w600,
-                                                color: Color.fromARGB(
-                                                    255, 188, 187, 187)),
-                                            " رقم الجوال",
+                                                color: Color(0xffA7A7A7)),
+                                            'اسم المستخدم',
                                             maxLines: 2,
                                             textAlign: TextAlign.right,
                                           ),
@@ -1450,20 +1099,18 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
                                   decoration: BoxDecoration(
                                     border: Border(
                                       bottom: BorderSide(
-                                          width: 1.0,
-                                          color: const Color(0xff57d77a)),
+                                          width: 1.0, color: Color(0xffA7A7A7)),
                                     ),
                                   ),
                                 ),
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => editparent5(
-                                      Index: 7,
+                                    builder: (context) => editparent6(
+                                      Index: 2,
                                       documentId: widget.documentId,
-                                      TheValue: Phone.text,
+                                      TheValue: parentUserName.text,
                                       whichpag: 1,
                                       Confirm: false,
-                                      DropDown: isDrop,
                                     ),
                                   ));
                                 },
@@ -1481,7 +1128,7 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
                                           left: 0.0,
                                           child: Icon(
                                             Icons.arrow_back_ios_outlined,
-                                            color: const Color(0xff57d77a),
+                                            color: Color(0xffA7A7A7),
                                             size: 16,
                                           ),
                                         ),
@@ -1494,8 +1141,352 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
                                             style: GoogleFonts.poppins(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w600,
-                                                color: Color.fromARGB(
-                                                    255, 188, 187, 187)),
+                                                color: Color(0xffA7A7A7)),
+                                            parentx.Email,
+                                            maxLines: 2,
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                              right: 10, bottom: 10),
+                                          child: Text(
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                color: Color(0xffA7A7A7)),
+                                            "البريد الالكتروني ",
+                                            maxLines: 2,
+                                            textAlign: TextAlign.right,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          width: 1.0, color: Color(0xffA7A7A7)),
+                                    ),
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => editparent6(
+                                      Index: 3,
+                                      documentId: widget.documentId,
+                                      TheValue: parentEmail.text,
+                                      whichpag: 1,
+                                      Confirm: false,
+                                    ),
+                                  ));
+                                },
+                              ),
+                              const SizedBox(
+                                height: 32,
+                              ),
+                              InkWell(
+                                child: Container(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        padding: EdgeInsets.only(bottom: 10),
+                                        child: Positioned(
+                                          left: 0.0,
+                                          child: Icon(
+                                            Icons.arrow_back_ios_outlined,
+                                            color: Color(0xffA7A7A7),
+                                            size: 16,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                              left: 2, bottom: 10),
+                                          child: Text(
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                color: Color(0xffA7A7A7)),
+                                            parentx.PNationalID,
+                                            maxLines: 2,
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                              right: 10, bottom: 10),
+                                          child: Text(
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                color: Color(0xffA7A7A7)),
+                                            "رقم الهوية/الإقامة",
+                                            maxLines: 2,
+                                            textAlign: TextAlign.right,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          width: 1.0, color: Color(0xffA7A7A7)),
+                                    ),
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => editparent6(
+                                      Index: 4,
+                                      documentId: widget.documentId,
+                                      TheValue: NationalID.text,
+                                      whichpag: 1,
+                                      Confirm: false,
+                                    ),
+                                  ));
+                                },
+                              ),
+                              const SizedBox(
+                                height: 32,
+                              ),
+                              InkWell(
+                                child: Container(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        padding: EdgeInsets.only(bottom: 10),
+                                        child: Positioned(
+                                          left: 0.0,
+                                          child: Icon(
+                                            Icons.arrow_back_ios_outlined,
+                                            color: Color(0xffA7A7A7),
+                                            size: 16,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                              left: 2, bottom: 10),
+                                          child: Text(
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                color: Color(0xffA7A7A7)),
+                                            parentx.PNationality,
+                                            maxLines: 2,
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                              right: 10, bottom: 10),
+                                          child: Text(
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                color: Color(0xffA7A7A7)),
+                                            "الجنسية",
+                                            maxLines: 2,
+                                            textAlign: TextAlign.right,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          width: 1.0, color: Color(0xffA7A7A7)),
+                                    ),
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => editparent6(
+                                      Index: 5,
+                                      documentId: widget.documentId,
+                                      TheValue: Nationality.text,
+                                      whichpag: 1,
+                                      Confirm: false,
+                                    ),
+                                  ));
+                                },
+                              ),
+                              const SizedBox(
+                                height: 32,
+                              ),
+                              InkWell(
+                                child: Container(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        padding: EdgeInsets.only(bottom: 10),
+                                        child: Positioned(
+                                          left: 0.0,
+                                          child: Icon(
+                                            Icons.arrow_back_ios_outlined,
+                                            color: Color(0xffA7A7A7),
+                                            size: 16,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                              left: 2, bottom: 10),
+                                          child: Text(
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                color: Color(0xffA7A7A7)),
+                                            parentx.PJobTitle,
+                                            maxLines: 2,
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                              right: 10, bottom: 10),
+                                          child: Text(
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                color: Color(0xffA7A7A7)),
+                                            "الوظيفة",
+                                            maxLines: 2,
+                                            textAlign: TextAlign.right,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          width: 1.0, color: Color(0xffA7A7A7)),
+                                    ),
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => editparent6(
+                                      Index: 6,
+                                      documentId: widget.documentId,
+                                      TheValue: JobTitle.text,
+                                      whichpag: 1,
+                                      Confirm: false,
+                                    ),
+                                  ));
+                                },
+                              ),
+                              const SizedBox(
+                                height: 32,
+                              ),
+                              InkWell(
+                                child: Container(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        padding: EdgeInsets.only(bottom: 10),
+                                        child: Positioned(
+                                          left: 0.0,
+                                          child: Icon(
+                                            Icons.arrow_back_ios_outlined,
+                                            color: Color(0xffA7A7A7),
+                                            size: 16,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                              left: 2, bottom: 10),
+                                          child: Text(
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                color: Color(0xffA7A7A7)),
+                                            parentx.PPhoneNumber,
+                                            maxLines: 2,
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                              right: 10, bottom: 10),
+                                          child: Text(
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                color: Color(0xffA7A7A7)),
+                                            " رقم الجوال",
+                                            maxLines: 2,
+                                            textAlign: TextAlign.right,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          width: 1.0, color: Color(0xffA7A7A7)),
+                                    ),
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => editparent6(
+                                      Index: 7,
+                                      documentId: widget.documentId,
+                                      TheValue: Phone.text,
+                                      whichpag: 1,
+                                      Confirm: false,
+                                    ),
+                                  ));
+                                },
+                              ),
+                              const SizedBox(
+                                height: 32,
+                              ),
+                              InkWell(
+                                child: Container(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        padding: EdgeInsets.only(bottom: 10),
+                                        child: Positioned(
+                                          left: 0.0,
+                                          child: Icon(
+                                            Icons.arrow_back_ios_outlined,
+                                            color: Color(0xffA7A7A7),
+                                            size: 16,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                              left: 2, bottom: 10),
+                                          child: Text(
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                color: Color(0xffA7A7A7)),
                                             parentx.PAltPhoneNumber,
                                             maxLines: 2,
                                             textAlign: TextAlign.left,
@@ -1510,7 +1501,7 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
                                             style: GoogleFonts.poppins(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w600,
-                                                color: const Color(0xff57d77a)),
+                                                color: Color(0xffA7A7A7)),
                                             " رقم جوال قريب ",
                                             maxLines: 2,
                                             textAlign: TextAlign.right,
@@ -1522,20 +1513,18 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
                                   decoration: BoxDecoration(
                                     border: Border(
                                       bottom: BorderSide(
-                                          width: 1.0,
-                                          color: const Color(0xff57d77a)),
+                                          width: 1.0, color: Color(0xffA7A7A7)),
                                     ),
                                   ),
                                 ),
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => editparent5(
+                                    builder: (context) => editparent6(
                                       Index: 8,
                                       documentId: widget.documentId,
                                       TheValue: AltPhone.text,
                                       whichpag: 1,
                                       Confirm: false,
-                                      DropDown: isDrop,
                                     ),
                                   ));
                                 },
@@ -1554,180 +1543,175 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
                                   Axis.vertical, // main axis (rows or columns)
                               children: <Widget>[
                                 CupertinoButton(
-                                  child: Expanded(
-                                    child: Container(
-                                      // padding:
-                                      // padding: EdgeInsets.only(right: 4),
-                                      //   EdgeInsets.symmetric(horizontal: 120),
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          bottom: BorderSide(
-                                              width: 1.0,
-                                              color: const Color(0xff57d77a)),
+                                    child: Expanded(
+                                      child: Container(
+                                        // padding:
+                                        //   EdgeInsets.symmetric(horizontal: 120),
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            bottom: BorderSide(
+                                                width: 1.0,
+                                                color: Color(0xffA7A7A7)),
+                                          ),
                                         ),
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: Flexible(
-                                        child: Row(
-                                          children: <Widget>[
-                                            Container(
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Container(
-                                                    alignment: Alignment.center,
-                                                    padding: EdgeInsets.only(
-                                                        right: 4),
-                                                    child: Positioned(
-                                                      left: 0,
-                                                      child: Icon(
-                                                        Icons
-                                                            .arrow_circle_down_rounded,
-                                                        // Icons.arrow_downward_outlined,
-                                                        color: const Color(
-                                                            0xff57d77a),
-                                                        size: 16,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    child: Container(
+                                        alignment: Alignment.center,
+                                        child: Flexible(
+                                          child: Row(
+                                            children: <Widget>[
+                                              Container(
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Container(
                                                       alignment:
                                                           Alignment.center,
                                                       padding: EdgeInsets.only(
-                                                          right: 120),
-                                                      child: Text(
-                                                        style:
-                                                            GoogleFonts.poppins(
+                                                          bottom: 10),
+                                                      child: Positioned(
+                                                        left: 0,
+                                                        child: Icon(
+                                                          Icons
+                                                              .arrow_downward_outlined,
+                                                          color:
+                                                              Color(0xffA7A7A7),
+                                                          size: 16,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Container(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                right: 120,
+                                                                bottom: 10),
+                                                        child: Text(
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  color: Color(
+                                                                      0xffA7A7A7)),
+                                                          value,
+                                                          maxLines: 2,
+                                                          // textAlign: TextAlign.left,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Column(
+                                                      children: <Widget>[
+                                                        Container(
+                                                          alignment: Alignment
+                                                              .centerRight,
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 120,
+                                                                  bottom: 10),
+                                                          child: Text(
+                                                            style: GoogleFonts.poppins(
                                                                 fontSize: 14,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w600,
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        188,
-                                                                        187,
-                                                                        187)),
-                                                        Dvalue,
-                                                        maxLines: 2,
-                                                        // textAlign: TextAlign.left,
-                                                      ),
+                                                                color: Color(
+                                                                    0xffA7A7A7)),
+                                                            'صلة القرابة',
+                                                            maxLines: 2,
+                                                            textAlign:
+                                                                TextAlign.right,
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ),
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Container(
-                                                        alignment: Alignment
-                                                            .centerRight,
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                          left: 120,
-                                                        ),
-                                                        child: Text(
-                                                          style: GoogleFonts.poppins(
-                                                              fontSize: 14,
-                                                              color: const Color(
-                                                                  0xff57d77a)),
-                                                          'صلة القرابة',
-                                                          maxLines: 2,
-                                                          textAlign:
-                                                              TextAlign.right,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  onPressed: () {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return Container(
-                                            height: 200.0,
-                                            color: Colors.white,
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                CupertinoButton(
-                                                  child: Text("Cancel",
-                                                      style: TextStyle(
-                                                          color:
-                                                              Color(0xffA7A7A7),
-                                                          fontSize: 16)),
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                ),
-                                                Expanded(
-                                                  child: CupertinoPicker(
-                                                    scrollController:
-                                                        scrollController,
-                                                    looping: false,
-                                                    itemExtent: 64,
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    onSelectedItemChanged:
-                                                        (index) {
-                                                      print(index);
-
-                                                      DIndex = index;
-                                                      print(DIndex);
-                                                      final item =
-                                                          Relation[DIndex];
-                                                      DIndex = index;
-                                                      controller.text = item;
-                                                      Dvalue = item;
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return Container(
+                                              height: 200.0,
+                                              color: Colors.white,
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  CupertinoButton(
+                                                    child: Text("Cancel"),
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
                                                     },
-                                                    children: Relation.map(
-                                                        (item) => Center(
-                                                                child: Text(
-                                                              item,
-                                                              style: TextStyle(
-                                                                  fontSize: 20),
-                                                            ))).toList(),
                                                   ),
-                                                ),
-                                                CupertinoButton(
-                                                  child: Text("OK",
-                                                      style: TextStyle(
-                                                          color: const Color(
-                                                              0xff57d77a),
-                                                          fontSize: 16)),
-                                                  onPressed: () {
-                                                    scrollController =
-                                                        FixedExtentScrollController(
-                                                            initialItem:
-                                                                _changedNumber);
-                                                    //scrollController.dispose();
-                                                    setState(() {
-                                                      _selectedNumber =
-                                                          _changedNumber;
-                                                    });
-                                                    isDrop == true;
-                                                    widget.isDropDown = true;
-                                                    Dvalue = Relation[DIndex];
-                                                    Navigator.pop(context);
-                                                    /*  parentx.UpdateParent(
-                                              widget.documentId,
-                                              "RelativeRelation",
-                                              value);*/
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        });
-                                  },
-                                ),
+                                                  Expanded(
+                                                    child: CupertinoPicker(
+                                                      scrollController:
+                                                          scrollController,
+                                                      looping: false,
+                                                      itemExtent: 64,
+                                                      backgroundColor:
+                                                          Colors.white,
+                                                      onSelectedItemChanged:
+                                                          (index) {
+                                                        print(index);
+
+                                                        print(
+                                                            "lllllllllllllllllllllllllllllllll");
+                                                        Index = index;
+                                                        print(Index);
+                                                        final item =
+                                                            Relation[Index];
+                                                        Index = index;
+                                                        controller.text = item;
+                                                        value = item;
+                                                      },
+                                                      children: Relation.map(
+                                                          (item) => Center(
+                                                                  child: Text(
+                                                                item,
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        20),
+                                                              ))).toList(),
+                                                    ),
+                                                  ),
+                                                  CupertinoButton(
+                                                    child: Text("Ok"),
+                                                    onPressed: () {
+                                                      scrollController =
+                                                          FixedExtentScrollController(
+                                                              initialItem:
+                                                                  _changedNumber);
+                                                      //scrollController.dispose();
+                                                      setState(() {
+                                                        _selectedNumber =
+                                                            _changedNumber;
+                                                      });
+
+                                                      parentx.UpdateParent(
+                                                          widget.documentId,
+                                                          "RelativeRelation",
+                                                          value);
+
+                                                      Navigator.pop(context);
+                                                      IsSave[5] = 1;
+                                                      print(IsSave[5]);
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          });
+                                    }),
                               ]),
                         ),
                         SizedBox(
@@ -1752,79 +1736,6 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
               onChanged: (value) => setState(() => this.value = value),
               items: Relation.map(BuildMenuItem).toList()),*/
                       ],
-                    ),
-                  ),
-                  Container(
-                    height: 55,
-                    child: AnimatedBuilder(
-                      animation: _ColorAnimationController,
-                      builder: (context, child) => AppBar(
-                        leading: IconButton(
-                          onPressed: () async {
-                            if (widget.isDropDown != true) {
-                              Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                      builder: (context) =>
-                                          const Paretdisplay()));
-                            }
-
-                            print("hhhhhhhhhhhhhh");
-                            if (widget.isDropDown == true) {
-                              showCupertinoDialog(
-                                  context: context, builder: CreateDialog);
-                            }
-                          },
-                          icon: Icon(
-                            Icons.arrow_back_ios_new,
-                            size: 16,
-                            color: Colors.red,
-                          ),
-                          color: _iconColorTween.value,
-                        ),
-                        backgroundColor: _colorTween.value,
-                        elevation: 0,
-                        titleSpacing: 0.0,
-                        title: Align(
-                          alignment: Alignment.topCenter,
-                          child: Container(
-                            padding: const EdgeInsets.only(left: 20),
-                            child: Text(
-                              "تحديث معلومات ولي الأمر",
-                              textAlign: TextAlign.start,
-                              style: TextStyle(color: _iconColorTween.value),
-                            ),
-                          ),
-                        ),
-                        iconTheme: IconThemeData(
-                          color: _iconColorTween.value,
-                        ),
-                        actions: <Widget>[
-                          Container(
-                            padding: const EdgeInsets.only(right: 5),
-                            child: CupertinoButton(
-                              child: Text(
-                                "حفظ",
-                                style: TextStyle(
-                                    color: _icon2ColorTween.value,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              onPressed: () async {
-                                if (isSaved != true) {
-                                  Navigator.pop(context);
-                                }
-                                print(isSaved);
-                                if (isSaved == true) {
-                                  showCupertinoDialog(
-                                      context: context, builder: CreateDialog2);
-                                }
-                                await parentx.UpdateParent(widget.documentId,
-                                    "RelativeRelation", Dvalue);
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
                   ),
                 ]))));
@@ -1946,13 +1857,12 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
               Navigator.push(
                   context,
                   CupertinoPageRoute(
-                      builder: (context) => editparent5(
+                      builder: (context) => editparent6(
                             documentId: widget.documentId,
                             Index: 1,
                             Confirm: false,
                             TheValue: "",
                             whichpag: 0,
-                            DropDown: isDrop,
                           )));
             },
             child: Text("تجاهل التغييرات")),
@@ -2012,7 +1922,6 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
       ],
     );
   }
-}
   /*Widget greenButton(String title, Function onPressed) {
     return Container(
       decoration: BoxDecoration(
@@ -2093,13 +2002,13 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
     );
   }*/
 
-  /* DropdownMenuItem<String> BuildMenuItem(String item) => DropdownMenuItem(
+  DropdownMenuItem<String> BuildMenuItem(String item) => DropdownMenuItem(
         value: item,
         child: Text(
           item,
           style: TextStyle(fontWeight: FontWeight.w300, fontSize: 14),
         ),
-      );*/
+      );
   /* Widget getWidget() {
     return Container(
       width: Get.width,
@@ -2116,6 +2025,4 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
       ),
     );
   }*/
-
-
-
+}

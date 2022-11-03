@@ -317,7 +317,7 @@ class _UpdateStudent extends State<UpdateStudent> {
                                                   .validate()) {
                                                 // UpdateStudent(
                                                 //                     Class, SBloodType) async {
-                                                await Studentx.UpdateStudent(
+                                                /* await Studentx.UpdateStudent(
                                                     CurrentID,
                                                     StudentName.text,
                                                     StudID.text,
@@ -325,7 +325,7 @@ class _UpdateStudent extends State<UpdateStudent> {
                                                     STNationalID.text,
                                                     STNationality.text,
                                                     SClass.text,
-                                                    BloodType.text);
+                                                    BloodType.text);*/
                                                 showCupertinoDialog(
                                                     context: context,
                                                     builder: CreateDialog);

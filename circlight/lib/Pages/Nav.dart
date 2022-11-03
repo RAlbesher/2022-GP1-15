@@ -15,6 +15,7 @@ import 'displayParent.dart';
 import 'displayStudent.dart';
 
 import 'edit5.dart';
+import 'editStudent.dart';
 
 class Nav extends StatefulWidget {
   final int TabValue;
@@ -37,6 +38,7 @@ class _Nav extends State<Nav> {
             Index: 1,
             TheValue: "",
             whichpag: 0,
+            DropDown: false,
           );
           Tab = 5;
           break;
@@ -49,6 +51,17 @@ class _Nav extends State<Nav> {
             index: 1,
           );
           Tab = 7;
+          break;
+        case 8:
+          currentScreen = EditStudent(
+            documentId: widget.documentId,
+            DropDown: false,
+            Confirm: false,
+            Index: 1,
+            TheValue: "",
+            whichpag: 0,
+          );
+          Tab = 8;
           break;
       }
     });
@@ -83,7 +96,7 @@ class _Nav extends State<Nav> {
               child: Container(
                   height: 50.0,
                   child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,26 +113,43 @@ class _Nav extends State<Nav> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Container(
-                                    padding: const EdgeInsets.only(left: 20),
-                                    child: Icon(
-                                      Icons.home_outlined,
-                                      color: Tab == 0
-                                          ? Color(0xff42c98d)
-                                          : Colors.grey,
-                                    ),
+                                      //     padding: const EdgeInsets.only(right: 50),
+                                      child: Align(
+                                    child: Column(children: [
+                                      SizedBox(
+                                        height: 11,
+                                      ),
+                                      Image.asset("assets/images/homepage.png",
+                                          width: 25,
+                                          height: 25,
+                                          color: Tab == 0
+                                              ? Color(0xff42c98d)
+                                              : Color.fromARGB(
+                                                  255, 167, 166, 166)),
+                                    ]),
+                                  )),
+                                  SizedBox(
+                                    height: 3,
                                   ),
-                                  Text(
-                                    'الرئيسية',
-                                    style: TextStyle(
-                                        fontSize: 8,
-                                        color: Tab == 0
-                                            ? Color(0xff42c98d)
-                                            : Colors.grey),
+                                  Container(
+                                    //  padding: const EdgeInsets.only(right: 50),
+                                    child: Text(
+                                      'الرئيسية',
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w700,
+                                          color: Tab == 0
+                                              ? Color(0xff42c98d)
+                                              : Colors.grey),
+                                    ),
                                   )
                                   // Text
                                   // Column
                                 ],
                               ),
+                            ),
+                            SizedBox(
+                              width: 10,
                             ),
                             MaterialButton(
                                 minWidth: 40,
@@ -132,24 +162,45 @@ class _Nav extends State<Nav> {
                                 child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(
-                                        Icons.space_dashboard_outlined,
-                                        color: Tab == 1
-                                            ? Color(0xff42c98d)
-                                            : Colors.grey,
+                                      Container(
+                                          //    padding:
+                                          //        const EdgeInsets.only(right: 50),
+                                          child: Align(
+                                        child: Column(children: [
+                                          SizedBox(
+                                            height: 11,
+                                          ),
+                                          Image.asset(
+                                              "assets/images/dashboard.png",
+                                              width: 25,
+                                              height: 25,
+                                              color: Tab == 1
+                                                  ? Color(0xff42c98d)
+                                                  : Color.fromARGB(
+                                                      255, 167, 166, 166)),
+                                        ]),
+                                      )),
+                                      SizedBox(
+                                        height: 3,
                                       ),
-                                      Text(
-                                        'لوحة المتابعة',
-                                        style: TextStyle(
-                                            fontSize: 8,
-                                            color: Tab == 1
-                                                ? Color(0xff42c98d)
-                                                : Colors.grey),
+                                      Container(
+                                        //   padding:
+                                        //      const EdgeInsets.only(right: 50),
+                                        child: Text(
+                                          'لوحة المتابعة',
+                                          style: TextStyle(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w700,
+                                              color: Tab == 1
+                                                  ? Color(0xff42c98d)
+                                                  : Colors.grey),
+                                        ),
                                       )
-                                      // Text
-                                      // Column
                                     ]))
                           ],
+                        ),
+                        SizedBox(
+                          width: 30,
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,24 +216,44 @@ class _Nav extends State<Nav> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(
-                                    Icons.search_outlined,
-                                    color: Tab == 2
-                                        ? Color(0xff42c98d)
-                                        : Colors.grey,
+                                  Container(
+                                      //     padding: const EdgeInsets.only(right: 50),
+                                      child: Align(
+                                    child: Column(children: [
+                                      SizedBox(
+                                        height: 11,
+                                      ),
+                                      Image.asset("assets/images/search.png",
+                                          width: 25,
+                                          height: 25,
+                                          color: Tab == 2
+                                              ? Color(0xff42c98d)
+                                              : Color.fromARGB(
+                                                  255, 167, 166, 166)),
+                                    ]),
+                                  )),
+                                  SizedBox(
+                                    height: 3,
                                   ),
-                                  Text(
-                                    'البحث',
-                                    style: TextStyle(
-                                        fontSize: 8,
-                                        color: Tab == 2
-                                            ? Color(0xff42c98d)
-                                            : Colors.grey),
-                                  )
+                                  Container(
+                                    //  padding: const EdgeInsets.only(right: 50),
+                                    child: Text(
+                                      'البحث',
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w700,
+                                          color: Tab == 2
+                                              ? Color(0xff42c98d)
+                                              : Colors.grey),
+                                    ),
+                                  ),
                                   // Text
                                   // Column
                                 ],
                               ),
+                            ),
+                            SizedBox(
+                              width: 10,
                             ),
                             MaterialButton(
                                 minWidth: 40,
@@ -195,20 +266,39 @@ class _Nav extends State<Nav> {
                                 child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(
-                                        Icons.message_sharp,
-                                        color: Tab == 3
-                                            ? Color(0xff42c98d)
-                                            : Colors.grey,
+                                      Container(
+                                          //     padding: const EdgeInsets.only(right: 50),
+                                          child: Align(
+                                        child: Column(children: [
+                                          SizedBox(
+                                            height: 11,
+                                          ),
+                                          Image.asset(
+                                              "assets/images/request.png",
+                                              width: 25,
+                                              height: 25,
+                                              color: Tab == 3
+                                                  ? Color(0xff42c98d)
+                                                  : Color.fromARGB(
+                                                      255, 167, 166, 166)),
+                                        ]),
+                                      )),
+                                      SizedBox(
+                                        height: 3,
                                       ),
-                                      Text(
-                                        ' الطلبات ',
-                                        style: TextStyle(
-                                            fontSize: 8,
-                                            color: Tab == 3
-                                                ? Color(0xff42c98d)
-                                                : Colors.grey),
+                                      Container(
+                                        //  padding: const EdgeInsets.only(right: 50),
+                                        child: Text(
+                                          'الطلبات',
+                                          style: TextStyle(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w700,
+                                              color: Tab == 3
+                                                  ? Color(0xff42c98d)
+                                                  : Colors.grey),
+                                        ),
                                       )
+
                                       // Text
                                       // Column
                                     ]))
@@ -224,26 +314,40 @@ class _Nav extends State<Nav> {
         },
         elevation: 0,
         child: Container(
-          height: 70,
-          width: 70,
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                blurRadius: 6,
-              ),
-            ],
-            borderRadius: BorderRadius.circular(90),
-            gradient: LinearGradient(
-              colors: [
-                const Color(0xff0da6c2),
-                const Color(0xff42c98d),
-                const Color(0xff57d77a)
+            height: 70,
+            width: 70,
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 6,
+                ),
               ],
+              borderRadius: BorderRadius.circular(90),
+              gradient: LinearGradient(
+                colors: [
+                  const Color(0xff0da6c2),
+                  const Color(0xff42c98d),
+                  const Color(0xff57d77a)
+                ],
+              ),
             ),
-          ),
-          child: Icon(FontAwesomeIcons.microblog),
-        ),
+            child: Align(
+              alignment: Alignment(0.30, -0.10),
+              child: Column(children: [
+                SizedBox(
+                  height: 11,
+                ),
+                Image.asset(
+                  "assets/images/announ.png",
+                  width: 35,
+                  height: 35,
+                  color: Tab == 3
+                      ? Color(0xff42c98d)
+                      : Color.fromARGB(255, 255, 254, 254),
+                ),
+              ]),
+            )),
         backgroundColor: Colors.transparent,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

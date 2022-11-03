@@ -176,12 +176,12 @@ class _Studentdispaly extends State<Studentdispaly> {
                                     onTap: () {
                                       // print(docIDS[index]);
 
-                                      int Tab = 5;
+                                      int Tab = 8;
                                       Navigator.of(context)
                                           .push(MaterialPageRoute(
                                         builder: (context) => Nav(
                                           documentId: docIDS[index],
-                                          TabValue: 5,
+                                          TabValue: 8,
                                         ),
                                       ));
                                     },

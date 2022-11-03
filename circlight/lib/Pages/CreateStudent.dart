@@ -1,3 +1,4 @@
+import 'package:circlight/Pages/Student.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,49 +12,55 @@ import 'Parent.dart';
 import 'constants.dart';
 import 'displayParent.dart';
 
-class Createparent5 extends StatefulWidget {
+class CreateStudent extends StatefulWidget {
   int index;
-  var Realtion;
+  var Blood;
+  var Class;
   var Name;
   var username;
-  var email;
+  var SID;
   var ID;
   var nationality;
   var phone1;
   var phone2;
   var job;
+  var documentId;
 
-  Createparent5(
+  CreateStudent(
       {super.key,
       required this.index,
-      this.Realtion,
+      this.Class,
+      this.Blood,
       this.ID,
       this.Name,
       this.username,
-      this.email,
+      this.SID,
       this.nationality,
       this.job,
-      this.phone1,
-      this.phone2});
+      required this.documentId});
 
   @override
-  State<Createparent5> createState() => _CreateState();
+  State<CreateStudent> createState() => _CreateStudentState();
 }
 
-class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
+class _CreateStudentState extends State<CreateStudent>
+    with TickerProviderStateMixin {
   int _changedNumber = 0, _selectedNumber = 1;
-  late String value = "أم";
-  final Relation = ["أم", "أب", "أخت", "أخ", "خالة", "خال", "عمة", "عم"];
-  Parent parentx = new Parent(
-      Name: "",
-      Email: "",
-      PUserName: "",
-      PNationalID: "",
-      PJobTitle: "",
-      PPhoneNumber: "",
-      PAltPhoneNumber: "",
-      PNationality: "",
-      PRelativeRelation: "");
+  late String Numvalue = "1";
+  final ClassNum = ["1", "2", "3", "4", "5", "6"];
+  final Blood = ["O+", "A+", "B+", "AB+", "O-", "A-", "B-", "AB-"];
+  late var blood = "O+";
+  Student Studentx = new Student(
+    Name: "",
+    StudentID: "",
+    Class: "",
+    SNationalID: "",
+    SNationality: "",
+    SUserName: "",
+    SBloodType: "",
+  );
+  String currentID = "";
+
   late TextEditingController controller;
   var Real;
   late FixedExtentScrollController scrollController;
@@ -61,7 +68,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
   late AnimationController _TextAnimationController;
   late Animation _colorTween, _iconColorTween, _icon2ColorTween;
   late Animation<Offset> _transTween;
-  int Index = 0;
+  int NumIndex = 0;
   void initState() {
     _ColorAnimationController =
         AnimationController(vsync: this, duration: Duration(seconds: 0));
@@ -79,48 +86,35 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
 
     _transTween = Tween(begin: Offset(-10, 40), end: Offset(-10, 0))
         .animate(_TextAnimationController);
-    scrollController = FixedExtentScrollController(initialItem: Index);
-    controller = TextEditingController(text: Relation[Index]);
+    scrollController = FixedExtentScrollController(initialItem: NumIndex);
+    controller = TextEditingController(text: ClassNum[NumIndex]);
     super.initState();
   }
 
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    scrollController.dispose();
-    controller.dispose();
-    parentName.dispose();
-    Parentusername.dispose();
-    email.dispose();
-    Parentusername.dispose();
-    ParentIDNo.dispose();
-    nationality.dispose();
-    jobTitle.dispose();
-    phoneNumber.dispose();
-    altphoneNumber.dispose();
-    RelativeRelation.dispose();
   }
 
   String name = "";
 
   double _headerHeight = 250;
-  TextEditingController parentName = TextEditingController();
-  TextEditingController Parentusername = TextEditingController();
-  TextEditingController email = TextEditingController();
-  TextEditingController ParentIDNo = TextEditingController();
-  TextEditingController nationality = TextEditingController();
-  TextEditingController jobTitle = TextEditingController();
-  TextEditingController phoneNumber = TextEditingController();
-  TextEditingController altphoneNumber = TextEditingController();
-  TextEditingController RelativeRelation = TextEditingController();
+  TextEditingController studentName = TextEditingController();
+  TextEditingController Studentusername = TextEditingController();
+  TextEditingController StudentIDNo = TextEditingController();
+  TextEditingController StudentNationality = TextEditingController();
+  TextEditingController StudentNationalID = TextEditingController();
+  TextEditingController Studentclass = TextEditingController();
+  TextEditingController StudentBloodType = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     Real = List<String>.filled(5, "");
     final formKey = GlobalKey<FormState>();
     final double height = MediaQuery.of(context).size.height;
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-    CollectionReference Parent =
-        FirebaseFirestore.instance.collection("Parent");
+    CollectionReference student =
+        FirebaseFirestore.instance.collection("Student");
 
     return Scaffold(
       // floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
@@ -224,7 +218,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                       child: Container(
                         padding: const EdgeInsets.only(left: 20),
                         child: Text(
-                          " إنشاء حساب ولي الامر ",
+                          " إنشاء حساب الطالب ",
                           textAlign: TextAlign.start,
                           style: TextStyle(color: _iconColorTween.value),
                         ),
@@ -291,7 +285,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
             Directionality(
               textDirection: TextDirection.rtl,
               child: TextFormField(
-                controller: parentName,
+                controller: studentName,
                 //  controller: parentUserName..text = parentx.PUserName,
                 //to take text from user input
                 textAlign: TextAlign.right,
@@ -304,8 +298,8 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                 cursorColor: const Color(0xff57d77a),
 
                 decoration: InputDecoration(
-                  labelText: "اسم ولي الامر",
-                  hintText: "اسم ولي الامر",
+                  labelText: "أدخل أسم الطالب",
+                  hintText: " اسم الطالب ",
                   hintStyle: const TextStyle(color: Colors.grey, fontSize: 12),
                   labelStyle: const TextStyle(
                       color: const Color(0xff57d77a),
@@ -348,7 +342,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
             Directionality(
               textDirection: TextDirection.rtl,
               child: TextFormField(
-                controller: Parentusername,
+                controller: Studentusername,
                 //  controller: parentUserName..text = parentx.PUserName,
                 //to take text from user input
                 textAlign: TextAlign.right,
@@ -358,7 +352,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                     //fontWeight: FontWeight.w600,
                     color: Colors.grey),
                 showCursor: true,
-                cursorColor: const Color(0xff0da6c2),
+                cursorColor: const Color(0xff57d77a),
 
                 decoration: InputDecoration(
                   hintText: " أدخل اسم المستخدم",
@@ -405,7 +399,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
             Directionality(
               textDirection: TextDirection.rtl,
               child: TextFormField(
-                controller: email,
+                controller: StudentIDNo,
                 //  controller: parentUserName..text = parentx.PUserName,
                 //to take text from user input
                 textAlign: TextAlign.right,
@@ -415,11 +409,11 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                     //fontWeight: FontWeight.w600,
                     color: Colors.grey),
                 showCursor: true,
-                cursorColor: const Color(0xff0da6c2),
+                cursorColor: const Color(0xff57d77a),
 
                 decoration: InputDecoration(
-                  labelText: "البريد الإلكتروني",
-                  hintText: "أدخل البريد الإلكتروني",
+                  hintText: "أدخل الرقم التعريفي للطالب",
+                  labelText: "الرقم التعريفي",
                   hintStyle: const TextStyle(color: Colors.grey, fontSize: 12),
                   labelStyle: const TextStyle(
                       color: const Color(0xff57d77a),
@@ -448,10 +442,10 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                   ),
                 ),
                 validator: (value) {
-                  if (value!.isEmpty ||
-                      !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                          .hasMatch(value!))
-                    return "أرجو منك تعبئه الحقل بطريقه صحيحة مثل something@gmail.com ";
+                  // save = true;
+
+                  if (value!.isEmpty || !RegExp(r'^[0-9]*$').hasMatch(value!))
+                    return "أرجو منك تعبئه الحقل بطريقه صحيحه حيث يتكون من ارقام";
                   else {
                     return null;
                   }
@@ -510,11 +504,12 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => Createparent5(
+                          builder: (context) => CreateStudent(
+                              documentId: widget.documentId,
                               index: 2,
-                              Name: parentName.text,
-                              username: Parentusername.text,
-                              email: email.text),
+                              Name: studentName.text,
+                              username: Studentusername.text,
+                              SID: StudentIDNo.text),
                         ));
                         //  if (formKey.currentState!.validate()) {}
                       }
@@ -555,10 +550,13 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
       case 2:
         Fields = Column(
           children: [
+            const SizedBox(
+              height: 20,
+            ),
             Directionality(
               textDirection: TextDirection.rtl,
               child: TextFormField(
-                controller: phoneNumber,
+                controller: StudentNationality,
                 //  controller: parentUserName..text = parentx.PUserName,
                 //to take text from user input
                 textAlign: TextAlign.right,
@@ -568,11 +566,11 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                     //fontWeight: FontWeight.w600,
                     color: Colors.grey),
                 showCursor: true,
-                cursorColor: const Color(0xff0da6c2),
+                cursorColor: const Color(0xff57d77a),
 
                 decoration: InputDecoration(
-                  labelText: "رقم الجوال",
-                  hintText: "أدخل رقم الجوال",
+                  hintText: "ماهي جنسيتك؟",
+                  labelText: "الجنسية",
                   hintStyle: const TextStyle(color: Colors.grey, fontSize: 12),
                   labelStyle: const TextStyle(
                       color: const Color(0xff57d77a),
@@ -601,9 +599,8 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                   ),
                 ),
                 validator: (value) {
-                  if (value!.isEmpty ||
-                      !RegExp(r'^(?:[+0][1-9])?[0-9]{10,12}$').hasMatch(value!))
-                    return "أرجو منك تعبئه الحقل بطريقه صحيحه";
+                  if (value!.isEmpty)
+                    return "أرجو منك تعبئه الحقل الفارغ ";
                   else {
                     return null;
                   }
@@ -616,20 +613,21 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
             Directionality(
               textDirection: TextDirection.rtl,
               child: TextFormField(
-                controller: altphoneNumber,
+                controller: StudentNationalID,
                 //  controller: parentUserName..text = parentx.PUserName,
                 //to take text from user input
                 textAlign: TextAlign.right,
+
                 style: GoogleFonts.poppins(
                     fontSize: 14,
                     //fontWeight: FontWeight.w600,
                     color: Colors.grey),
                 showCursor: true,
-                cursorColor: const Color(0xff0da6c2),
+                cursorColor: const Color(0xff57d77a),
 
                 decoration: InputDecoration(
-                  labelText: "رقم جوال قريب ",
-                  hintText: "أدخل رقم جوال قريب ",
+                  labelText: "رقم الهوية /الإقامة",
+                  hintText: "أدخل رقم الهوية /الإقامة",
                   hintStyle: const TextStyle(color: Colors.grey, fontSize: 12),
                   labelStyle: const TextStyle(
                       color: const Color(0xff57d77a),
@@ -659,8 +657,8 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                 ),
                 validator: (value) {
                   if (value!.isEmpty ||
-                      !RegExp(r'^(?:[+0][1-9])?[0-9]{10,12}$').hasMatch(value!))
-                    return "أرجو منك تعبئه الحقل بطريقه صحيحه";
+                      !RegExp(r'^[0-9]{10}$').hasMatch(value!))
+                    return "أرجو منك تعبئه الحقل بطريقه صحيحه حيث يتكون من 10 ارقام";
                   else {
                     return null;
                   }
@@ -717,8 +715,8 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                                             style: GoogleFonts.poppins(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w600,
-                                                color: Colors.grey),
-                                            value,
+                                                color: const Color(0xff57d77a)),
+                                            Numvalue,
                                             maxLines: 2,
                                             // textAlign: TextAlign.left,
                                           ),
@@ -736,7 +734,158 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                                                   fontSize: 14,
                                                   color:
                                                       const Color(0xff57d77a)),
-                                              'صلة القرابة',
+                                              " صف الطالب",
+                                              maxLines: 2,
+                                              textAlign: TextAlign.right,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Container(
+                                height: 200.0,
+                                color: Colors.white,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    CupertinoButton(
+                                      child: Text("إلغاء",
+                                          style: TextStyle(
+                                              color: Color(0xffA7A7A7),
+                                              fontSize: 16)),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    Expanded(
+                                      child: CupertinoPicker(
+                                        scrollController: scrollController,
+                                        looping: false,
+                                        itemExtent: 64,
+                                        backgroundColor: Colors.white,
+                                        onSelectedItemChanged: (index) {
+                                          print(index);
+
+                                          Index = index;
+                                          print(Index);
+                                          final item = ClassNum[Index];
+                                          Index = index;
+                                          controller.text = item;
+                                          Numvalue = item;
+                                        },
+                                        children: ClassNum.map((item) => Center(
+                                                child: Text(
+                                              item,
+                                              style: TextStyle(fontSize: 20),
+                                            ))).toList(),
+                                      ),
+                                    ),
+                                    CupertinoButton(
+                                      child: Text("موافق",
+                                          style: TextStyle(
+                                              color: const Color(0xff57d77a),
+                                              fontSize: 16)),
+                                      onPressed: () {
+                                        scrollController =
+                                            FixedExtentScrollController(
+                                                initialItem: _changedNumber);
+                                        //scrollController.dispose();
+                                        setState(() {
+                                          _selectedNumber = _changedNumber;
+                                        });
+                                        Navigator.pop(context);
+                                        /*  parentx.UpdateParent(
+                                              widget.documentId,
+                                              "RelativeRelation",
+                                              value);*/
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
+                            });
+                      },
+                    ),
+                  ]),
+            ),
+            Center(
+              child: new Wrap(
+                  spacing: 5.0,
+                  runSpacing: 5.0,
+                  direction: Axis.vertical, // main axis (rows or columns)
+                  children: <Widget>[
+                    CupertinoButton(
+                      child: Expanded(
+                        child: Container(
+                          // padding:
+                          // padding: EdgeInsets.only(right: 4),
+                          //   EdgeInsets.symmetric(horizontal: 120),
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                  width: 1.0, color: const Color(0xff57d77a)),
+                            ),
+                          ),
+                          alignment: Alignment.center,
+                          child: Flexible(
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        alignment: Alignment.center,
+                                        padding: EdgeInsets.only(right: 4),
+                                        child: Positioned(
+                                          left: 0,
+                                          child: Icon(
+                                            Icons.arrow_circle_down_rounded,
+                                            // Icons.arrow_downward_outlined,
+                                            color: const Color(0xff57d77a),
+                                            size: 16,
+                                          ),
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          padding: EdgeInsets.only(right: 120),
+                                          child: Text(
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                color: const Color(0xff57d77a)),
+                                            blood,
+                                            maxLines: 2,
+                                            // textAlign: TextAlign.left,
+                                          ),
+                                        ),
+                                      ),
+                                      Column(
+                                        children: <Widget>[
+                                          Container(
+                                            alignment: Alignment.centerRight,
+                                            padding: EdgeInsets.only(
+                                              left: 120,
+                                            ),
+                                            child: Text(
+                                              style: GoogleFonts.poppins(
+                                                  fontSize: 14,
+                                                  color:
+                                                      const Color(0xff57d77a)),
+                                              " صف الطالب",
                                               maxLines: 2,
                                               textAlign: TextAlign.right,
                                             ),
@@ -781,12 +930,12 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
 
                                           Index = index;
                                           print(Index);
-                                          final item = Relation[Index];
+                                          final item = Blood[Index];
                                           Index = index;
                                           controller.text = item;
-                                          value = item;
+                                          blood = item;
                                         },
-                                        children: Relation.map((item) => Center(
+                                        children: Blood.map((item) => Center(
                                                 child: Text(
                                               item,
                                               style: TextStyle(fontSize: 20),
@@ -821,7 +970,9 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                     ),
                   ]),
             ),
-
+            const SizedBox(
+              height: 20,
+            ),
             /*  TextFieldWidget(
                               'Name', Icons.person_outlined, parentName,
                               (String? input) {
@@ -858,411 +1009,151 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                     }
                   }),*/
 
-            const SizedBox(
-              height: 67,
-            ),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Align(
-                alignment: Alignment(0.99, 0.9),
-                child: Container(
-                  height: 40.0,
-                  width: 40.0,
-                  child: FittedBox(
-                    child: FloatingActionButton(
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
+            Row(
+              children: [
+                Align(
+                  alignment: Alignment(-0.99, 0.9),
+                  child: Container(
+                    height: 40.0,
+                    width: 40.0,
+                    child: FittedBox(
+                      child: FloatingActionButton(
+                        onPressed: () async {
+                          await Studentx.addStudent(
+                              widget.documentId,
+                              widget.Name,
+                              widget.username,
+                              widget.SID,
+                              StudentNationality.text,
+                              Numvalue,
+                              blood);
+                          if (formKey.currentState!.validate()) {
+                            await Studentx.addStudent(
+                                widget.documentId,
+                                widget.Name,
+                                widget.username,
+                                widget.SID,
+                                StudentNationality.text,
+                                Numvalue,
+                                blood);
+
+                            showCupertinoDialog(
+                                context: context, builder: CreateDialog);
+                          }
+
+                          //  if (formKey.currentState!.validate()) {}
+                        },
+                        elevation: 0,
+                        child: Container(
+                          height: 70,
+                          width: 70,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                blurRadius: 6,
+                              ),
+                            ],
+                            borderRadius: BorderRadius.circular(90),
+                            gradient: LinearGradient(
+                              colors: [
+                                const Color(0xff0da6c2),
+                                const Color(0xff57d77a)
+                              ],
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "إضافة",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                        backgroundColor: Color.fromARGB(0, 255, 253, 253),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 100,
+                ),
+                const SizedBox(
+                  width: 100,
+                ),
+                const SizedBox(
+                  width: 100,
+                ),
+                const SizedBox(
+                  width: 50,
+                ),
+                Align(
+                  alignment: Alignment(0.99, 0.9),
+                  child: Container(
+                    height: 40.0,
+                    width: 40.0,
+                    child: FittedBox(
+                      child: FloatingActionButton(
+                        onPressed: () async {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Createparent5(
-                              index: 3,
-                              Realtion: value,
-                              Name: widget.Name,
-                              username: widget.username,
-                              email: widget.email,
-                              phone1: phoneNumber.text,
-                              phone2: altphoneNumber.text,
-                            ),
-                          ));
-                        }
-                        //  if (formKey.currentState!.validate()) {}
-                      },
-                      elevation: 0,
-                      child: Container(
-                        height: 70,
-                        width: 70,
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              blurRadius: 6,
-                            ),
-                          ],
-                          borderRadius: BorderRadius.circular(90),
-                          gradient: LinearGradient(
-                            colors: [
-                              const Color(0xff0da6c2),
-                              const Color(0xff57d77a)
+                              builder: (context) => CreateStudent(
+                                  documentId: widget.documentId,
+                                  index: 1,
+                                  Name: studentName.text,
+                                  username: Studentusername.text,
+                                  SID: StudentIDNo.text)));
+
+                          //  if (formKey.currentState!.validate()) {}
+                        },
+                        elevation: 0,
+                        child: Container(
+                          height: 70,
+                          width: 70,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                blurRadius: 6,
+                              ),
                             ],
+                            borderRadius: BorderRadius.circular(90),
+                            gradient: LinearGradient(
+                              colors: [
+                                const Color(0xff0da6c2),
+                                const Color(0xff57d77a)
+                              ],
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.arrow_forward_outlined,
+                            color: Colors.white,
                           ),
                         ),
-                        child: Icon(
-                          Icons.arrow_back_outlined,
-                          color: Colors.white,
-                        ),
+                        backgroundColor: Color.fromARGB(0, 255, 253, 253),
                       ),
-                      backgroundColor: Color.fromARGB(0, 255, 253, 253),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                width: 100,
-              ),
-              const SizedBox(
-                width: 100,
-              ),
-              const SizedBox(
-                width: 100,
-              ),
-              const SizedBox(
-                width: 25,
-              ),
-              Align(
-                alignment: Alignment(-0.99, 0.9),
-                child: Container(
-                  height: 40.0,
-                  width: 40.0,
-                  child: FittedBox(
-                    child: FloatingActionButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => Createparent5(
-                              index: 1,
-                              Name: parentName.text,
-                              username: Parentusername.text,
-                              email: email.text),
-                        ));
-                        //  if (formKey.currentState!.validate()) {}
-                      },
-                      elevation: 0,
-                      child: Container(
-                        height: 70,
-                        width: 70,
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              blurRadius: 6,
-                            ),
-                          ],
-                          borderRadius: BorderRadius.circular(90),
-                          gradient: LinearGradient(
-                            colors: [
-                              const Color(0xff0da6c2),
-                              const Color(0xff57d77a)
-                            ],
-                          ),
-                        ),
-                        child: Icon(
-                          Icons.arrow_forward_outlined,
-                          color: Colors.white,
-                        ),
-                      ),
-                      backgroundColor: Color.fromARGB(0, 255, 253, 253),
-                    ),
-                  ),
-                ),
-              ),
-            ]),
+              ],
+            ),
           ],
         );
 
-        break;
-      case 3:
-        Fields = Column(
-          children: [
-            Directionality(
-              textDirection: TextDirection.rtl,
-              child: TextFormField(
-                controller: ParentIDNo,
-                //  controller: parentUserName..text = parentx.PUserName,
-                //to take text from user input
-                textAlign: TextAlign.right,
-
-                style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    //fontWeight: FontWeight.w600,
-                    color: Colors.grey),
-                showCursor: true,
-                cursorColor: const Color(0xff0da6c2),
-
-                decoration: InputDecoration(
-                  labelText: "رقم الهوية /الإقامة",
-                  hintText: "أدخل رقم الهوية /الإقامة",
-                  hintStyle: const TextStyle(color: Colors.grey, fontSize: 12),
-                  labelStyle: const TextStyle(
-                      color: const Color(0xff57d77a),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w300),
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.all(defaultPadding),
-                    child: Icon(
-                      Icons.person,
-                      color: const Color(0xff42c98d),
-                    ),
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: const Color(0xff57d77a), width: 1),
-                      borderRadius: BorderRadius.circular(10)),
-                  floatingLabelStyle: const TextStyle(
-                      color: const Color(0xff57d77a),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w300),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide:
-                        BorderSide(color: const Color(0xff57d77a), width: 2),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-                validator: (value) {
-                  if (value!.isEmpty ||
-                      !RegExp(r'^[0-9]{10}$').hasMatch(value!))
-                    return "أرجو منك تعبئه الحقل بطريقه صحيحه حيث يتكون من 10 ارقام";
-                  else {
-                    return null;
-                  }
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Directionality(
-              textDirection: TextDirection.rtl,
-              child: TextFormField(
-                //  controller: parentUserName..text = parentx.PUserName,
-                //to take text from user input
-                controller: nationality,
-                textAlign: TextAlign.right,
-
-                style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    //fontWeight: FontWeight.w600,
-                    color: Colors.grey),
-                showCursor: true,
-                cursorColor: const Color(0xff0da6c2),
-
-                decoration: InputDecoration(
-                  labelText: "الجنسية",
-                  hintText: "ماهي جنسيتك؟",
-                  hintStyle: const TextStyle(color: Colors.grey, fontSize: 12),
-                  labelStyle: const TextStyle(
-                      color: const Color(0xff57d77a),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w300),
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.all(defaultPadding),
-                    child: Icon(
-                      Icons.person,
-                      color: const Color(0xff42c98d),
-                    ),
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: const Color(0xff57d77a), width: 1),
-                      borderRadius: BorderRadius.circular(10)),
-                  floatingLabelStyle: const TextStyle(
-                      color: const Color(0xff57d77a),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w300),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide:
-                        BorderSide(color: const Color(0xff57d77a), width: 2),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-                validator: (value) {
-                  if (value!.isEmpty)
-                    return "أرجو منك تعبئه الحقل الفارغ ";
-                  else {
-                    return null;
-                  }
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Directionality(
-              textDirection: TextDirection.rtl,
-              child: TextFormField(
-                controller: jobTitle,
-                //  controller: parentUserName..text = parentx.PUserName,
-                //to take text from user input
-                textAlign: TextAlign.right,
-
-                style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    //fontWeight: FontWeight.w600,
-                    color: Colors.grey),
-                showCursor: true,
-                cursorColor: const Color(0xff0da6c2),
-
-                decoration: InputDecoration(
-                  labelText: "الوظيفة ",
-                  hintText: "الوظيفة ",
-                  hintStyle: const TextStyle(color: Colors.grey, fontSize: 12),
-                  labelStyle: const TextStyle(
-                      color: const Color(0xff57d77a),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w300),
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.all(defaultPadding),
-                    child: Icon(
-                      Icons.person,
-                      color: const Color(0xff42c98d),
-                    ),
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: const Color(0xff57d77a), width: 1),
-                      borderRadius: BorderRadius.circular(10)),
-                  floatingLabelStyle: const TextStyle(
-                      color: const Color(0xff57d77a),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w300),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide:
-                        BorderSide(color: const Color(0xff57d77a), width: 2),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-                validator: (value) {
-                  if (value!.isEmpty)
-                    return "أرجو منك تعبئه الحقل الفارغ ";
-                  else {
-                    return null;
-                  }
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-
-            /*  TextFieldWidget(
-                              'Name', Icons.person_outlined, parentName,
-                              (String? input) {
-                            if (input!.isEmpty) {
-                              return 'Name is required!';
-                            }
-
-                            if (input.length < 5) {
-                              return 'Please enter a valid name!';
-                            }
-
-                            return null;
-                          }),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          TextFieldWidget(
-                              'Name', Icons.person_outlined, parentName,
-                              (String? input) {
-                            if (input!.isEmpty) {
-                              return 'Name is required!';
-                            }
-
-                            if (input.length < 5) {
-                              return 'Please enter a valid name!';
-                            }
-
-                            return null;
-                          }),*/
-
-            /* greenButton('Submit', () {
-                    if (!formKey.currentState!.validate()) {
-                      return;
-                    }
-                  }),*/
-            const SizedBox(
-              height: 40,
-            ),
-            Align(
-              alignment: Alignment(-0.99, 0.9),
-              child: Container(
-                height: 50.0,
-                width: 50.0,
-                child: FittedBox(
-                  child: FloatingActionButton(
-                    onPressed: () async {
-                      if (formKey.currentState!.validate()) {
-                        await parentx.addParent(
-                            widget.Name,
-                            widget.username,
-                            widget.email,
-                            ParentIDNo.text,
-                            widget.phone1,
-                            widget.phone2,
-                            nationality.text,
-                            jobTitle.text,
-                            widget.Realtion);
-
-                        await showCupertinoDialog(
-                            context: context, builder: CreateDialog);
-
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Paretdisplay()));
-                      }
-                    },
-                    elevation: 0,
-                    child: Container(
-                      height: 70,
-                      width: 70,
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
-                            blurRadius: 6,
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(90),
-                        gradient: LinearGradient(
-                          colors: [
-                            const Color(0xff0da6c2),
-                            const Color(0xff57d77a)
-                          ],
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "إضافة",
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    backgroundColor: Color.fromARGB(0, 255, 253, 253),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        );
         break;
     }
     return Fields;
   }
 
   Widget CreateDialog(BuildContext context) => CupertinoAlertDialog(
-        title: Text("إضافة ولي الأمر", style: TextStyle(fontSize: 18)),
+        title: Text("إضافة الطالب", style: TextStyle(fontSize: 18)),
         content: Text(
           "تم إضافة المعلومات بنجاح",
           style: TextStyle(fontSize: 14),
         ),
         actions: [
           CupertinoDialogAction(
-            child: Text("OK",
+            child: Text("موافق",
                 style: TextStyle(
                     color: const Color(0xff57d77a),
                     fontWeight: FontWeight.bold)),
@@ -1272,7 +1163,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
       );
 }
 
-  /* TextFieldWidget(String title, String hint, String hint, IconData iconData,
+/* TextFieldWidget(String title, String hint, String hint, IconData iconData,
       TextEditingController controller, Function validator,
       {Function? onTap, bool readOnly = false}) {
     return Column(
@@ -1280,7 +1171,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
       children: [],
     );
   }*/
-  /* Widget getWidget() {
+/* Widget getWidget() {
     return Container(
       width: Get.width,
       decoration: BoxDecoration(
@@ -1495,4 +1386,3 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
   
   
   */
-

@@ -27,19 +27,43 @@ class Student {
     required this.SBloodType,
   });
 
-  UpdateStudent(DocId, Name, StudentID, SUserName, SNationalID, SNationality,
-      Class, SBloodType) async {
+  UpdateStudent(DocId, Field, Updated) async {
     CollectionReference StudentS =
         FirebaseFirestore.instance.collection("Student");
-    await StudentS.doc(DocId).update({
-      'Name': Name,
-      'UserName': SUserName,
-      'StudentID': StudentID,
-      'NationalID': SNationalID,
-      'Nationality': SNationality,
-      'Class': Class,
-      'BloodType': SBloodType
-    });
+
+    switch (Field) {
+      case 'Name':
+        await StudentS.doc(DocId).update({
+          'Name': Updated,
+        });
+
+        break;
+      case "StudentID":
+        await StudentS.doc(DocId).update({
+          'StudentID': Updated,
+        });
+        break;
+      case "NationalID":
+        await StudentS.doc(DocId).update({
+          'NationalID': Updated,
+        });
+        break;
+      case "Nationality":
+        await StudentS.doc(DocId).update({
+          'Nationality': Updated,
+        });
+        break;
+      case "Class":
+        await StudentS.doc(DocId).update({
+          'Class': Updated,
+        });
+        break;
+      case "BloodType":
+        await StudentS.doc(DocId).update({
+          'BloodType': Updated,
+        });
+        break;
+    }
   }
 
   DeleteStudent(DocId) async {
@@ -57,8 +81,8 @@ class Student {
     Class,
     SBloodType,
   ) async {
-    final Parents = FirebaseFirestore.instance;
-    await Parents.collection("Student").doc(DocId).set({
+    final Student = FirebaseFirestore.instance;
+    await Student.collection("Student").doc(DocId).set({
       "ParentId": DocId,
       'Name': Name,
       'UserName': SUserName,
