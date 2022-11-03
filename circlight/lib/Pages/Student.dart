@@ -82,7 +82,7 @@ class Student {
     SBloodType,
   ) async {
     final Student = FirebaseFirestore.instance;
-    await Student.collection("Student").doc(DocId).set({
+    await Student.collection("Student").add({
       "ParentId": DocId,
       'Name': Name,
       'UserName': SUserName,

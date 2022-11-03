@@ -10,7 +10,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'CreateParent.dart';
 
+import 'CreateStudent.dart';
 import 'UpdateStudent.dart';
+import 'base_screen.dart';
 import 'displayParent.dart';
 import 'displayStudent.dart';
 
@@ -19,9 +21,33 @@ import 'editStudent.dart';
 
 class Nav extends StatefulWidget {
   final int TabValue;
-  final String documentId;
+  final documentId;
+  final index;
+  final Realtion;
+  final Name;
+  final username;
+  final email;
+  final ID;
+  final nationality;
+  final phone1;
+  final phone2;
+  final job;
 
-  const Nav({super.key, required this.TabValue, required this.documentId});
+  const Nav({
+    super.key,
+    required this.TabValue,
+    this.documentId,
+    this.index,
+    this.Realtion,
+    this.ID,
+    this.Name,
+    this.username,
+    this.email,
+    this.nationality,
+    this.job,
+    this.phone1,
+    this.phone2,
+  });
 
   @override
   State<Nav> createState() => _Nav();
@@ -49,10 +75,23 @@ class _Nav extends State<Nav> {
         case 7:
           currentScreen = Createparent5(
             index: 1,
+            Name: widget.Name,
+            username: widget.username,
+            email: widget.email,
+            phone1: widget.phone1,
+            phone2: widget.phone2,
+            Realtion: widget.Realtion,
           );
           Tab = 7;
           break;
         case 8:
+          currentScreen = CreateStudent(
+            documentId: widget.documentId,
+            index: widget.index,
+          );
+          Tab = 8;
+          break;
+        case 9:
           currentScreen = EditStudent(
             documentId: widget.documentId,
             DropDown: false,
@@ -61,7 +100,7 @@ class _Nav extends State<Nav> {
             TheValue: "",
             whichpag: 0,
           );
-          Tab = 8;
+          Tab = 9;
           break;
       }
     });
@@ -70,13 +109,13 @@ class _Nav extends State<Nav> {
   int _count = 0;
   int Tab = 0;
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = Announcement();
+  Widget currentScreen = BaseScreen();
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> Screens = [
+      BaseScreen(),
       Paretdisplay(),
-      AdminHome(),
       Requests(),
       Studentdispaly(),
       Announcement(),
@@ -105,7 +144,7 @@ class _Nav extends State<Nav> {
                               minWidth: 40,
                               onPressed: () {
                                 setState(() {
-                                  currentScreen = AdminHome();
+                                  currentScreen = BaseScreen();
                                   Tab = 0;
                                 });
                               },

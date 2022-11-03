@@ -13,7 +13,7 @@ import 'constants.dart';
 import 'displayParent.dart';
 
 class CreateStudent extends StatefulWidget {
-  int index;
+  var index;
   var Blood;
   var Class;
   var Name;
@@ -28,7 +28,7 @@ class CreateStudent extends StatefulWidget {
 
   CreateStudent(
       {super.key,
-      required this.index,
+      this.index,
       this.Class,
       this.Blood,
       this.ID,

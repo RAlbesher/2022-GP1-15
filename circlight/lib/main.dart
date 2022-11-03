@@ -21,6 +21,7 @@ import 'Pages/CreateStudent.dart';
 import 'Pages/StudentAddForm.dart';
 import 'Pages/appbar.dart';
 
+import 'Pages/base_screen.dart';
 import 'Pages/edit5.dart';
 import 'Pages/editStudent.dart';
 
@@ -55,32 +56,61 @@ class LoginUiApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Login UI',
-        theme: ThemeData(
-          primaryColor: _primaryColor,
-          accentColor: _accentColor,
-          scaffoldBackgroundColor: Colors.grey.shade100,
-          primarySwatch: Colors.grey,
+      debugShowCheckedModeBanner: false,
+      // title: 'Flutter Login UI',
+
+      theme: ThemeData(
+        fontFamily: 'Poppins',
+        primaryColor: _primaryColor,
+        accentColor: _accentColor,
+        scaffoldBackgroundColor: Colors.grey.shade100,
+        primarySwatch: Colors.grey,
+        textTheme: const TextTheme(
+          titleLarge: TextStyle(
+            fontSize: 20,
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+          ),
+          bodyLarge: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+          ),
+          bodyMedium: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+          displayMedium: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 18,
+            color: Colors.black,
+          ),
         ),
-        /* home: editparent6(
+      ),
+      /* home: editparent6(
             Confirm: false,
             Index: 1,
             documentId: "21AqxvymlaHWM4DfLFtS",
             whichpag: 0,
             TheValue: "")*/
-        //  home: StudentAddform(
-        //    documentId: "GpRfqodKgYCqobAL2r6w",
-        //   ),
-        /* home: editparent5(
+      //  home: StudentAddform(
+      //    documentId: "GpRfqodKgYCqobAL2r6w",
+      //   ),
+
+      /* home: editparent5(
           Confirm: false,
           Index: 1,
           TheValue: "",
           documentId: "Cu5WEwZNoe5eqIl0NOJp",
           whichpag: 0,
           DropDown: false),*/
-        home: Nav(
+      /* home: Nav(
           documentId: "Cu5WEwZNoe5eqIl0NOJp",
           TabValue: 0,
-        ));
+        )*/
+      home: Nav(
+        TabValue: 1,
+        documentId: "",
+      ),
+    );
   }
 }

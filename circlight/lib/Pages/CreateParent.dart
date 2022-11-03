@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:circlight/utils/app_colors.dart';
 import 'package:circlight/Pages/header_widget.dart';
+import 'Nav.dart';
 import 'Parent.dart';
 import 'constants.dart';
 import 'displayParent.dart';
@@ -872,7 +873,9 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Createparent5(
+                            builder: (context) => Nav(
+                              TabValue: 8,
+                              documentId: "Cu5WEwZNoe5eqIl0NOJp",
                               index: 3,
                               Realtion: value,
                               Name: widget.Name,
@@ -883,6 +886,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                             ),
                           ));
                         }
+
                         //  if (formKey.currentState!.validate()) {}
                       },
                       elevation: 0,
@@ -941,6 +945,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                               username: Parentusername.text,
                               email: email.text),
                         ));
+
                         //  if (formKey.currentState!.validate()) {}
                       },
                       elevation: 0,
