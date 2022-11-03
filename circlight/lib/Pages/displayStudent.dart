@@ -164,8 +164,10 @@ class _Studentdispaly extends State<Studentdispaly>
                         if (snapshot.hasData) {
                           final snap = snapshot.data!.docs;
                           return FutureBuilder(
-                              future: Future.wait(
-                                  [Admin().getAdminID(), Admin().getDocId()]),
+                              future: Future.wait([
+                                Admin().getAdminID(),
+                                Admin().getDocIdstudent()
+                              ]),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   return ListView.builder(
