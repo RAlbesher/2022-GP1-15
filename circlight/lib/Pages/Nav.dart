@@ -32,12 +32,17 @@ class Nav extends StatefulWidget {
   final phone1;
   final phone2;
   final job;
-
+  final SID;
+  final Blood;
+  final Class;
   const Nav({
     super.key,
     required this.TabValue,
     this.documentId,
     this.index,
+    this.SID,
+    this.Blood,
+    this.Class,
     this.Realtion,
     this.ID,
     this.Name,
@@ -88,6 +93,9 @@ class _Nav extends State<Nav> {
           currentScreen = CreateStudent(
             documentId: widget.documentId,
             index: widget.index,
+            Name: widget.Name,
+            username: widget.username,
+            SID: widget.SID,
           );
           Tab = 8;
           break;

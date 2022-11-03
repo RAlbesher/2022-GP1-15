@@ -229,12 +229,8 @@ class _Studentdispaly extends State<Studentdispaly>
                     )*/
                                                       //for profile image
 
-                                                      decoration: BoxDecoration(
-                                                          image: DecorationImage(
-                                                              image: AssetImage(
-                                                                  '../assets/images/mask.jpeg'),
-                                                              fit:
-                                                                  BoxFit.fill)),
+                                                      decoration:
+                                                          BoxDecoration(),
                                                     ),
 
                                                     //to only show the allowed people to admin

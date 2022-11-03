@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:circlight/utils/app_colors.dart';
 import 'package:circlight/Pages/header_widget.dart';
+import 'Nav.dart';
 import 'Parent.dart';
 import 'constants.dart';
 import 'displayParent.dart';
@@ -504,7 +505,8 @@ class _CreateStudentState extends State<CreateStudent>
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => CreateStudent(
+                          builder: (context) => Nav(
+                              TabValue: 8,
                               documentId: widget.documentId,
                               index: 2,
                               Name: studentName.text,
@@ -1097,12 +1099,14 @@ class _CreateStudentState extends State<CreateStudent>
                       child: FloatingActionButton(
                         onPressed: () async {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => CreateStudent(
-                                  documentId: widget.documentId,
-                                  index: 1,
-                                  Name: studentName.text,
-                                  username: Studentusername.text,
-                                  SID: StudentIDNo.text)));
+                            builder: (context) => Nav(
+                                TabValue: 8,
+                                documentId: widget.documentId,
+                                index: 1,
+                                Name: studentName.text,
+                                username: Studentusername.text,
+                                SID: StudentIDNo.text),
+                          ));
 
                           //  if (formKey.currentState!.validate()) {}
                         },
@@ -1157,7 +1161,8 @@ class _CreateStudentState extends State<CreateStudent>
                 style: TextStyle(
                     color: const Color(0xff57d77a),
                     fontWeight: FontWeight.bold)),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.push(context,
+                CupertinoPageRoute(builder: (context) => Paretdisplay())),
           )
         ],
       );

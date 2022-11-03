@@ -254,12 +254,8 @@ class _Paretdisplay extends State<Paretdisplay> with TickerProviderStateMixin {
                     )*/
                                                       //for profile image
 
-                                                      decoration: BoxDecoration(
-                                                          image: DecorationImage(
-                                                              image: AssetImage(
-                                                                  '../assets/images/mask.jpeg'),
-                                                              fit:
-                                                                  BoxFit.fill)),
+                                                      decoration:
+                                                          BoxDecoration(),
                                                     ),
                                                     Align(
                                                       alignment:
@@ -389,6 +385,10 @@ class _Paretdisplay extends State<Paretdisplay> with TickerProviderStateMixin {
                                                                               1]
                                                                           [
                                                                           index],
+                                                                  index: 1,
+                                                                  Name: "",
+                                                                  username: "",
+                                                                  SID: "",
                                                                   TabValue: 8,
                                                                 ),
                                                               ));
