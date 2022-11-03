@@ -202,7 +202,9 @@ class _CreateStudentState extends State<CreateStudent>
                         Navigator.push(
                             context,
                             CupertinoPageRoute(
-                                builder: (context) => Paretdisplay()));
+                                builder: (context) => Nav(
+                                      TabValue: 10,
+                                    )));
                       },
                       icon: Icon(
                         Icons.arrow_back_ios_new,
@@ -1161,8 +1163,12 @@ class _CreateStudentState extends State<CreateStudent>
                 style: TextStyle(
                     color: const Color(0xff57d77a),
                     fontWeight: FontWeight.bold)),
-            onPressed: () => Navigator.push(context,
-                CupertinoPageRoute(builder: (context) => Paretdisplay())),
+            onPressed: () => Navigator.push(
+                context,
+                CupertinoPageRoute(
+                    builder: (context) => Nav(
+                          TabValue: 10,
+                        ))),
           )
         ],
       );

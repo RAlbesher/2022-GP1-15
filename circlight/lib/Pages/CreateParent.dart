@@ -208,7 +208,9 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                         Navigator.push(
                             context,
                             CupertinoPageRoute(
-                                builder: (context) => Paretdisplay()));
+                                builder: (context) => Nav(
+                                      TabValue: 10,
+                                    )));
                       },
                       icon: Icon(
                         Icons.arrow_back_ios_new,
@@ -1233,7 +1235,9 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                             context: context, builder: CreateDialog);
 
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Paretdisplay()));
+                            builder: (context) => Nav(
+                                  TabValue: 10,
+                                )));
                       }
                     },
                     elevation: 0,

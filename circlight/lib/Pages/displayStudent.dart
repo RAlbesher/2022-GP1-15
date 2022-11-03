@@ -431,8 +431,12 @@ class _Studentdispaly extends State<Studentdispaly>
       actions: [
         CupertinoDialogAction(
             onPressed: () {
-              Navigator.push(context,
-                  CupertinoPageRoute(builder: (context) => Studentdispaly()));
+              Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                      builder: (context) => Nav(
+                            TabValue: 11,
+                          )));
             },
             child: Text("الغاء")),
         CupertinoDialogAction(

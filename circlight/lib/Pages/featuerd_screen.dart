@@ -6,6 +6,7 @@
 //import 'package:education_app/screens/details_screen.dart';
 //import 'package:education_app/widgets/circle_button.dart';
 //import 'package:education_app/widgets/lesson_card.dart';
+import 'package:circlight/Pages/Nav.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -95,7 +96,17 @@ class Body extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Paretdisplay()));
+                              builder: (context) => Nav(
+                                    TabValue: 10,
+                                    Name: "",
+                                    username: "",
+                                    Blood: "",
+                                    Class: "",
+                                    ID: "",
+                                    Realtion: "",
+                                    documentId: "",
+                                    email: "",
+                                  )));
                     },
                   ),
                 ),
@@ -129,7 +140,9 @@ class Body extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Studentdispaly()));
+                              builder: (context) => Nav(
+                                    TabValue: 11,
+                                  )));
                     },
                   ),
                 ),

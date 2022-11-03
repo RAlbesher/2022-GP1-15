@@ -114,6 +114,10 @@ class _Nav extends State<Nav> {
           currentScreen = Paretdisplay();
           Tab = 10;
           break;
+        case 11:
+          currentScreen = Studentdispaly();
+          Tab = 11;
+          break;
       }
     });
   }
