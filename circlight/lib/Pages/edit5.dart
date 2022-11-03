@@ -1765,8 +1765,10 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
                               Navigator.push(
                                   context,
                                   CupertinoPageRoute(
-                                      builder: (context) =>
-                                          const Paretdisplay()));
+                                      builder: (context) => const Nav(
+                                            TabValue: 10,
+                                            documentId: "",
+                                          )));
                             }
 
                             print("hhhhhhhhhhhhhh");
@@ -1814,7 +1816,7 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
                                   Navigator.pop(context);
                                 }
                                 print(isSaved);
-                                if (isSaved == true) {
+                                if (isSaved == true || widget.isDropDown) {
                                   showCupertinoDialog(
                                       context: context, builder: CreateDialog2);
                                 }
@@ -1921,7 +1923,10 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
               Navigator.push(
                   context,
                   CupertinoPageRoute(
-                      builder: (context) => const Paretdisplay()));
+                      builder: (context) => Nav(
+                            TabValue: 10,
+                            documentId: widget.documentId,
+                          )));
             },
             child: Text("تجاهل التغييرات")),
         CupertinoDialogAction(
@@ -1946,9 +1951,10 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
               Navigator.push(
                   context,
                   CupertinoPageRoute(
-                      builder: (context) => editparent5(
+                      builder: (context) => Nav(
+                            TabValue: 5,
                             documentId: widget.documentId,
-                            Index: 1,
+                            index: 1,
                             Confirm: false,
                             TheValue: "",
                             whichpag: 0,
@@ -2005,8 +2011,11 @@ class _editState extends State<editparent5> with TickerProviderStateMixin {
       actions: [
         CupertinoDialogAction(
             onPressed: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => Paretdisplay()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => Nav(
+                        TabValue: 10,
+                        documentId: widget.documentId,
+                      )));
             },
             child: Text("موافق")),
       ],

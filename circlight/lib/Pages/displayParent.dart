@@ -1,14 +1,12 @@
 import 'package:circlight/Pages/Admin.dart';
-import 'package:circlight/Pages/ParentAddform.dart';
-import 'package:circlight/Pages/StudentAddForm.dart';
-import 'package:circlight/Pages/UpdateStudent.dart';
+
 import 'package:circlight/Pages/Admin.dart';
 import 'package:circlight/Pages/theme_helper.dart';
 import 'package:circlight/Pages/theme_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:circlight/Pages/UpdateParent.dart';
+
 import 'package:circlight/Pages/Parent.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:circlight/Pages/Nav.dart';

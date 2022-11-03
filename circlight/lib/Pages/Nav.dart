@@ -1,4 +1,4 @@
-import 'package:circlight/Pages/UpdateParent.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:circlight/Pages/Search.dart';
 import 'package:circlight/Pages/Requests.dart';
@@ -11,7 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'CreateParent.dart';
 
 import 'CreateStudent.dart';
-import 'UpdateStudent.dart';
+
 import 'base_screen.dart';
 import 'displayParent.dart';
 import 'displayStudent.dart';
@@ -28,6 +28,7 @@ class Nav extends StatefulWidget {
   final username;
   final email;
   final ID;
+  final Confirm;
   final nationality;
   final phone1;
   final phone2;
@@ -35,15 +36,22 @@ class Nav extends StatefulWidget {
   final SID;
   final Blood;
   final Class;
+  final TheValue;
+  final whichpag;
+  final DropDown;
   const Nav({
     super.key,
+    this.DropDown,
     required this.TabValue,
     this.documentId,
-    this.index,
-    this.SID,
     this.Blood,
+    this.index,
+    this.whichpag,
+    this.TheValue,
+    this.SID,
     this.Class,
     this.Realtion,
+    this.Confirm,
     this.ID,
     this.Name,
     this.username,
@@ -62,6 +70,10 @@ class _Nav extends State<Nav> {
   SetTab() {
     setState(() {
       switch (widget.TabValue) {
+        case 0:
+          currentScreen = BaseScreen();
+          Tab = 0;
+          break;
         case 5:
           currentScreen = editparent5(
             documentId: widget.documentId,
@@ -74,7 +86,7 @@ class _Nav extends State<Nav> {
           Tab = 5;
           break;
         case 6:
-          currentScreen = UpdateStudent(documentId: widget.documentId);
+          //  currentScreen = UpdateStudent(documentId: widget.documentId);
           Tab = 6;
           break;
         case 7:
@@ -135,8 +147,6 @@ class _Nav extends State<Nav> {
       Requests(),
       Studentdispaly(),
       Announcement(),
-      UpdateParent(documentId: widget.documentId),
-      UpdateStudent(documentId: widget.documentId)
     ];
     SetTab();
     return Scaffold(
@@ -160,6 +170,13 @@ class _Nav extends State<Nav> {
                               minWidth: 40,
                               onPressed: () {
                                 setState(() {
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) => Nav(
+                                                TabValue: 0,
+                                                documentId: widget.documentId,
+                                              )));
                                   currentScreen = BaseScreen();
                                   Tab = 0;
                                 });

@@ -13,7 +13,6 @@ class _RequeststState extends State<Requests> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.white, title: Text('Requests')),
       body: Center(child: Text('Requests')),
     );
   }

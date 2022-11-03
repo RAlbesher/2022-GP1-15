@@ -1,24 +1,14 @@
 import 'package:circlight/Pages/CreateParent.dart';
 
-import 'package:circlight/Pages/ParentAddform.dart';
-import 'package:circlight/Pages/Reassign.dart';
-import 'package:circlight/Pages/UpdateParent.dart';
-import 'package:circlight/Pages/UpdateStudent.dart';
-
 import 'package:circlight/Pages/displayParent.dart';
 import 'package:circlight/Pages/displayStudent.dart';
-import 'package:circlight/Pages/oldedit.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:circlight/Pages/firebase_options.dart';
-
 import 'package:circlight/Pages/Nav.dart';
-
 import 'Pages/CreateStudent.dart';
-import 'Pages/StudentAddForm.dart';
+
 import 'Pages/appbar.dart';
 
 import 'Pages/base_screen.dart';

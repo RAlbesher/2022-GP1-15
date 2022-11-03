@@ -1143,6 +1143,12 @@ class _CreateStudentState extends State<CreateStudent>
                 ),
               ],
             ),
+            const SizedBox(
+              width: 50,
+            ),
+            const SizedBox(
+              width: 50,
+            ),
           ],
         );
 
@@ -1168,6 +1174,7 @@ class _CreateStudentState extends State<CreateStudent>
                 CupertinoPageRoute(
                     builder: (context) => Nav(
                           TabValue: 10,
+                          documentId: widget.documentId,
                         ))),
           )
         ],
