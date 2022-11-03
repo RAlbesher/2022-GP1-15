@@ -61,6 +61,26 @@ class _CreateStudentState extends State<CreateStudent>
     SBloodType: "",
   );
   String currentID = "";
+  List<String> docIDs = [];
+  List<String> docUserName = [];
+  List<String> docAdmin = [];
+
+  Future getAdminID() async {
+    await FirebaseFirestore.instance.collection("Admin").get().then(
+          (snapshot) => snapshot.docs.forEach((document) {
+            // print(document["Email"]);
+            docAdmin.add(document.reference.id);
+          }),
+        );
+  }
+
+  Future getUserName() async {
+    await FirebaseFirestore.instance.collection("Student").get().then(
+          (snapshot) => snapshot.docs.forEach((document) {
+            docUserName.add(document["UserName"]);
+          }),
+        );
+  }
 
   late TextEditingController controller;
   var Real;
@@ -391,6 +411,11 @@ class _CreateStudentState extends State<CreateStudent>
                   if (value!.isEmpty)
                     return "أرجو منك تعبئه الحقل الفارغ ";
                   else {
+                    for (var i = 0; i < docUserName.length; i++) {
+                      if (value == docUserName[i]) {
+                        return "اسم المستخدم مستخدم مسبقا ";
+                      }
+                    }
                     return null;
                   }
                 },
@@ -1030,7 +1055,8 @@ class _CreateStudentState extends State<CreateStudent>
                               widget.SID,
                               StudentNationality.text,
                               Numvalue,
-                              blood);
+                              blood,
+                              docAdmin[0]);
                           if (formKey.currentState!.validate()) {
                             await Studentx.addStudent(
                                 widget.documentId,
@@ -1039,7 +1065,8 @@ class _CreateStudentState extends State<CreateStudent>
                                 widget.SID,
                                 StudentNationality.text,
                                 Numvalue,
-                                blood);
+                                blood,
+                                docAdmin[0]);
 
                             showCupertinoDialog(
                                 context: context, builder: CreateDialog);

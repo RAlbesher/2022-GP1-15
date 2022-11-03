@@ -1,3 +1,4 @@
+import 'package:circlight/Pages/editStudent.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,8 @@ import 'Nav.dart';
 import 'Parent.dart';
 import 'constants.dart';
 import 'displayParent.dart';
+import 'dart:math';
+import 'package:share_plus/share_plus.dart';
 
 class Createparent5 extends StatefulWidget {
   int index;
@@ -55,6 +58,43 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
       PAltPhoneNumber: "",
       PNationality: "",
       PRelativeRelation: "");
+  //defining a lists
+  List<String> docEmails = [];
+  List<String> docUserName = [];
+  List<String> docAdmin = [];
+
+//for username uniqueness
+  Future getEmail() async {
+    await FirebaseFirestore.instance.collection("Parent").get().then(
+          (snapshot) => snapshot.docs.forEach((document) {
+            // print(document["Email"]);
+            docEmails.add(document["Email"]);
+          }),
+        );
+  }
+
+//for username uniqueness
+  Future getUserName() async {
+    await FirebaseFirestore.instance.collection("Parent").get().then(
+          (snapshot) => snapshot.docs.forEach((document) {
+            docUserName.add(document["UserName"]);
+          }),
+        );
+  }
+
+  //get admin ID
+  Future getAdminID() async {
+    await FirebaseFirestore.instance.collection("Admin").get().then(
+          (snapshot) => snapshot.docs.forEach((document) {
+            // print(document["Email"]);
+            docAdmin.add(document.reference.id);
+          }),
+        );
+  }
+
+  bool issahre = false;
+  //to generate a random password
+  var k = Random().nextInt(10000) + 10000000000000000;
   late TextEditingController controller;
   var Real;
   late FixedExtentScrollController scrollController;
@@ -122,7 +162,9 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     CollectionReference Parent =
         FirebaseFirestore.instance.collection("Parent");
-
+    getEmail();
+    getUserName();
+    getAdminID();
     return Scaffold(
       // floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       // appBar: AppBar(title: Text("Faten")),
@@ -219,6 +261,65 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                       ),
                       color: _iconColorTween.value,
                     ),
+                    actions: <Widget>[
+                      issahre
+                          ? Container(
+                              padding: const EdgeInsets.only(right: 5),
+                              child: CupertinoButton(
+                                child: Text(
+                                  "مشاركة",
+                                  style: TextStyle(
+                                      color: _icon2ColorTween.value,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                onPressed: () async {
+                                  await showCupertinoDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          new CupertinoAlertDialog(
+                                            title: new Text(
+                                                "هل انت متأكد من رغبتك في مشاركه هذه المعلومات ؟"),
+                                            content: Column(
+                                              children: [
+                                                new Text(
+                                                    "The Parent username:" +
+                                                        Parentusername.text),
+                                                Text("The Password:" +
+                                                    k.toString())
+                                              ],
+                                            ),
+                                            actions: <Widget>[
+                                              CupertinoDialogAction(
+                                                isDefaultAction: true,
+                                                child: Text("نعم"),
+                                                onPressed: () {
+                                                  Share.share(
+                                                      "The User Name :" +
+                                                          Parentusername.text +
+                                                          "The Password:" +
+                                                          k.toString());
+                                                },
+                                              ),
+                                              CupertinoDialogAction(
+                                                child: Text("لا"),
+                                                onPressed: () {
+                                                  Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                      builder: (context) => Nav(
+                                                        TabValue: 10,
+                                                        documentId: "",
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              )
+                                            ],
+                                          ));
+                                },
+                              ),
+                            )
+                          : SizedBox(),
+                    ],
                     backgroundColor: _colorTween.value,
                     elevation: 0,
                     titleSpacing: 0.0,
@@ -341,6 +442,11 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                   if (value!.isEmpty)
                     return "أرجو منك تعبئه الحقل الفارغ ";
                   else {
+                    for (var i = 0; i < docUserName.length; i++) {
+                      if (value == docUserName[i]) {
+                        return "اسم المستخدم مستخدم مسبقا ";
+                      }
+                    }
                     return null;
                   }
                 },
@@ -457,6 +563,11 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                           .hasMatch(value!))
                     return "أرجو منك تعبئه الحقل بطريقه صحيحة مثل something@gmail.com ";
                   else {
+                    for (var i = 0; i < docEmails.length; i++) {
+                      if (value == docEmails[i]) {
+                        return "الايميل مستخدم مسبقا ";
+                      }
+                    }
                     return null;
                   }
                 },
@@ -1001,6 +1112,10 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
 
         break;
       case 3:
+        setState(() {
+          issahre = true;
+        });
+
         Fields = Column(
           children: [
             Directionality(
@@ -1220,6 +1335,9 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                   child: FloatingActionButton(
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
+                        setState(() {
+                          issahre = true;
+                        });
                         await parentx.addParent(
                             widget.Name,
                             widget.username,
@@ -1228,16 +1346,18 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                             widget.phone1,
                             widget.phone2,
                             nationality.text,
+                            k,
                             jobTitle.text,
-                            widget.Realtion);
+                            widget.Realtion,
+                            docAdmin[0]);
 
                         await showCupertinoDialog(
                             context: context, builder: CreateDialog);
 
-                        Navigator.of(context).push(MaterialPageRoute(
+                        /* Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => Nav(
                                   TabValue: 10,
-                                )));
+                                )));*/
                       }
                     },
                     elevation: 0,
@@ -1291,13 +1411,27 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                 style: TextStyle(
                     color: const Color(0xff57d77a),
                     fontWeight: FontWeight.bold)),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => Nav(
+                  TabValue: 7,
+                  documentId: "Cu5WEwZNoe5eqIl0NOJp",
+                  index: 3,
+                  Realtion: value,
+                  Name: widget.Name,
+                  username: widget.username,
+                  email: widget.email,
+                  phone1: phoneNumber.text,
+                  phone2: altphoneNumber.text,
+                ),
+              ));
+            },
           )
         ],
       );
 }
 
-  /* TextFieldWidget(String title, String hint, String hint, IconData iconData,
+/* TextFieldWidget(String title, String hint, String hint, IconData iconData,
       TextEditingController controller, Function validator,
       {Function? onTap, bool readOnly = false}) {
     return Column(
@@ -1305,7 +1439,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
       children: [],
     );
   }*/
-  /* Widget getWidget() {
+/* Widget getWidget() {
     return Container(
       width: Get.width,
       decoration: BoxDecoration(
@@ -1520,4 +1654,3 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
   
   
   */
-

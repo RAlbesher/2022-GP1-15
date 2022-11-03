@@ -5,6 +5,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:math';
+import 'package:crypto/crypto.dart';
+import 'dart:convert';
+import 'package:encryptor/encryptor.dart';
 //import 'package:adobe_xd/adobe_xd.dart';
 //import 'package:flutter/src/widgets/framework.dart';
 
@@ -127,21 +131,26 @@ class Parent {
   }*/
 
   addParent(PN, PUserName, Email, PID, ParenPhoneNo, AltPhoneNum, Nationality,
-      JobT, PRelativeRelation) async {
+      randompass, JobT, PRelativeRelation, AdminID) async {
     CollectionReference Parents =
         FirebaseFirestore.instance.collection("Parent");
+    //for hashing
+    String stringValue = randompass.toString();
+    var digest = sha1.convert(utf8.encode(stringValue)).toString();
+    //end of hashing
     Parents.add({
       'Name': PN,
       'UserName': PUserName,
       'Email': Email,
       'NationalID': PID,
-      'Password': PID,
+      'Password': digest,
       'PhoneNumber': ParenPhoneNo,
       'AltPhoneNumber': AltPhoneNum,
       'Nationality': Nationality,
       'JobTitle': JobT,
       'LateStatus': false,
       "RelativeRelation": PRelativeRelation,
+      "AdminID": AdminID,
     });
   }
 

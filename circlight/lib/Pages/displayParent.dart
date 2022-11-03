@@ -224,7 +224,7 @@ class _Paretdisplay extends State<Paretdisplay> with TickerProviderStateMixin {
                                                   alignment: Alignment.center,
                                                   children: [
                                                     Container(
-                                                      /*
+                                                        /*
                       decoration: BoxDecoration(
                           image: DecorationImage(
                               image: AssetImage('../assets/images/mask.jpeg'),
@@ -250,11 +250,9 @@ class _Paretdisplay extends State<Paretdisplay> with TickerProviderStateMixin {
                         )),
                       ),
                     )*/
-                                                      //for profile image
+                                                        //for profile image
 
-                                                      decoration:
-                                                          BoxDecoration(),
-                                                    ),
+                                                        ),
                                                     Align(
                                                       alignment:
                                                           Alignment.topRight,
