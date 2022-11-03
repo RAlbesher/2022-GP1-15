@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 //import '../widgets/search_testfield.dart';
 import 'base_screen.dart';
 import 'displayParent.dart';
+import 'displayStudent.dart';
 
 class FeaturedScreen extends StatefulWidget {
   const FeaturedScreen({Key? key}) : super(key: key);
@@ -125,10 +126,10 @@ class Body extends StatelessWidget {
                       height: 120.0,
                     ),
                     onTap: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => CourseScreen()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Studentdispaly()));
                     },
                   ),
                 ),

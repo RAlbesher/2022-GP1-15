@@ -74,7 +74,7 @@ class _Nav extends State<Nav> {
           break;
         case 7:
           currentScreen = Createparent5(
-            index: 1,
+            index: widget.index,
             Name: widget.Name,
             username: widget.username,
             email: widget.email,
@@ -101,6 +101,10 @@ class _Nav extends State<Nav> {
             whichpag: 0,
           );
           Tab = 9;
+          break;
+        case 10:
+          currentScreen = Paretdisplay();
+          Tab = 10;
           break;
       }
     });

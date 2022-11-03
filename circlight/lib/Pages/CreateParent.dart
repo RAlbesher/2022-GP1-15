@@ -292,7 +292,8 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
             Directionality(
               textDirection: TextDirection.rtl,
               child: TextFormField(
-                controller: parentName,
+                controller: parentName..text = parentx.Name,
+
                 //  controller: parentUserName..text = parentx.PUserName,
                 //to take text from user input
                 textAlign: TextAlign.right,
@@ -510,13 +511,23 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                   child: FloatingActionButton(
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => Createparent5(
-                              index: 2,
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => Nav(
+                              TabValue: 7,
+                              documentId: "",
                               Name: parentName.text,
                               username: Parentusername.text,
-                              email: email.text),
-                        ));
+                              Realtion: "",
+                              email: email.text,
+                              index: 2,
+                              phone1: "",
+                              phone2: "",
+                              job: "",
+                              ID: "",
+                            ),
+                          ),
+                        );
                         //  if (formKey.currentState!.validate()) {}
                       }
                     },
@@ -874,7 +885,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                         if (formKey.currentState!.validate()) {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => Nav(
-                              TabValue: 8,
+                              TabValue: 7,
                               documentId: "Cu5WEwZNoe5eqIl0NOJp",
                               index: 3,
                               Realtion: value,
@@ -939,13 +950,18 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                     child: FloatingActionButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => Createparent5(
-                              index: 1,
-                              Name: parentName.text,
-                              username: Parentusername.text,
-                              email: email.text),
+                          builder: (context) => Nav(
+                            TabValue: 7,
+                            documentId: "Cu5WEwZNoe5eqIl0NOJp",
+                            index: 1,
+                            Realtion: value,
+                            Name: widget.Name,
+                            username: widget.username,
+                            email: widget.email,
+                            phone1: phoneNumber.text,
+                            phone2: altphoneNumber.text,
+                          ),
                         ));
-
                         //  if (formKey.currentState!.validate()) {}
                       },
                       elevation: 0,
@@ -1267,7 +1283,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
         ),
         actions: [
           CupertinoDialogAction(
-            child: Text("OK",
+            child: Text("موافق",
                 style: TextStyle(
                     color: const Color(0xff57d77a),
                     fontWeight: FontWeight.bold)),

@@ -1,16 +1,22 @@
+import 'package:circlight/Pages/Admin.dart';
 import 'package:circlight/Pages/ParentAddform.dart';
 import 'package:circlight/Pages/Student.dart';
 import 'package:circlight/Pages/StudentAddForm.dart';
 import 'package:circlight/Pages/UpdateStudent.dart';
+import 'package:circlight/Pages/base_screen.dart';
+
+import 'package:circlight/Pages/theme_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:circlight/Pages/UpdateParent.dart';
 import 'package:circlight/Pages/Parent.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
-
-import 'Nav.dart';
+import 'package:circlight/Pages/Nav.dart';
+import 'package:flutter/cupertino.dart';
+import 'dart:math';
+import 'header_widget.dart';
+import 'package:get/get.dart';
 
 class Studentdispaly extends StatefulWidget {
   const Studentdispaly({Key? key}) : super(key: key);
@@ -19,9 +25,47 @@ class Studentdispaly extends StatefulWidget {
   State<Studentdispaly> createState() => _Studentdispaly();
 }
 
-class _Studentdispaly extends State<Studentdispaly> {
+class _Studentdispaly extends State<Studentdispaly>
+    with TickerProviderStateMixin {
+  var CurrentID;
+  late AnimationController _ColorAnimationController;
+  late AnimationController _TextAnimationController;
+  late Animation _colorTween, _iconColorTween, _icon2ColorTween;
+  late Animation<Offset> _transTween;
+
   @override
-  List<String> docIDS = [];
+  void initState() {
+    _ColorAnimationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 0));
+    _colorTween = ColorTween(begin: Colors.transparent, end: Color(0xFFee4c4f))
+        .animate(_ColorAnimationController);
+    _iconColorTween = ColorTween(begin: Colors.grey, end: Colors.white)
+        .animate(_ColorAnimationController);
+    _icon2ColorTween =
+        ColorTween(begin: Colors.white, end: const Color(0xff42c98d))
+            .animate(_ColorAnimationController);
+
+    _TextAnimationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 0));
+
+    _transTween = Tween(begin: Offset(-10, 40), end: Offset(-10, 0))
+        .animate(_TextAnimationController);
+
+    super.initState();
+  }
+
+  bool _scrollListener(ScrollNotification scrollInfo) {
+    if (scrollInfo.metrics.axis == Axis.vertical) {
+      _ColorAnimationController.animateTo(scrollInfo.metrics.pixels / 350);
+
+      _TextAnimationController.animateTo(
+          (scrollInfo.metrics.pixels - 350) / 50);
+      return true;
+    }
+
+    return false;
+  }
+
   Student Studentx = new Student(
     Name: "",
     StudentID: "",
@@ -31,198 +75,353 @@ class _Studentdispaly extends State<Studentdispaly> {
     SUserName: "",
     SBloodType: "",
   );
-  //get doc id
-  String CurrentID = "";
-  Future getDocId() async {
-    await FirebaseFirestore.instance.collection("Student").get().then(
-          (snapshot) => snapshot.docs.forEach((document) {
-            // print(document.reference);
-            docIDS.add(document.reference.id);
-          }),
-        );
-    //print(docIDS[0]);
-  }
 
   @override
   Widget build(BuildContext context) {
-    getDocId();
-
+    double _headerHeight = 250;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        //for back
-
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => ParentAddform()));
-          },
-          icon: Icon(Icons.arrow_back),
-          color: Colors.grey,
-        ),
-        centerTitle: false,
-        title: new Padding(
-            padding: const EdgeInsets.only(left: 200),
-            child: new Text("مرحبا",
-                style: TextStyle(
-                  color: Color(0xff0da6c2),
-                ))),
-
-        actions: [
-          Container(
-            //for profile image
-            margin: const EdgeInsets.only(right: 10),
-            alignment: Alignment.centerRight,
-
-            child: Material(
-              elevation: 8,
-              borderRadius: BorderRadius.circular(30),
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              child: InkWell(
-                  splashColor: Colors.black26,
-                  onTap: () {},
-                  child: Image.asset(
-                    'assets/images/Profile.png',
-                    height: 50,
-                    width: 50,
-                    fit: BoxFit.contain,
-                  )),
-            ),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            StreamBuilder<QuerySnapshot>(
-              stream:
-                  FirebaseFirestore.instance.collection("Student").snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasData) {
-                  final snap = snapshot.data!.docs;
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    primary: false,
-                    itemCount: snap.length,
-                    itemBuilder: (context, index) {
-                      //dynamic v = docIDS[index];
-
-                      return Container(
-                          height: 70,
-                          width: double.infinity,
-                          margin: const EdgeInsets.only(bottom: 12),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black26,
-                                offset: Offset(2, 2),
-                                blurRadius: 10,
-                              ),
-                            ],
+      backgroundColor: Color(0xFFEEEEEE),
+      body: NotificationListener<ScrollNotification>(
+        onNotification: _scrollListener,
+        child: Container(
+          height: double.infinity,
+          child: Stack(
+            children: <Widget>[
+              SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      height: Get.height * 0.4,
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: _headerHeight,
+                            child: HeaderWidget(
+                                _headerHeight,
+                                false,
+                                Icons
+                                    .login_rounded), //let's create a common header widget
                           ),
-                          child: Stack(alignment: Alignment.center, children: [
-                            Container(
-                              //for profile image
-                              margin: const EdgeInsets.only(right: 10),
-                              alignment: Alignment.centerRight,
-                              child: Material(
-                                elevation: 8,
-                                borderRadius: BorderRadius.circular(30),
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                child: InkWell(
-                                    splashColor: Colors.black26,
-                                    onTap: () {
-                                      int Tab = 7;
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                        builder: (context) => Nav(
-                                          documentId: docIDS[index],
-                                          TabValue: 7,
-                                        ),
-                                      ));
-                                    },
-                                    child: Image.asset(
-                                      'assets/images/Profile.png',
-                                      height: 50,
-                                      width: 50,
-                                      fit: BoxFit.contain,
-                                    )),
-                              ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    //for the button
+                    /* Align(
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        decoration: ThemeHelper().buttonBoxDecoration(context),
+                        child: ElevatedButton(
+                          style: ThemeHelper().buttonStyle(),
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ParentAddform()));
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
+                            child: Text(
+                              ' اضافه ولي امر + ',
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  //fontWeight: FontWeight.bold,
+                                  color: Colors.white),
                             ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),*/
+                    /* this was the float button Padding(
+                      padding: const EdgeInsets.only(right: 25),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: FloatingActionButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ParentAddform()));
+                          },
+                          child: const Icon(Icons.add),
+                          backgroundColor: const Color(0xff57d77a),
+                        ),
+                      ),
+                    ),*/
 
-                            Container(
-                              margin: const EdgeInsets.only(left: 90),
-                              alignment: Alignment.center,
-                              child: Text(
-                                snap[index]['Name'],
-                                style: const TextStyle(
-                                  color: Color(0xff0da6c2),
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            //container for button
+                    // width: Get.width,
 
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                InkWell(
-                                    onTap: () {
-                                      // print(docIDS[index]);
+                    //let's create a common header widget
 
-                                      int Tab = 8;
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                        builder: (context) => Nav(
-                                          documentId: docIDS[index],
-                                          TabValue: 8,
-                                        ),
-                                      ));
-                                    },
-                                    //height: 80,
-                                    child: Image.asset(
-                                      'assets/images/edit.png',
-                                      height: 60,
-                                      width: 40,
-                                      fit: BoxFit.contain,
-                                    )),
-                                InkWell(
-                                    //height: 80,
-                                    onTap: () {
-                                      //////askkkk
-                                      /* Navigator.of(context).push(
+                    StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection("Student")
+                          .snapshots(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (snapshot.hasData) {
+                          final snap = snapshot.data!.docs;
+                          return FutureBuilder(
+                              future: Future.wait(
+                                  [Admin().getAdminID(), Admin().getDocId()]),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return ListView.builder(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    primary: false,
+                                    itemCount: snap.length,
+                                    itemBuilder: (context, index) {
+                                      //dynamic v = docIDS[index];
+                                      Map<String, dynamic>? mapid = snap[index]
+                                          .data() as Map<String, dynamic>;
+                                      // print("mapcheck ${mapid}");
+                                      String? adminId = mapid['AdminID'];
+
+                                      String? adminIdnew = snapshot.data![0][0];
+                                      bool isAdmin = adminIdnew == adminId;
+                                      //(snap[index]['AdminID'] == AdminID[0])
+                                      return isAdmin
+                                          ? Container(
+                                              height: 70,
+                                              width: double.infinity,
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 12),
+                                              decoration: const BoxDecoration(
+                                                color: Colors.white,
+                                                border: Border(
+                                                  bottom: BorderSide(
+                                                      color: Colors.black12),
+                                                ),
+                                              ),
+                                              child: Stack(
+                                                  alignment: Alignment.center,
+                                                  children: [
+                                                    Container(
+                                                      /*
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('../assets/images/mask.jpeg'),
+                              fit: BoxFit.fill)),
+
+                      //height: Get.height * 0.3,
+                    ),
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Container(
+                        width: 120,
+                        height: 120,
+                        margin: EdgeInsets.only(bottom: 20),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xffD6D6D6),
+                        ),
+                        child: Center(
+                            child: Icon(
+                          Icons.person,
+                          size: 60,
+                          color: Color.fromARGB(95, 60, 58, 58),
+                        )),
+                      ),
+                    )*/
+                                                      //for profile image
+
+                                                      decoration: BoxDecoration(
+                                                          image: DecorationImage(
+                                                              image: AssetImage(
+                                                                  '../assets/images/mask.jpeg'),
+                                                              fit:
+                                                                  BoxFit.fill)),
+                                                    ),
+
+                                                    //to only show the allowed people to admin
+
+                                                    Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              left: 90),
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: Text(
+                                                        snap[index]['Name'],
+                                                        style: const TextStyle(
+                                                          color:
+                                                              Color(0xff0da6c2),
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    //container for button
+
+                                                    Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        InkWell(
+                                                            // height: 80,
+                                                            onTap: () {
+                                                              //////askkkk
+                                                              /* Navigator.of(context).push(
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   //askkkkk faten where should it go ??;
 */
-                                      CurrentID = docIDS[index];
-                                      showCupertinoDialog(
-                                          context: context,
-                                          builder: CreateDialog3);
+                                                              CurrentID =
+                                                                  snapshot.data![
+                                                                      1][index];
+                                                              showCupertinoDialog(
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      CreateDialog3);
+                                                            },
+                                                            child: Image.asset(
+                                                              'assets/images/delete.png',
+                                                              height: 30,
+                                                              width: 45,
+                                                              fit: BoxFit
+                                                                  .contain,
+                                                            )),
+                                                        InkWell(
+                                                            onTap: () {
+                                                              // print(docIDS[index]);
+
+                                                              int Tab = 8;
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .push(
+                                                                      MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        Nav(
+                                                                  documentId:
+                                                                      snapshot.data![
+                                                                              1]
+                                                                          [
+                                                                          index],
+                                                                  TabValue: 8,
+                                                                ),
+                                                              ));
+                                                            },
+                                                            child: Image.asset(
+                                                              'assets/images/edit.png',
+                                                              height: 30,
+                                                              width: 40,
+                                                              fit: BoxFit
+                                                                  .contain,
+                                                            )),
+                                                        InkWell(
+                                                            //height: 80,
+                                                            onTap: () {
+                                                              int Tab = 7;
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .push(
+                                                                      MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        Nav(
+                                                                  documentId:
+                                                                      snapshot.data![
+                                                                              1]
+                                                                          [
+                                                                          index],
+                                                                  TabValue: 7,
+                                                                ),
+                                                              ));
+                                                            },
+                                                            child: Image.asset(
+                                                              'assets/images/addStudent.png',
+                                                              height: 30,
+                                                              width: 40,
+                                                              fit: BoxFit
+                                                                  .contain,
+                                                            )),
+                                                      ],
+                                                    ),
+                                                  ]))
+                                          : const SizedBox();
                                     },
-                                    child: Image.asset(
-                                      'assets/images/delete.png',
-                                      height: 55,
-                                      width: 40,
-                                      fit: BoxFit.contain,
-                                    )),
-                              ],
-                            ),
-                          ]));
-                    },
-                  );
-                } else {
-                  return const SizedBox();
-                }
-              },
-            )
-          ],
+                                  );
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                              });
+                        } else {
+                          return const SizedBox();
+                        }
+                      },
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                height: 55,
+                child: AnimatedBuilder(
+                  animation: _ColorAnimationController,
+                  builder: (context, child) => AppBar(
+                    leading: IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BaseScreen()));
+                      },
+                      icon: Icon(
+                        Icons.arrow_back_ios_new,
+                        size: 16,
+                        color: Colors.white,
+                      ),
+                      color: Colors.white,
+                    ),
+                    backgroundColor: _colorTween.value,
+                    elevation: 0,
+                    titleSpacing: 0.0,
+                    title: Align(
+                      alignment: Alignment.topCenter,
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Text(
+                          "مرحبا ",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    iconTheme: IconThemeData(
+                      color: Colors.white,
+                    ),
+                    actions: <Widget>[
+                      /*Container(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: CupertinoButton(
+                          child: Text(
+                            "حفظ",
+                            style: TextStyle(
+                                color: _icon2ColorTween.value,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          onPressed: () async {},
+                        ),
+                      ),*/
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -248,84 +447,6 @@ class _Studentdispaly extends State<Studentdispaly> {
             },
             child: Text("موافق")),
       ],
-    );
-  }
-}
-
-//this class is for search for now it is not liked to parent and studetn
-class CustomSearchDelegate extends SearchDelegate {
-  // Demo list to show querying
-  List<String> searchTerms = [
-    "Parent",
-    "student",
-    "school",
-    "teacher",
-    "delegator",
-  ];
-
-  // first overwrite to
-  // clear the search text
-  @override
-  List<Widget>? buildActions(BuildContext context) {
-    return [
-      IconButton(
-        onPressed: () {
-          query = '';
-        },
-        icon: Icon(Icons.clear),
-      ),
-    ];
-  }
-
-  // second overwrite to pop out of search menu
-  @override
-  Widget? buildLeading(BuildContext context) {
-    return IconButton(
-      onPressed: () {
-        close(context, null);
-      },
-      icon: Icon(Icons.arrow_back),
-    );
-  }
-
-  // third overwrite to show query result
-  @override
-  Widget buildResults(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var fruit in searchTerms) {
-      if (fruit.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
-      }
-    }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
-        );
-      },
-    );
-  }
-
-  // last overwrite to show the
-  // querying process at the runtime
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var fruit in searchTerms) {
-      if (fruit.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
-      }
-    }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
-        );
-      },
     );
   }
 }

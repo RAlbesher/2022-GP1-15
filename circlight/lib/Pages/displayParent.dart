@@ -14,6 +14,8 @@ import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:circlight/Pages/Nav.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:math';
+import 'CreateParent.dart';
+import 'base_screen.dart';
 import 'header_widget.dart';
 import 'package:get/get.dart';
 
@@ -76,7 +78,7 @@ class _Paretdisplay extends State<Paretdisplay> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    double _headerHeight = 250;
+    double _headerHeight = 150;
     return Scaffold(
       backgroundColor: Color(0xFFEEEEEE),
       body: NotificationListener<ScrollNotification>(
@@ -102,65 +104,63 @@ class _Paretdisplay extends State<Paretdisplay> with TickerProviderStateMixin {
                                 Icons
                                     .login_rounded), //let's create a common header widget
                           ),
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Container(
-                              width: 120,
-                              height: 120,
-                              margin: EdgeInsets.only(bottom: 20),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color.fromARGB(255, 255, 244, 244),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Color(0xff57d77a).withOpacity(0.2),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: Offset(
-                                        0, 3), // changes position of shadow
+
+                          //for the button
+                          Container(
+                            padding: EdgeInsets.only(right: 20, top: 110),
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: InkWell(
+                                child: Container(
+                                  width: 50,
+                                  height: 50,
+                                  margin: EdgeInsets.only(bottom: 20),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color.fromARGB(255, 255, 244, 244),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color:
+                                            Color(0xff57d77a).withOpacity(0.2),
+                                        spreadRadius: 5,
+                                        blurRadius: 7,
+                                        offset: Offset(
+                                            0, 3), // changes position of shadow
+                                      ),
+                                    ],
                                   ),
-                                ],
+                                  child: Center(
+                                      child: Icon(
+                                    Icons.add,
+                                    size: 20,
+                                    color: Color(0xff57d77a).withOpacity(0.4),
+                                  )),
+                                ),
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => Nav(
+                                      TabValue: 7,
+                                      documentId: "",
+                                      Name: "",
+                                      username: "",
+                                      Realtion: "",
+                                      email: "",
+                                      index: 1,
+                                      phone1: "",
+                                      phone2: "",
+                                      job: "",
+                                      ID: "",
+                                    ),
+                                  ));
+                                },
                               ),
-                              child: Center(
-                                  child: Icon(
-                                Icons.person,
-                                size: 60,
-                                color: Color(0xff57d77a).withOpacity(0.4),
-                              )),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    //for the button
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        decoration: ThemeHelper().buttonBoxDecoration(context),
-                        child: ElevatedButton(
-                          style: ThemeHelper().buttonStyle(),
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ParentAddform()));
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
-                            child: Text(
-                              ' اضافه ولي امر + ',
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  //fontWeight: FontWeight.bold,
-                                  color: Colors.white),
                             ),
                           ),
-                        ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                        ],
                       ),
-                    ),
-                    const SizedBox(
-                      height: 20,
                     ),
                     /* this was the float button Padding(
                       padding: const EdgeInsets.only(right: 25),
@@ -536,7 +536,12 @@ class _Paretdisplay extends State<Paretdisplay> with TickerProviderStateMixin {
                   animation: _ColorAnimationController,
                   builder: (context, child) => AppBar(
                     leading: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BaseScreen()));
+                      },
                       icon: Icon(
                         Icons.arrow_back_ios_new,
                         size: 16,
