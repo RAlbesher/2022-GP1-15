@@ -304,39 +304,19 @@ class _Studentdispaly extends State<Studentdispaly>
                                                                               1]
                                                                           [
                                                                           index],
-                                                                  TabValue: 8,
+                                                                  TabValue: 9,
+                                                                  TheValue: "",
+                                                                  whichpag: 0,
+                                                                  DropDown:
+                                                                      false,
+                                                                  Confirm:
+                                                                      false,
+                                                                  index: 1,
                                                                 ),
                                                               ));
                                                             },
                                                             child: Image.asset(
                                                               'assets/images/edit.png',
-                                                              height: 30,
-                                                              width: 40,
-                                                              fit: BoxFit
-                                                                  .contain,
-                                                            )),
-                                                        InkWell(
-                                                            //height: 80,
-                                                            onTap: () {
-                                                              int Tab = 7;
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .push(
-                                                                      MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        Nav(
-                                                                  documentId:
-                                                                      snapshot.data![
-                                                                              1]
-                                                                          [
-                                                                          index],
-                                                                  TabValue: 7,
-                                                                ),
-                                                              ));
-                                                            },
-                                                            child: Image.asset(
-                                                              'assets/images/addStudent.png',
                                                               height: 30,
                                                               width: 40,
                                                               fit: BoxFit

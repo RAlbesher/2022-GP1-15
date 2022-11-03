@@ -72,8 +72,8 @@ class Student {
     await Parents.doc(DocId).delete();
   }
 
-  addStudent(DocId, Name, SUserName, StudentID, SNationality, Class, SBloodType,
-      AdminID) async {
+  addStudent(DocId, Name, SUserName, StudentID, SNationalID, SNationality,
+      Class, SBloodType, AdminID) async {
     final Student = FirebaseFirestore.instance;
     await Student.collection("Student").add({
       "ParentId": DocId,
