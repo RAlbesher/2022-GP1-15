@@ -83,7 +83,6 @@ class _EditStudentState extends State<EditStudent>
   final formKey = GlobalKey<FormState>();
   Student Studentx = new Student(
     Name: "",
-    StudentID: "",
     Class: "",
     SNationalID: "",
     SNationality: "",
@@ -194,7 +193,7 @@ class _EditStudentState extends State<EditStudent>
                   snapshot.data!.data() as Map<String, dynamic>;
               final String jsonString = jsonEncode(data);
               Studentx.Name = data["Name"];
-              Studentx.StudentID = data["StudentID"];
+
               Studentx.SUserName = data["UserName"];
               Studentx.Class = data["Class"];
               Studentx.SNationalID = data["NationalID"];
@@ -237,9 +236,7 @@ class _EditStudentState extends State<EditStudent>
       case 2:
         Title = "اسم المستخدم";
         break;
-      case 3:
-        Title = "الرقم التعريفي";
-        break;
+
       case 4:
         Title = "صف الطالب";
         break;
@@ -255,80 +252,52 @@ class _EditStudentState extends State<EditStudent>
     }
     return Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-            onPressed: () async {
-              if (save == false) {
-                Navigator.pop(context);
-              }
-              if (save == true) {
-                showCupertinoDialog(context: context, builder: CreateDialog3);
-              }
-              print(value);
-              await Studentx.UpdateStudent(
-                  widget.documentId, "RelativeRelation", Oldval);
-            },
-            icon: Icon(
-              Icons.arrow_back_ios_new,
-              size: 16,
-              color: Colors.grey,
-            ),
-            color: Colors.grey,
-          ),
-          title: Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              padding: const EdgeInsets.only(left: 20),
-              child: Text(
-                Title,
-                textAlign: TextAlign.start,
-                style: TextStyle(color: Colors.black38),
-              ),
-            ),
-          ),
-          actions: [
-            Container(
-              padding: const EdgeInsets.only(right: 5),
-              child: CupertinoButton(
-                child: Text(
-                  "حفظ",
-                  style: TextStyle(color: const Color(0xff42c98d)),
-                ),
-                onPressed: () async {
-                  if (formKey.currentState!.validate()) {
-                    //t(DocId, Field, Name)
-                    if (save == false) {
-                      Navigator.pop(context);
-                    }
+          automaticallyImplyLeading: false,
+          title: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: CupertinoButton(
+                    child: Text(
+                      "حفظ",
+                      style: TextStyle(color: const Color(0xff42c98d)),
+                    ),
+                    onPressed: () async {
+                      if (formKey.currentState!.validate()) {
+                        //t(DocId, Field, Name)
+                        if (save == false) {
+                          Navigator.pop(context);
+                        }
 
-                    switch (Field) {
-                      case "Name":
-                        UpdatedValue = StudentName.text;
-                        break;
-                      case "UserName":
-                        UpdatedValue = STUserName.text;
-                        break;
-                      case "Class":
-                        UpdatedValue = SClass.text;
-                        break;
-                      case "BloodType":
-                        UpdatedValue = BloodType.text;
-                        break;
-                      case "StudentID":
-                        UpdatedValue = StudID.text;
-                        break;
-                      case "NationalID":
-                        UpdatedValue = STNationalID.text;
-                        break;
-                      case "Nationality":
-                        UpdatedValue = STNationality.text;
-                        break;
-                      case "RelativeRelation":
-                        UpdatedValue = Dvalue;
-                        break;
-                    }
+                        switch (Field) {
+                          case "Name":
+                            UpdatedValue = StudentName.text;
+                            break;
+                          case "UserName":
+                            UpdatedValue = STUserName.text;
+                            break;
+                          case "Class":
+                            UpdatedValue = SClass.text;
+                            break;
+                          case "BloodType":
+                            UpdatedValue = BloodType.text;
+                            break;
 
-                    if (save == true) {
-                      /* Navigator.of(context).push(MaterialPageRoute(
+                          case "NationalID":
+                            UpdatedValue = STNationalID.text;
+                            break;
+                          case "Nationality":
+                            UpdatedValue = STNationality.text;
+                            break;
+                          case "RelativeRelation":
+                            UpdatedValue = Dvalue;
+                            break;
+                        }
+
+                        if (save == true) {
+                          /* Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => editparent5(
                                 documentId: widget.documentId,
                                 Confirm: save,
@@ -336,37 +305,76 @@ class _EditStudentState extends State<EditStudent>
                                 TheValue: "",
                                 whichpag: 0,
                               )));*/
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(snackBar); // snack
-                      Future.delayed(const Duration(milliseconds: 1500))
-                          .then((value) {
-                        Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                                builder: (context) => EditStudent(
-                                      documentId: widget.documentId,
-                                      Confirm: save,
-                                      Index: 1,
-                                      TheValue: "",
-                                      whichpag: 0,
-                                      DropDown: isDrop,
-                                    )));
-                      });
-                    }
-                    await Studentx.UpdateStudent(
-                        widget.documentId, Field, UpdatedValue);
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(snackBar); // snack
+                          Future.delayed(const Duration(milliseconds: 1500))
+                              .then((value) {
+                            Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) => Nav(
+                                          TabValue: 9,
+                                          documentId: widget.documentId,
+                                          Confirm: save,
+                                          index: 1,
+                                          TheValue: "",
+                                          whichpag: 0,
+                                          DropDown: isDrop,
+                                        )));
+                          });
+                        }
+                        await Studentx.UpdateStudent(
+                            widget.documentId, Field, UpdatedValue);
 
-                    /* Navigator.of(context).push(MaterialPageRoute(
+                        /* Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => editparent5(
                               documentId: widget.documentId,
                             )));*/
 
-                    // //
+                        // //
 
-                    //
+                        //
+                      }
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: 80,
+                ),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Text(
+                      Title,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(color: Colors.black38),
+                    ),
+                  ),
+                ),
+              ]),
+          actions: [
+            IconButton(
+              onPressed: () async {
+                if (formKey.currentState!.validate()) {
+                  if (save == false) {
+                    Navigator.pop(context);
                   }
-                },
+                  if (save == true) {
+                    showCupertinoDialog(
+                        context: context, builder: CreateDialog3);
+                  }
+                  print(value);
+                  await Studentx.UpdateStudent(
+                      widget.documentId, "RelativeRelation", Oldval);
+                }
+              },
+              icon: Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+                color: Colors.grey,
               ),
+              color: Colors.grey,
             ),
           ],
           backgroundColor: Color(0xFFffffff),
@@ -435,10 +443,16 @@ class _EditStudentState extends State<EditStudent>
                   color: const Color(0xff57d77a),
                   fontSize: 12,
                   fontWeight: FontWeight.w300),
-              prefixIcon: const Icon(
-                Icons.email_outlined,
-                size: 21,
-                color: const Color(0xff42c98d),
+              prefixIcon: Padding(
+                padding: const EdgeInsets.only(right: 12, top: 9, left: 9),
+                child: Container(
+                  //  padding: const EdgeInsets.only(right: 5),
+
+                  child: Column(children: [
+                    Image.asset("assets/icons/name.png",
+                        width: 20, height: 20, color: Color(0xff42c98d)),
+                  ]),
+                ),
               ),
               enabledBorder: UnderlineInputBorder(
                   borderSide:
@@ -493,10 +507,13 @@ class _EditStudentState extends State<EditStudent>
                   color: const Color(0xff57d77a),
                   fontSize: 12,
                   fontWeight: FontWeight.w300),
-              prefixIcon: const Icon(
-                Icons.email_outlined,
-                size: 21,
-                color: const Color(0xff42c98d),
+              prefixIcon: Padding(
+                padding: const EdgeInsets.only(right: 5),
+                child: Icon(
+                  Icons.person,
+                  size: 22,
+                  color: const Color(0xff42c98d),
+                ),
               ),
               enabledBorder: UnderlineInputBorder(
                   borderSide:
@@ -526,122 +543,7 @@ class _EditStudentState extends State<EditStudent>
           ),
         );
         break;
-      case 3:
-        Field = "StudentID";
-        OldValue = Studentx.StudentID;
-        Fields = Directionality(
-          textDirection: TextDirection.rtl,
-          child: TextFormField(
-            controller: StudID..text = Studentx.StudentID,
-            //to take text from user input
-            textAlign: TextAlign.right,
 
-            style: GoogleFonts.poppins(
-                fontSize: 14,
-                //fontWeight: FontWeight.w600,
-                color: Colors.grey),
-            showCursor: true,
-            cursorColor: const Color(0xff57d77a),
-
-            decoration: InputDecoration(
-              hintText: "أدخل الرقم التعريفي للطالب",
-              labelText: "الرقم التعريفي",
-              hintStyle: const TextStyle(color: Colors.grey, fontSize: 12),
-              labelStyle: const TextStyle(
-                  color: const Color(0xff57d77a),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w300),
-              prefixIcon: const Icon(
-                Icons.email_outlined,
-                size: 21,
-                color: const Color(0xff57d77a),
-              ),
-              enabledBorder: UnderlineInputBorder(
-                  borderSide:
-                      BorderSide(color: const Color(0xff57d77a), width: 1),
-                  borderRadius: BorderRadius.circular(10)),
-              floatingLabelStyle: const TextStyle(
-                  color: const Color(0xff57d77a),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w300),
-              focusedBorder: UnderlineInputBorder(
-                borderSide:
-                    BorderSide(color: const Color(0xff57d77a), width: 2),
-                borderRadius: BorderRadius.circular(15),
-              ),
-            ),
-            validator: (value) {
-              // save = true;
-              if (OldValue != StudID.text) {
-                save = true;
-              }
-              if (value!.isEmpty || !RegExp(r'^[0-9]{10}$').hasMatch(value!))
-                return "أرجو منك تعبئه الحقل بطريقه صحيحه حيث يتكون من 10 ارقام";
-              else {
-                return null;
-              }
-            },
-          ),
-        );
-        break;
-      case 4:
-        Field = "Class";
-        OldValue = Studentx.Class;
-        Fields = Directionality(
-          textDirection: TextDirection.rtl,
-          child: TextFormField(
-            controller: SClass..text = Studentx.Class,
-            //to take text from user input
-            textAlign: TextAlign.right,
-
-            style: GoogleFonts.poppins(
-                fontSize: 14,
-                //fontWeight: FontWeight.w600,
-                color: Colors.grey),
-            showCursor: true,
-            cursorColor: const Color(0xff57d77a),
-
-            decoration: InputDecoration(
-              hintText: "أدخل رقم صف الطالب",
-              labelText: "صف الطالب",
-              hintStyle: const TextStyle(color: Colors.grey, fontSize: 12),
-              labelStyle: const TextStyle(
-                  color: const Color(0xff57d77a),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w300),
-              prefixIcon: const Icon(
-                Icons.email_outlined,
-                size: 21,
-                color: const Color(0xff57d77a),
-              ),
-              enabledBorder: UnderlineInputBorder(
-                  borderSide:
-                      BorderSide(color: const Color(0xff57d77a), width: 1),
-                  borderRadius: BorderRadius.circular(10)),
-              floatingLabelStyle: const TextStyle(
-                  color: const Color(0xff57d77a),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w300),
-              focusedBorder: UnderlineInputBorder(
-                borderSide:
-                    BorderSide(color: const Color(0xff57d77a), width: 2),
-                borderRadius: BorderRadius.circular(15),
-              ),
-            ),
-            validator: (value) {
-              if (OldValue != SClass.text) {
-                save = true;
-              }
-
-              if (value!.isEmpty || !RegExp(r'^[0-9]{1}$').hasMatch(value!))
-                return "الصف يجب أن يكون رقم واحد فقط";
-              else {
-                return null;
-              }
-            },
-          ),
-        );
-        break;
       case 5:
         Field = "NationalID";
         OldValue = Studentx.SNationalID;
@@ -667,10 +569,16 @@ class _EditStudentState extends State<EditStudent>
                   color: const Color(0xff57d77a),
                   fontSize: 12,
                   fontWeight: FontWeight.w300),
-              prefixIcon: const Icon(
-                Icons.email_outlined,
-                size: 21,
-                color: const Color(0xff57d77a),
+              prefixIcon: Padding(
+                padding: const EdgeInsets.only(right: 12, top: 9, left: 9),
+                child: Container(
+                  //  padding: const EdgeInsets.only(right: 5),
+
+                  child: Column(children: [
+                    Image.asset("assets/icons/ID.png",
+                        width: 20, height: 20, color: Color(0xff42c98d)),
+                  ]),
+                ),
               ),
               enabledBorder: UnderlineInputBorder(
                   borderSide:
@@ -725,10 +633,16 @@ class _EditStudentState extends State<EditStudent>
                   color: const Color(0xff57d77a),
                   fontSize: 12,
                   fontWeight: FontWeight.w300),
-              prefixIcon: const Icon(
-                Icons.email_outlined,
-                size: 21,
-                color: const Color(0xff57d77a),
+              prefixIcon: Padding(
+                padding: const EdgeInsets.only(right: 12, top: 9, left: 9),
+                child: Container(
+                  //  padding: const EdgeInsets.only(right: 5),
+
+                  child: Column(children: [
+                    Image.asset("assets/icons/Nationality.png",
+                        width: 20, height: 20, color: Color(0xff42c98d)),
+                  ]),
+                ),
               ),
               enabledBorder: UnderlineInputBorder(
                   borderSide:
@@ -887,9 +801,10 @@ class _EditStudentState extends State<EditStudent>
                                   ),
                                 ),
                                 onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => EditStudent(
-                                      Index: 1,
+                                  Navigator.of(context).push(CupertinoPageRoute(
+                                    builder: (context) => Nav(
+                                      TabValue: 9,
+                                      index: 1,
                                       documentId: widget.documentId,
                                       TheValue: StudentName.text,
                                       whichpag: 1,
@@ -958,155 +873,12 @@ class _EditStudentState extends State<EditStudent>
                                   ),
                                 ),
                                 onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => EditStudent(
-                                      Index: 2,
+                                  Navigator.of(context).push(CupertinoPageRoute(
+                                    builder: (context) => Nav(
+                                      TabValue: 9,
+                                      index: 2,
                                       documentId: widget.documentId,
                                       TheValue: STUserName.text,
-                                      whichpag: 1,
-                                      Confirm: false,
-                                      DropDown: isDrop,
-                                    ),
-                                  ));
-                                },
-                              ),
-                              const SizedBox(
-                                height: 32,
-                              ),
-                              InkWell(
-                                child: Container(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        padding: EdgeInsets.only(bottom: 10),
-                                        child: Positioned(
-                                          left: 0.0,
-                                          child: Icon(
-                                            Icons.arrow_back_ios_outlined,
-                                            color: const Color(0xff57d77a),
-                                            size: 16,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                              left: 2, bottom: 10),
-                                          child: Text(
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 13.5,
-                                                fontWeight: FontWeight.w600,
-                                                color: Color.fromARGB(
-                                                    255, 188, 187, 187)),
-                                            Studentx.StudentID,
-                                            maxLines: 2,
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                              right: 10, bottom: 10),
-                                          child: Text(
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                                color: const Color(0xff57d77a)),
-                                            "الرقم التعريفي",
-                                            maxLines: 2,
-                                            textAlign: TextAlign.right,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      bottom: BorderSide(
-                                          width: 1.0,
-                                          color: const Color(0xff57d77a)),
-                                    ),
-                                  ),
-                                ),
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => EditStudent(
-                                      Index: 3,
-                                      documentId: widget.documentId,
-                                      TheValue: StudID.text,
-                                      whichpag: 1,
-                                      Confirm: false,
-                                      DropDown: isDrop,
-                                    ),
-                                  ));
-                                },
-                              ),
-                              const SizedBox(
-                                height: 32,
-                              ),
-                              InkWell(
-                                child: Container(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        padding: EdgeInsets.only(bottom: 10),
-                                        child: Positioned(
-                                          left: 0.0,
-                                          child: Icon(
-                                            Icons.arrow_back_ios_outlined,
-                                            color: const Color(0xff57d77a),
-                                            size: 16,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                              left: 2, bottom: 10),
-                                          child: Text(
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 13.5,
-                                                fontWeight: FontWeight.w600,
-                                                color: Color.fromARGB(
-                                                    255, 188, 187, 187)),
-                                            Studentx.Class,
-                                            maxLines: 2,
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                              right: 10, bottom: 10),
-                                          child: Text(
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                                color: const Color(0xff57d77a)),
-                                            "صف الطالب",
-                                            maxLines: 2,
-                                            textAlign: TextAlign.right,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      bottom: BorderSide(
-                                          width: 1.0,
-                                          color: const Color(0xff57d77a)),
-                                    ),
-                                  ),
-                                ),
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => EditStudent(
-                                      Index: 4,
-                                      documentId: widget.documentId,
-                                      TheValue: SClass.text,
                                       whichpag: 1,
                                       Confirm: false,
                                       DropDown: isDrop,
@@ -1174,9 +946,10 @@ class _EditStudentState extends State<EditStudent>
                                   ),
                                 ),
                                 onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => EditStudent(
-                                      Index: 5,
+                                  Navigator.of(context).push(CupertinoPageRoute(
+                                    builder: (context) => Nav(
+                                      TabValue: 9,
+                                      index: 5,
                                       documentId: widget.documentId,
                                       TheValue: STNationalID.text,
                                       whichpag: 1,
@@ -1246,9 +1019,10 @@ class _EditStudentState extends State<EditStudent>
                                   ),
                                 ),
                                 onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => EditStudent(
-                                      Index: 6,
+                                  Navigator.of(context).push(CupertinoPageRoute(
+                                    builder: (context) => Nav(
+                                      TabValue: 9,
+                                      index: 6,
                                       documentId: widget.documentId,
                                       TheValue: STNationality.text,
                                       whichpag: 1,
@@ -1334,28 +1108,27 @@ class _EditStudentState extends State<EditStudent>
                                                       ),
                                                     ),
                                                   ),
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Container(
-                                                        alignment: Alignment
-                                                            .centerRight,
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                          left: 120,
-                                                        ),
-                                                        child: Text(
-                                                          style: GoogleFonts.poppins(
-                                                              fontSize: 14,
-                                                              color: const Color(
-                                                                  0xff57d77a)),
-                                                          '  فصيلة الدم',
-                                                          maxLines: 2,
-                                                          textAlign:
-                                                              TextAlign.right,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
+                                                  Row(children: [
+                                                    Text(
+                                                      style: GoogleFonts.poppins(
+                                                          fontSize: 14,
+                                                          color: const Color(
+                                                              0xff57d77a)),
+                                                      'فصيلة الدم ',
+                                                      maxLines: 2,
+                                                      textAlign:
+                                                          TextAlign.right,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    Image.asset(
+                                                        "assets/icons/Blood.png",
+                                                        width: 15,
+                                                        height: 15,
+                                                        color:
+                                                            Color(0xff42c98d)),
+                                                  ]),
                                                 ],
                                               ),
                                             ),
@@ -1522,28 +1295,27 @@ class _EditStudentState extends State<EditStudent>
                                                       ),
                                                     ),
                                                   ),
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Container(
-                                                        alignment: Alignment
-                                                            .centerRight,
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                          left: 120,
-                                                        ),
-                                                        child: Text(
-                                                          style: GoogleFonts.poppins(
-                                                              fontSize: 14,
-                                                              color: const Color(
-                                                                  0xff57d77a)),
-                                                          ' الصف',
-                                                          maxLines: 2,
-                                                          textAlign:
-                                                              TextAlign.right,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
+                                                  Row(children: [
+                                                    Text(
+                                                      style: GoogleFonts.poppins(
+                                                          fontSize: 14,
+                                                          color: const Color(
+                                                              0xff57d77a)),
+                                                      'صف الطالب',
+                                                      maxLines: 2,
+                                                      textAlign:
+                                                          TextAlign.right,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    Image.asset(
+                                                        "assets/icons/Class.png",
+                                                        width: 15,
+                                                        height: 15,
+                                                        color:
+                                                            Color(0xff42c98d)),
+                                                  ]),
                                                 ],
                                               ),
                                             ),
@@ -1663,74 +1435,95 @@ class _EditStudentState extends State<EditStudent>
                     child: AnimatedBuilder(
                       animation: _ColorAnimationController,
                       builder: (context, child) => AppBar(
-                        leading: IconButton(
-                          onPressed: () async {
-                            if (widget.isDropDown != true) {
-                              Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                      builder: (context) =>
-                                          const Studentdispaly()));
-                            }
-
-                            print("hhhhhhhhhhhhhh");
-                            if (widget.isDropDown == true) {
-                              showCupertinoDialog(
-                                  context: context, builder: CreateDialog);
-                            }
-                          },
-                          icon: Icon(
-                            Icons.arrow_back_ios_new,
-                            size: 16,
-                            color: _iconColorTween.value,
-                          ),
-                          color: _iconColorTween.value,
-                        ),
-                        backgroundColor: _colorTween.value,
-                        elevation: 0,
-                        titleSpacing: 0.0,
-                        title: Align(
-                          alignment: Alignment.topCenter,
-                          child: Container(
-                            padding: const EdgeInsets.only(left: 20),
-                            child: Text(
-                              "تحديث معلومات الطالب",
-                              textAlign: TextAlign.start,
-                              style: TextStyle(color: _iconColorTween.value),
-                            ),
-                          ),
-                        ),
                         iconTheme: IconThemeData(
                           color: _iconColorTween.value,
                         ),
-                        actions: <Widget>[
-                          Container(
-                            padding: const EdgeInsets.only(right: 5),
-                            child: CupertinoButton(
-                              child: Text(
-                                "حفظ",
-                                style: TextStyle(
-                                    color: _icon2ColorTween.value,
-                                    fontWeight: FontWeight.bold),
+                        automaticallyImplyLeading: false,
+                        title: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                padding: const EdgeInsets.only(right: 5),
+                                child: CupertinoButton(
+                                  child: Text(
+                                    "حفظ",
+                                    style: TextStyle(
+                                        color: _icon2ColorTween.value,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  onPressed: () async {
+                                    if (isSaved != true) {
+                                      Navigator.push(
+                                          context,
+                                          CupertinoPageRoute(
+                                              builder: (context) => Nav(
+                                                    TabValue: 11,
+                                                    documentId:
+                                                        widget.documentId,
+                                                  )));
+                                    }
+                                    print(isSaved);
+                                    if (widget.isDropDown == true) {
+                                      showCupertinoDialog(
+                                          context: context,
+                                          builder: CreateDialog2);
+                                      await Studentx.UpdateStudent(
+                                          widget.documentId,
+                                          "BloodType",
+                                          Dvalue);
+                                      await Studentx.UpdateStudent(
+                                          widget.documentId, "Class", Numvalue);
+                                    }
+                                  },
+                                ),
                               ),
-                              onPressed: () async {
-                                if (isSaved != true) {
-                                  Navigator.pop(context);
-                                }
-                                print(isSaved);
-                                if (isSaved == true ||
-                                    widget.isDropDown == true) {
-                                  showCupertinoDialog(
-                                      context: context, builder: CreateDialog2);
-                                  await Studentx.UpdateStudent(
-                                      widget.documentId, "BloodType", Dvalue);
-                                  await Studentx.UpdateStudent(
-                                      widget.documentId, "Class", Numvalue);
-                                }
-                              },
+                              SizedBox(
+                                width: 55,
+                              ),
+                              Align(
+                                alignment: Alignment.topCenter,
+                                child: Container(
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: Text(
+                                    "تحديث معلومات الطالب",
+                                    textAlign: TextAlign.start,
+                                    style:
+                                        TextStyle(color: _iconColorTween.value),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                        actions: [
+                          IconButton(
+                            onPressed: () async {
+                              if (widget.isDropDown != true) {
+                                Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                        builder: (context) => Nav(
+                                              TabValue: 11,
+                                              documentId: widget.documentId,
+                                            )));
+                              }
+
+                              print("hhhhhhhhhhhhhh");
+                              if (widget.isDropDown == true) {
+                                showCupertinoDialog(
+                                    context: context, builder: CreateDialog);
+                              }
+                            },
+                            icon: Icon(
+                              Icons.arrow_forward_ios,
+                              size: 16,
+                              color: _iconColorTween.value,
                             ),
+                            color: _iconColorTween.value,
                           ),
                         ],
+                        backgroundColor: _colorTween.value,
+                        elevation: 0,
+                        titleSpacing: 0.0,
                       ),
                     ),
                   ),
@@ -1828,7 +1621,10 @@ class _EditStudentState extends State<EditStudent>
               Navigator.push(
                   context,
                   CupertinoPageRoute(
-                      builder: (context) => const Studentdispaly()));
+                      builder: (context) => Nav(
+                            TabValue: 11,
+                            documentId: widget.documentId,
+                          )));
             },
             child: Text("تجاهل التغييرات")),
         CupertinoDialogAction(
@@ -1853,9 +1649,10 @@ class _EditStudentState extends State<EditStudent>
               Navigator.push(
                   context,
                   CupertinoPageRoute(
-                      builder: (context) => EditStudent(
+                      builder: (context) => Nav(
+                            TabValue: 9,
                             documentId: widget.documentId,
-                            Index: 1,
+                            index: 1,
                             Confirm: false,
                             TheValue: "",
                             whichpag: 0,
@@ -1929,7 +1726,13 @@ class _EditStudentState extends State<EditStudent>
         actions: [
           CupertinoDialogAction(
             child: Text("موافق"),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.push(
+                context,
+                CupertinoPageRoute(
+                    builder: (context) => Nav(
+                          TabValue: 11,
+                          documentId: widget.documentId,
+                        ))),
           )
         ],
       );

@@ -7,6 +7,7 @@
 //import 'package:education_app/widgets/circle_button.dart';
 //import 'package:education_app/widgets/lesson_card.dart';
 import 'package:circlight/Pages/Nav.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -95,7 +96,7 @@ class Body extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                           context,
-                          MaterialPageRoute(
+                          CupertinoPageRoute(
                               builder: (context) => Nav(
                                     TabValue: 10,
                                     Name: "",
@@ -139,10 +140,14 @@ class Body extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                           context,
-                          MaterialPageRoute(
+                          CupertinoPageRoute(
                               builder: (context) => Nav(
                                     TabValue: 11,
                                     documentId: "",
+                                    Blood: "",
+                                    Confirm: "",
+                                    TheValue: "",
+                                    header: "",
                                   )));
                     },
                   ),

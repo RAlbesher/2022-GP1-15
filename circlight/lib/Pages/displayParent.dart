@@ -34,9 +34,9 @@ class _Paretdisplay extends State<Paretdisplay> with TickerProviderStateMixin {
   void initState() {
     _ColorAnimationController =
         AnimationController(vsync: this, duration: Duration(seconds: 0));
-    _colorTween = ColorTween(begin: Colors.transparent, end: Color(0xFFee4c4f))
+    _colorTween = ColorTween(begin: Colors.transparent, end: Colors.white)
         .animate(_ColorAnimationController);
-    _iconColorTween = ColorTween(begin: Colors.grey, end: Colors.white)
+    _iconColorTween = ColorTween(begin: Colors.white, end: Colors.grey)
         .animate(_ColorAnimationController);
     _icon2ColorTween =
         ColorTween(begin: Colors.white, end: const Color(0xff42c98d))
@@ -135,7 +135,7 @@ class _Paretdisplay extends State<Paretdisplay> with TickerProviderStateMixin {
                                   )),
                                 ),
                                 onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
+                                  Navigator.of(context).push(CupertinoPageRoute(
                                     builder: (context) => Nav(
                                       TabValue: 7,
                                       documentId: "",
@@ -148,6 +148,7 @@ class _Paretdisplay extends State<Paretdisplay> with TickerProviderStateMixin {
                                       phone2: "",
                                       job: "",
                                       ID: "",
+                                      header: false,
                                     ),
                                   ));
                                 },
@@ -345,10 +346,17 @@ class _Paretdisplay extends State<Paretdisplay> with TickerProviderStateMixin {
                                                               Navigator.of(
                                                                       context)
                                                                   .push(
-                                                                      MaterialPageRoute(
+                                                                      CupertinoPageRoute(
                                                                 builder:
                                                                     (context) =>
                                                                         Nav(
+                                                                  TheValue: "",
+                                                                  index: 1,
+                                                                  whichpag: 0,
+                                                                  DropDown:
+                                                                      false,
+                                                                  Confirm:
+                                                                      false,
                                                                   documentId:
                                                                       snapshot.data![
                                                                               1]
@@ -372,7 +380,7 @@ class _Paretdisplay extends State<Paretdisplay> with TickerProviderStateMixin {
                                                               Navigator.of(
                                                                       context)
                                                                   .push(
-                                                                      MaterialPageRoute(
+                                                                      CupertinoPageRoute(
                                                                 builder:
                                                                     (context) =>
                                                                         Nav(
@@ -386,6 +394,7 @@ class _Paretdisplay extends State<Paretdisplay> with TickerProviderStateMixin {
                                                                   username: "",
                                                                   SID: "",
                                                                   TabValue: 8,
+                                                                  header: false,
                                                                 ),
                                                               ));
                                                             },
@@ -531,51 +540,51 @@ class _Paretdisplay extends State<Paretdisplay> with TickerProviderStateMixin {
                 child: AnimatedBuilder(
                   animation: _ColorAnimationController,
                   builder: (context, child) => AppBar(
-                    leading: IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => BaseScreen()));
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_ios_new,
-                        size: 16,
+                    elevation: 0,
+                    iconTheme: IconThemeData(
+                      color: _iconColorTween.value,
+                    ),
+                    automaticallyImplyLeading: false,
+                    title: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                            width: 195,
+                          ),
+                          Align(
+                            alignment: Alignment.topCenter,
+                            child: Container(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: Text(
+                                "مرحبا ",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(color: _iconColorTween.value),
+                              ),
+                            ),
+                          ),
+                        ]),
+                    actions: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => Nav(
+                                        TabValue: 0,
+                                        documentId: "",
+                                      )));
+                        },
+                        icon: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 16,
+                          color: _iconColorTween.value,
+                        ),
                         color: Colors.white,
                       ),
-                      color: Colors.white,
-                    ),
-                    backgroundColor: _colorTween.value,
-                    elevation: 0,
-                    titleSpacing: 0.0,
-                    title: Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Text(
-                          "مرحبا ",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    iconTheme: IconThemeData(
-                      color: Colors.white,
-                    ),
-                    actions: <Widget>[
-                      /*Container(
-                        padding: const EdgeInsets.only(right: 5),
-                        child: CupertinoButton(
-                          child: Text(
-                            "حفظ",
-                            style: TextStyle(
-                                color: _icon2ColorTween.value,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          onPressed: () async {},
-                        ),
-                      ),*/
                     ],
+                    backgroundColor: _colorTween.value,
+                    titleSpacing: 0.0,
                   ),
                 ),
               ),

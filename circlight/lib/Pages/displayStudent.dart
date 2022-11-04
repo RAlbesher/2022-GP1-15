@@ -67,7 +67,6 @@ class _Studentdispaly extends State<Studentdispaly>
 
   Student Studentx = new Student(
     Name: "",
-    StudentID: "",
     Class: "",
     SNationalID: "",
     SNationality: "",
@@ -297,7 +296,7 @@ class _Studentdispaly extends State<Studentdispaly>
                                                               Navigator.of(
                                                                       context)
                                                                   .push(
-                                                                      MaterialPageRoute(
+                                                                      CupertinoPageRoute(
                                                                 builder:
                                                                     (context) =>
                                                                         Nav(
@@ -349,54 +348,51 @@ class _Studentdispaly extends State<Studentdispaly>
                 child: AnimatedBuilder(
                   animation: _ColorAnimationController,
                   builder: (context, child) => AppBar(
-                    leading: IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Nav(
-                                      TabValue: 0,
-                                      documentId: "",
-                                    )));
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_ios_new,
-                        size: 16,
+                    iconTheme: IconThemeData(
+                      color: _iconColorTween.value,
+                    ),
+                    automaticallyImplyLeading: false,
+                    title: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                            width: 195,
+                          ),
+                          Align(
+                            alignment: Alignment.topCenter,
+                            child: Container(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: Text(
+                                "مرحبا ",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ]),
+                    actions: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => Nav(
+                                        TabValue: 0,
+                                        documentId: "",
+                                      )));
+                        },
+                        icon: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 16,
+                          color: Colors.white,
+                        ),
                         color: Colors.white,
                       ),
-                      color: Colors.white,
-                    ),
+                    ],
                     backgroundColor: _colorTween.value,
                     elevation: 0,
                     titleSpacing: 0.0,
-                    title: Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Text(
-                          "مرحبا ",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    iconTheme: IconThemeData(
-                      color: Colors.white,
-                    ),
-                    actions: <Widget>[
-                      /*Container(
-                        padding: const EdgeInsets.only(right: 5),
-                        child: CupertinoButton(
-                          child: Text(
-                            "حفظ",
-                            style: TextStyle(
-                                color: _icon2ColorTween.value,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          onPressed: () async {},
-                        ),
-                      ),*/
-                    ],
                   ),
                 ),
               ),

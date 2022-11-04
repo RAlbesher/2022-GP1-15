@@ -39,28 +39,29 @@ class Nav extends StatefulWidget {
   final TheValue;
   final whichpag;
   final DropDown;
-  const Nav({
-    super.key,
-    this.DropDown,
-    required this.TabValue,
-    this.documentId,
-    this.Blood,
-    this.index,
-    this.whichpag,
-    this.TheValue,
-    this.SID,
-    this.Class,
-    this.Realtion,
-    this.Confirm,
-    this.ID,
-    this.Name,
-    this.username,
-    this.email,
-    this.nationality,
-    this.job,
-    this.phone1,
-    this.phone2,
-  });
+  final header;
+  const Nav(
+      {super.key,
+      this.DropDown,
+      required this.TabValue,
+      this.documentId,
+      this.Blood,
+      this.index,
+      this.whichpag,
+      this.TheValue,
+      this.SID,
+      this.Class,
+      this.Realtion,
+      this.Confirm,
+      this.ID,
+      this.Name,
+      this.username,
+      this.email,
+      this.nationality,
+      this.job,
+      this.phone1,
+      this.phone2,
+      this.header});
 
   @override
   State<Nav> createState() => _Nav();
@@ -78,9 +79,9 @@ class _Nav extends State<Nav> {
           currentScreen = editparent5(
             documentId: widget.documentId,
             Confirm: false,
-            Index: 1,
-            TheValue: "",
-            whichpag: 0,
+            Index: widget.index,
+            TheValue: widget.TheValue,
+            whichpag: widget.whichpag,
             DropDown: false,
           );
           Tab = 5;
@@ -98,6 +99,7 @@ class _Nav extends State<Nav> {
             phone1: widget.phone1,
             phone2: widget.phone2,
             Realtion: widget.Realtion,
+            header: widget.header,
           );
           Tab = 7;
           break;
@@ -108,6 +110,7 @@ class _Nav extends State<Nav> {
             Name: widget.Name,
             username: widget.username,
             SID: widget.SID,
+            header: widget.header,
           );
           Tab = 8;
           break;
@@ -116,9 +119,9 @@ class _Nav extends State<Nav> {
             documentId: widget.documentId,
             DropDown: false,
             Confirm: false,
-            Index: 1,
-            TheValue: "",
-            whichpag: 0,
+            Index: widget.index,
+            TheValue: widget.TheValue,
+            whichpag: widget.whichpag,
           );
           Tab = 9;
           break;

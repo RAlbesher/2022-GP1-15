@@ -26,6 +26,7 @@ class Createparent5 extends StatefulWidget {
   var phone1;
   var phone2;
   var job;
+  var header;
 
   Createparent5(
       {super.key,
@@ -38,7 +39,8 @@ class Createparent5 extends StatefulWidget {
       this.nationality,
       this.job,
       this.phone1,
-      this.phone2});
+      this.phone2,
+      this.header});
 
   @override
   State<Createparent5> createState() => _CreateState();
@@ -245,98 +247,98 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                 child: AnimatedBuilder(
                   animation: _ColorAnimationController,
                   builder: (context, child) => AppBar(
-                    leading: IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                                builder: (context) => Nav(
-                                      TabValue: 10,
-                                    )));
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_ios_new,
-                        size: 16,
-                        color: _iconColorTween.value,
-                      ),
+                    iconTheme: IconThemeData(
                       color: _iconColorTween.value,
                     ),
-                    actions: <Widget>[
-                      issahre
-                          ? Container(
-                              padding: const EdgeInsets.only(right: 5),
-                              child: CupertinoButton(
-                                child: Text(
-                                  "مشاركة",
-                                  style: TextStyle(
-                                      color: _icon2ColorTween.value,
-                                      fontWeight: FontWeight.bold),
+                    automaticallyImplyLeading: false,
+                    title: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  padding: const EdgeInsets.only(right: 5),
+                                  child: widget.header
+                                      ? CupertinoButton(
+                                          child: Text(
+                                            "إضافة",
+                                            style: TextStyle(
+                                                color: _icon2ColorTween.value,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          onPressed: () async {
+                                            if (formKey.currentState!
+                                                .validate()) {
+                                              setState(() {
+                                                issahre = true;
+                                              });
+                                              await parentx.addParent(
+                                                  widget.Name,
+                                                  widget.username,
+                                                  widget.email,
+                                                  ParentIDNo.text,
+                                                  widget.phone1,
+                                                  widget.phone2,
+                                                  nationality.text,
+                                                  k,
+                                                  jobTitle.text,
+                                                  widget.Realtion,
+                                                  docAdmin[0]);
+
+                                              await showCupertinoDialog(
+                                                  context: context,
+                                                  builder: CreateDialog);
+
+                                              /* Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Nav(
+                                  TabValue: 10,
+                                )));*/
+                                            }
+                                          },
+                                        )
+                                      : Text("         "),
                                 ),
-                                onPressed: () async {
-                                  await showCupertinoDialog(
-                                      context: context,
-                                      builder: (context) =>
-                                          new CupertinoAlertDialog(
-                                            title: new Text(
-                                                "هل انت متأكد من رغبتك في مشاركه هذه المعلومات ؟"),
-                                            content: Column(
-                                              children: [
-                                                new Text(
-                                                    "The Parent username:" +
-                                                        Parentusername.text),
-                                                Text("The Password:" +
-                                                    k.toString())
-                                              ],
-                                            ),
-                                            actions: <Widget>[
-                                              CupertinoDialogAction(
-                                                isDefaultAction: true,
-                                                child: Text("نعم"),
-                                                onPressed: () {
-                                                  Share.share(
-                                                      "The User Name :" +
-                                                          Parentusername.text +
-                                                          "The Password:" +
-                                                          k.toString());
-                                                },
-                                              ),
-                                              CupertinoDialogAction(
-                                                child: Text("لا"),
-                                                onPressed: () {
-                                                  Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                      builder: (context) => Nav(
-                                                        TabValue: 10,
-                                                        documentId: "",
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                              )
-                                            ],
-                                          ));
-                                },
-                              ),
-                            )
-                          : SizedBox(),
+                                SizedBox(
+                                  width: 80,
+                                ),
+                                Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Container(
+                                    padding: const EdgeInsets.only(left: 20),
+                                    child: Text(
+                                      "إنشاء حساب ولي الأمر",
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          color: _iconColorTween.value),
+                                    ),
+                                  ),
+                                ),
+                              ]),
+                        ]),
+                    actions: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => Nav(
+                                        TabValue: 10,
+                                      )));
+                        },
+                        icon: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 16,
+                          color: _iconColorTween.value,
+                        ),
+                        color: _iconColorTween.value,
+                      ),
                     ],
                     backgroundColor: _colorTween.value,
                     elevation: 0,
                     titleSpacing: 0.0,
-                    title: Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Text(
-                          " إنشاء حساب ولي الامر ",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(color: _iconColorTween.value),
-                        ),
-                      ),
-                    ),
-                    iconTheme: IconThemeData(
-                      color: _iconColorTween.value,
-                    ),
                   ),
                 ),
               ),
@@ -415,12 +417,72 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                   labelStyle: const TextStyle(
                       color: const Color(0xff57d77a),
                       fontSize: 12,
+                      fontWeight: FontWeight.w500),
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.only(right: 12, top: 9, left: 9),
+                    child: Container(
+                      //  padding: const EdgeInsets.only(right: 5),
+
+                      child: Column(children: [
+                        Image.asset("assets/icons/name.png",
+                            width: 20, height: 20, color: Color(0xff42c98d)),
+                      ]),
+                    ),
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                      borderSide:
+                          BorderSide(color: const Color(0xff57d77a), width: 1),
+                      borderRadius: BorderRadius.circular(10)),
+                  floatingLabelStyle: const TextStyle(
+                      color: const Color(0xff57d77a),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w300),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide:
+                        BorderSide(color: const Color(0xff57d77a), width: 2),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+                validator: (value) {
+                  if (value!.isEmpty)
+                    return "أرجو منك تعبئه الحقل الفارغ ";
+                  else {
+                    return null;
+                  }
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Directionality(
+              textDirection: TextDirection.rtl,
+              child: TextFormField(
+                controller: Parentusername,
+                //  controller: parentUserName..text = parentx.PUserName,
+                //to take text from user input
+                textAlign: TextAlign.right,
+
+                style: GoogleFonts.poppins(
+                    fontSize: 14,
+                    //fontWeight: FontWeight.w600,
+                    color: Colors.grey),
+                showCursor: true,
+                cursorColor: const Color(0xff0da6c2),
+
+                decoration: InputDecoration(
+                  hintText: " أدخل اسم المستخدم",
+                  labelText: "اسم المستخدم",
+                  hintStyle: const TextStyle(color: Colors.grey, fontSize: 12),
+                  labelStyle: const TextStyle(
+                      color: const Color(0xff57d77a),
+                      fontSize: 12,
                       fontWeight: FontWeight.w300),
                   prefixIcon: Padding(
-                    padding: const EdgeInsets.all(defaultPadding),
+                    padding: const EdgeInsets.only(right: 5),
                     child: Icon(
                       Icons.person,
-                      size: 21,
+                      size: 22,
                       color: const Color(0xff42c98d),
                     ),
                   ),
@@ -458,63 +520,6 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
             Directionality(
               textDirection: TextDirection.rtl,
               child: TextFormField(
-                controller: Parentusername,
-                //  controller: parentUserName..text = parentx.PUserName,
-                //to take text from user input
-                textAlign: TextAlign.right,
-
-                style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    //fontWeight: FontWeight.w600,
-                    color: Colors.grey),
-                showCursor: true,
-                cursorColor: const Color(0xff0da6c2),
-
-                decoration: InputDecoration(
-                  hintText: " أدخل اسم المستخدم",
-                  labelText: "اسم المستخدم",
-                  hintStyle: const TextStyle(color: Colors.grey, fontSize: 12),
-                  labelStyle: const TextStyle(
-                      color: const Color(0xff57d77a),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w300),
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.all(defaultPadding),
-                    child: Icon(
-                      Icons.person,
-                      size: 21,
-                      color: const Color(0xff42c98d),
-                    ),
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: const Color(0xff57d77a), width: 1),
-                      borderRadius: BorderRadius.circular(10)),
-                  floatingLabelStyle: const TextStyle(
-                      color: const Color(0xff57d77a),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w300),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide:
-                        BorderSide(color: const Color(0xff57d77a), width: 2),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-                validator: (value) {
-                  if (value!.isEmpty)
-                    return "أرجو منك تعبئه الحقل الفارغ ";
-                  else {
-                    return null;
-                  }
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Directionality(
-              textDirection: TextDirection.rtl,
-              child: TextFormField(
                 controller: email,
                 //  controller: parentUserName..text = parentx.PUserName,
                 //to take text from user input
@@ -536,7 +541,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                       fontSize: 12,
                       fontWeight: FontWeight.w300),
                   prefixIcon: Padding(
-                    padding: const EdgeInsets.all(defaultPadding),
+                    padding: const EdgeInsets.only(right: 5),
                     child: Icon(
                       Icons.email,
                       size: 18,
@@ -625,7 +630,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         Navigator.of(context).push(
-                          MaterialPageRoute(
+                          CupertinoPageRoute(
                             builder: (context) => Nav(
                               TabValue: 7,
                               documentId: "",
@@ -638,6 +643,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                               phone2: "",
                               job: "",
                               ID: "",
+                              header: false,
                             ),
                           ),
                         );
@@ -694,7 +700,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                     color: Colors.grey),
                 showCursor: true,
                 cursorColor: const Color(0xff0da6c2),
-
+                maxLength: 10,
                 decoration: InputDecoration(
                   labelText: "رقم الجوال",
                   hintText: "أدخل رقم الجوال",
@@ -704,11 +710,14 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                       fontSize: 12,
                       fontWeight: FontWeight.w300),
                   prefixIcon: Padding(
-                    padding: const EdgeInsets.all(defaultPadding),
-                    child: Icon(
-                      Icons.person,
-                      size: 21,
-                      color: const Color(0xff42c98d),
+                    padding: const EdgeInsets.only(right: 12, top: 9, left: 9),
+                    child: Container(
+                      //  padding: const EdgeInsets.only(right: 5),
+
+                      child: Column(children: [
+                        Image.asset("assets/icons/phone.png",
+                            width: 15, height: 15, color: Color(0xff42c98d)),
+                      ]),
                     ),
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -728,7 +737,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                 validator: (value) {
                   if (value!.isEmpty ||
                       !RegExp(r'^(?:[+0][1-9])?[0-9]{10,12}$').hasMatch(value!))
-                    return "أرجو منك تعبئه الحقل بطريقه صحيحه";
+                    return "أرجو منك تعبئه الحقل بطريقه صحيحه حيث يتكون من 10 ارقام";
                   else {
                     return null;
                   }
@@ -736,7 +745,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             Directionality(
               textDirection: TextDirection.rtl,
@@ -751,7 +760,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                     color: Colors.grey),
                 showCursor: true,
                 cursorColor: const Color(0xff0da6c2),
-
+                maxLength: 10,
                 decoration: InputDecoration(
                   labelText: "رقم جوال قريب ",
                   hintText: "أدخل رقم جوال قريب ",
@@ -761,11 +770,14 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                       fontSize: 12,
                       fontWeight: FontWeight.w300),
                   prefixIcon: Padding(
-                    padding: const EdgeInsets.all(defaultPadding),
-                    child: Icon(
-                      Icons.person,
-                      size: 21,
-                      color: const Color(0xff42c98d),
+                    padding: const EdgeInsets.only(right: 12, top: 9, left: 9),
+                    child: Container(
+                      //  padding: const EdgeInsets.only(right: 5),
+
+                      child: Column(children: [
+                        Image.asset("assets/icons/phone.png",
+                            width: 15, height: 15, color: Color(0xff42c98d)),
+                      ]),
                     ),
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -785,7 +797,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                 validator: (value) {
                   if (value!.isEmpty ||
                       !RegExp(r'^(?:[+0][1-9])?[0-9]{10,12}$').hasMatch(value!))
-                    return "أرجو منك تعبئه الحقل بطريقه صحيحه";
+                    return "أرجو منك تعبئه الحقل بطريقه صحيحه حيث يتكون من 10 ارقام";
                   else {
                     return null;
                   }
@@ -856,16 +868,34 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                                             padding: EdgeInsets.only(
                                               left: 120,
                                             ),
-                                            child: Text(
-                                              style: GoogleFonts.poppins(
-                                                  fontSize: 14,
-                                                  color:
-                                                      const Color(0xff57d77a)),
-                                              'صلة القرابة',
-                                              maxLines: 2,
-                                              textAlign: TextAlign.right,
+                                            // child: Padding(
+                                            //  padding: const EdgeInsets.only(
+                                            //      right: 12, top: 9, left: 9),
+                                            child: Container(
+                                              //  padding: const EdgeInsets.only(right: 5),
+
+                                              child: Row(children: [
+                                                Text(
+                                                  style: GoogleFonts.poppins(
+                                                      fontSize: 14,
+                                                      color: const Color(
+                                                          0xff57d77a)),
+                                                  'صلة القرابة',
+                                                  maxLines: 2,
+                                                  textAlign: TextAlign.right,
+                                                ),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Image.asset(
+                                                    "assets/icons/family.png",
+                                                    width: 15,
+                                                    height: 15,
+                                                    color: Color(0xff42c98d)),
+                                              ]),
                                             ),
                                           ),
+                                          // ),
                                         ],
                                       ),
                                     ],
@@ -996,7 +1026,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                     child: FloatingActionButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          Navigator.of(context).push(MaterialPageRoute(
+                          Navigator.of(context).push(CupertinoPageRoute(
                             builder: (context) => Nav(
                               TabValue: 7,
                               documentId: "Cu5WEwZNoe5eqIl0NOJp",
@@ -1007,6 +1037,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                               email: widget.email,
                               phone1: phoneNumber.text,
                               phone2: altphoneNumber.text,
+                              header: true,
                             ),
                           ));
                         }
@@ -1051,9 +1082,6 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
               const SizedBox(
                 width: 100,
               ),
-              const SizedBox(
-                width: 25,
-              ),
               Align(
                 alignment: Alignment(-0.99, 0.9),
                 child: Container(
@@ -1062,7 +1090,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                   child: FittedBox(
                     child: FloatingActionButton(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context).push(CupertinoPageRoute(
                           builder: (context) => Nav(
                             TabValue: 7,
                             documentId: "Cu5WEwZNoe5eqIl0NOJp",
@@ -1073,6 +1101,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                             email: widget.email,
                             phone1: phoneNumber.text,
                             phone2: altphoneNumber.text,
+                            header: false,
                           ),
                         ));
                         //  if (formKey.currentState!.validate()) {}
@@ -1132,7 +1161,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                     color: Colors.grey),
                 showCursor: true,
                 cursorColor: const Color(0xff0da6c2),
-
+                maxLength: 10,
                 decoration: InputDecoration(
                   labelText: "رقم الهوية /الإقامة",
                   hintText: "أدخل رقم الهوية /الإقامة",
@@ -1142,10 +1171,14 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                       fontSize: 12,
                       fontWeight: FontWeight.w300),
                   prefixIcon: Padding(
-                    padding: const EdgeInsets.all(defaultPadding),
-                    child: Icon(
-                      Icons.person,
-                      color: const Color(0xff42c98d),
+                    padding: const EdgeInsets.only(right: 12, top: 9, left: 9),
+                    child: Container(
+                      //  padding: const EdgeInsets.only(right: 5),
+
+                      child: Column(children: [
+                        Image.asset("assets/icons/ID.png",
+                            width: 20, height: 20, color: Color(0xff42c98d)),
+                      ]),
                     ),
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -1173,7 +1206,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             Directionality(
               textDirection: TextDirection.rtl,
@@ -1199,10 +1232,14 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                       fontSize: 12,
                       fontWeight: FontWeight.w300),
                   prefixIcon: Padding(
-                    padding: const EdgeInsets.all(defaultPadding),
-                    child: Icon(
-                      Icons.person,
-                      color: const Color(0xff42c98d),
+                    padding: const EdgeInsets.only(right: 12, top: 9, left: 9),
+                    child: Container(
+                      //  padding: const EdgeInsets.only(right: 5),
+
+                      child: Column(children: [
+                        Image.asset("assets/icons/Nationality.png",
+                            width: 20, height: 20, color: Color(0xff42c98d)),
+                      ]),
                     ),
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -1255,10 +1292,14 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                       fontSize: 12,
                       fontWeight: FontWeight.w300),
                   prefixIcon: Padding(
-                    padding: const EdgeInsets.all(defaultPadding),
-                    child: Icon(
-                      Icons.person,
-                      color: const Color(0xff42c98d),
+                    padding: const EdgeInsets.only(right: 12, top: 9, left: 9),
+                    child: Container(
+                      //  padding: const EdgeInsets.only(right: 5),
+
+                      child: Column(children: [
+                        Image.asset("assets/icons/Jobtitle.png",
+                            width: 20, height: 20, color: Color(0xff42c98d)),
+                      ]),
                     ),
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -1285,9 +1326,76 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 50,
             ),
+            Row(
+              children: [
+                Text("            "),
+                const SizedBox(
+                  width: 100,
+                ),
+                const SizedBox(
+                  width: 100,
+                ),
+                const SizedBox(
+                  width: 100,
+                ),
+                Align(
+                  alignment: Alignment(0.99, 0.9),
+                  child: Container(
+                    height: 40.0,
+                    width: 40.0,
+                    child: FittedBox(
+                      child: FloatingActionButton(
+                        onPressed: () async {
+                          Navigator.of(context).push(CupertinoPageRoute(
+                            builder: (context) => Nav(
+                              TabValue: 7,
+                              documentId: "Cu5WEwZNoe5eqIl0NOJp",
+                              index: 2,
+                              Realtion: value,
+                              Name: widget.Name,
+                              username: widget.username,
+                              email: widget.email,
+                              phone1: phoneNumber.text,
+                              phone2: altphoneNumber.text,
+                              header: false,
+                            ),
+                          ));
 
+                          //  if (formKey.currentState!.validate()) {}
+                        },
+                        elevation: 0,
+                        child: Container(
+                          height: 70,
+                          width: 70,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                blurRadius: 6,
+                              ),
+                            ],
+                            borderRadius: BorderRadius.circular(90),
+                            gradient: LinearGradient(
+                              colors: [
+                                const Color(0xff0da6c2),
+                                const Color(0xff57d77a)
+                              ],
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.arrow_forward_outlined,
+                            color: Colors.white,
+                          ),
+                        ),
+                        backgroundColor: Color.fromARGB(0, 255, 253, 253),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
             /*  TextFieldWidget(
                               'Name', Icons.person_outlined, parentName,
                               (String? input) {
@@ -1326,72 +1434,6 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
             const SizedBox(
               height: 40,
             ),
-            Align(
-              alignment: Alignment(-0.99, 0.9),
-              child: Container(
-                height: 50.0,
-                width: 50.0,
-                child: FittedBox(
-                  child: FloatingActionButton(
-                    onPressed: () async {
-                      if (formKey.currentState!.validate()) {
-                        setState(() {
-                          issahre = true;
-                        });
-                        await parentx.addParent(
-                            widget.Name,
-                            widget.username,
-                            widget.email,
-                            ParentIDNo.text,
-                            widget.phone1,
-                            widget.phone2,
-                            nationality.text,
-                            k,
-                            jobTitle.text,
-                            widget.Realtion,
-                            docAdmin[0]);
-
-                        await showCupertinoDialog(
-                            context: context, builder: CreateDialog);
-
-                        /* Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Nav(
-                                  TabValue: 10,
-                                )));*/
-                      }
-                    },
-                    elevation: 0,
-                    child: Container(
-                      height: 70,
-                      width: 70,
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
-                            blurRadius: 6,
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(90),
-                        gradient: LinearGradient(
-                          colors: [
-                            const Color(0xff0da6c2),
-                            const Color(0xff57d77a)
-                          ],
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "إضافة",
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    backgroundColor: Color.fromARGB(0, 255, 253, 253),
-                  ),
-                ),
-              ),
-            ),
           ],
         );
         break;
@@ -1412,17 +1454,10 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                     color: const Color(0xff57d77a),
                     fontWeight: FontWeight.bold)),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
+              Navigator.of(context).push(CupertinoPageRoute(
                 builder: (context) => Nav(
-                  TabValue: 7,
-                  documentId: "Cu5WEwZNoe5eqIl0NOJp",
-                  index: 3,
-                  Realtion: value,
-                  Name: widget.Name,
-                  username: widget.username,
-                  email: widget.email,
-                  phone1: phoneNumber.text,
-                  phone2: altphoneNumber.text,
+                  TabValue: 10,
+                  documentId: "",
                 ),
               ));
             },

@@ -8,8 +8,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Student {
   String Name = " "; //
 
-  String StudentID = ""; //
-
   String Class = " "; //
   String SNationalID; //
 
@@ -19,7 +17,6 @@ class Student {
 
   Student({
     required this.Name,
-    required this.StudentID,
     required this.Class,
     required this.SNationalID,
     required this.SNationality,
@@ -38,11 +35,7 @@ class Student {
         });
 
         break;
-      case "StudentID":
-        await StudentS.doc(DocId).update({
-          'StudentID': Updated,
-        });
-        break;
+
       case "NationalID":
         await StudentS.doc(DocId).update({
           'NationalID': Updated,
@@ -72,14 +65,13 @@ class Student {
     await Parents.doc(DocId).delete();
   }
 
-  addStudent(DocId, Name, SUserName, StudentID, SNationalID, SNationality,
-      Class, SBloodType, AdminID) async {
+  addStudent(DocId, Name, SUserName, SNationalID, SNationality, Class,
+      SBloodType, AdminID) async {
     final Student = FirebaseFirestore.instance;
     await Student.collection("Student").add({
       "ParentId": DocId,
       'Name': Name,
       'UserName': SUserName,
-      'StudentID': StudentID,
       'NationalID': SNationalID,
       'Nationality': SNationality,
       'Class': Class,

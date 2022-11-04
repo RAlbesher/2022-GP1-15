@@ -284,7 +284,7 @@ class _ParentAddFormState extends State<ParentAddform> {
                               await showCupertinoDialog(
                                   context: context, builder: CreateDialog);
 
-                              Navigator.of(context).push(MaterialPageRoute(
+                              Navigator.of(context).push(CupertinoPageRoute(
                                   builder: (context) => Paretdisplay()));
                             }
                           },
