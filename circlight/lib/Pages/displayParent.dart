@@ -374,37 +374,36 @@ class _Paretdisplay extends State<Paretdisplay> with TickerProviderStateMixin {
                                                                   .contain,
                                                             )),
                                                         InkWell(
-                                                            //height: 80,
-                                                            onTap: () {
-                                                              int Tab = 7;
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .push(
-                                                                      CupertinoPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        Nav(
-                                                                  documentId:
-                                                                      snapshot.data![
-                                                                              1]
-                                                                          [
-                                                                          index],
-                                                                  index: 1,
-                                                                  Name: "",
-                                                                  username: "",
-                                                                  SID: "",
-                                                                  TabValue: 8,
-                                                                  header: false,
-                                                                ),
-                                                              ));
-                                                            },
-                                                            child: Image.asset(
-                                                              'assets/images/addStudent.png',
-                                                              height: 30,
-                                                              width: 40,
-                                                              fit: BoxFit
-                                                                  .contain,
-                                                            )),
+                                                          //height: 80,
+                                                          onTap: () {
+                                                            int Tab = 7;
+                                                            Navigator.of(
+                                                                    context)
+                                                                .push(
+                                                                    CupertinoPageRoute(
+                                                              builder:
+                                                                  (context) =>
+                                                                      Nav(
+                                                                documentId:
+                                                                    snapshot.data![
+                                                                            1]
+                                                                        [index],
+                                                                index: 1,
+                                                                Name: "",
+                                                                username: "",
+                                                                SID: "",
+                                                                TabValue: 8,
+                                                                header: false,
+                                                              ),
+                                                            ));
+                                                          },
+                                                          child: Image.asset(
+                                                            'assets/images/addStudent.jpeg',
+                                                            height: 23,
+                                                            width: 30,
+                                                            fit: BoxFit.contain,
+                                                          ),
+                                                        ),
                                                       ],
                                                     ),
 

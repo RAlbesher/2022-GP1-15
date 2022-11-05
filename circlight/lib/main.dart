@@ -1,7 +1,9 @@
 import 'package:circlight/Pages/CreateParent.dart';
+import 'package:circlight/Pages/constants.dart';
 
 import 'package:circlight/Pages/displayParent.dart';
 import 'package:circlight/Pages/displayStudent.dart';
+import 'package:circlight/Screens/Welcome/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -47,58 +49,79 @@ class LoginUiApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        // title: 'Flutter Login UI',
-
-        theme: ThemeData(
-          fontFamily: 'Poppins',
-          primaryColor: _primaryColor,
-          accentColor: _accentColor,
-          scaffoldBackgroundColor: Colors.grey.shade100,
-          primarySwatch: Colors.grey,
-          textTheme: const TextTheme(
-            titleLarge: TextStyle(
-              fontSize: 20,
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
-            ),
-            bodyLarge: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w500,
-            ),
-            bodyMedium: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
-            displayMedium: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 18,
-              color: Colors.black,
-            ),
+      debugShowCheckedModeBanner: false,
+      // title: 'Flutter Login UI',
+      title: 'Flutter Auth',
+      theme: ThemeData(
+        fontFamily: 'Poppins',
+        primaryColor: _primaryColor,
+        accentColor: _accentColor,
+        primarySwatch: Colors.grey,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            elevation: 0,
+            shape: const StadiumBorder(),
+            maximumSize: const Size(double.infinity, 56),
+            minimumSize: const Size(double.infinity, 56),
           ),
         ),
-        /* home: editparent6(
+        textTheme: const TextTheme(
+          titleLarge: TextStyle(
+            fontSize: 20,
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+          ),
+          bodyLarge: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+          ),
+          bodyMedium: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+          displayMedium: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 18,
+            color: Colors.black,
+          ),
+        ),
+        inputDecorationTheme: const InputDecorationTheme(
+          filled: true,
+          fillColor: kPrimaryLightColor,
+          iconColor: kPrimaryColor,
+          prefixIconColor: kPrimaryColor,
+          contentPadding: EdgeInsets.symmetric(
+              horizontal: defaultPadding, vertical: defaultPadding),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+            borderSide: BorderSide.none,
+          ),
+        ),
+      ),
+      /* home: editparent6(
             Confirm: false,
             Index: 1,
             documentId: "21AqxvymlaHWM4DfLFtS",
             whichpag: 0,
             TheValue: "")*/
-        //  home: StudentAddform(
-        //    documentId: "GpRfqodKgYCqobAL2r6w",
-        //   ),
+      //  home: StudentAddform(
+      //    documentId: "GpRfqodKgYCqobAL2r6w",
+      //   ),
 
-        /*home: editparent5(
+      /*home: editparent5(
           Confirm: false,
           Index: 1,
           TheValue: "",
           documentId: "Cu5WEwZNoe5eqIl0NOJp",
           whichpag: 0,
-          DropDown: false),*/
-        home: Nav(
-          documentId: "Cu5WEwZNoe5eqIl0NOJp",
-          TabValue: 0,
-        )
-        //   home: MyHomePage(),
-        );
+      //    DropDown: false),*/
+      home: Nav(
+        documentId: "Cu5WEwZNoe5eqIl0NOJp",
+        TabValue: 0,
+      ),
+      //   home: MyHomePage(),
+
+      //   home: const WelcomeScreen(),
+    );
   }
 }

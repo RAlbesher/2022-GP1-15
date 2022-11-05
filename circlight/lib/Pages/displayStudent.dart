@@ -36,9 +36,9 @@ class _Studentdispaly extends State<Studentdispaly>
   void initState() {
     _ColorAnimationController =
         AnimationController(vsync: this, duration: Duration(seconds: 0));
-    _colorTween = ColorTween(begin: Colors.transparent, end: Color(0xFFee4c4f))
+    _colorTween = ColorTween(begin: Colors.transparent, end: Colors.white)
         .animate(_ColorAnimationController);
-    _iconColorTween = ColorTween(begin: Colors.grey, end: Colors.white)
+    _iconColorTween = ColorTween(begin: Colors.white, end: Colors.grey)
         .animate(_ColorAnimationController);
     _icon2ColorTween =
         ColorTween(begin: Colors.white, end: const Color(0xff42c98d))
@@ -366,7 +366,7 @@ class _Studentdispaly extends State<Studentdispaly>
                               child: Text(
                                 "مرحبا ",
                                 textAlign: TextAlign.start,
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: _iconColorTween.value),
                               ),
                             ),
                           ),
@@ -385,7 +385,7 @@ class _Studentdispaly extends State<Studentdispaly>
                         icon: Icon(
                           Icons.arrow_forward_ios,
                           size: 16,
-                          color: Colors.white,
+                          color: _iconColorTween.value,
                         ),
                         color: Colors.white,
                       ),
