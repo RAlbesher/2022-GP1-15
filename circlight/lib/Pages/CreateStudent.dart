@@ -1064,7 +1064,7 @@ class _CreateStudentState extends State<CreateStudent>
                                 index: 1,
                                 Name: studentName.text,
                                 username: Studentusername.text,
-                                nationality: StudentNationality.text,
+                                nationality: widget.nationality,
                                 header: false),
                           ));
 
