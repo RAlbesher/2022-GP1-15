@@ -76,7 +76,7 @@ class _Studentdispaly extends State<Studentdispaly>
 
   @override
   Widget build(BuildContext context) {
-    double _headerHeight = 250;
+    double _headerHeight = 150;
     return Scaffold(
       backgroundColor: Color(0xFFEEEEEE),
       body: NotificationListener<ScrollNotification>(
@@ -91,7 +91,7 @@ class _Studentdispaly extends State<Studentdispaly>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
-                      height: Get.height * 0.4,
+                      height: 140,
                       child: Stack(
                         children: [
                           Container(
@@ -165,7 +165,7 @@ class _Studentdispaly extends State<Studentdispaly>
                           return FutureBuilder(
                               future: Future.wait([
                                 Admin().getAdminID(),
-                                Admin().getDocIdstudent()
+                                Admin().StudentListveiw()
                               ]),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
@@ -189,7 +189,7 @@ class _Studentdispaly extends State<Studentdispaly>
                                               height: 70,
                                               width: double.infinity,
                                               margin: const EdgeInsets.only(
-                                                  bottom: 12),
+                                                  bottom: 1),
                                               decoration: const BoxDecoration(
                                                 color: Colors.white,
                                                 border: Border(
@@ -233,7 +233,33 @@ class _Studentdispaly extends State<Studentdispaly>
                                                           BoxDecoration(),
                                                     ),
 
-                                                    //to only show the allowed people to admin
+                                                    Align(
+                                                      alignment:
+                                                          Alignment.topRight,
+                                                      child: Container(
+                                                        width: 90,
+                                                        height: 100,
+                                                        margin: EdgeInsets.only(
+                                                            bottom: 10,
+                                                            top: 10),
+                                                        decoration: BoxDecoration(
+                                                            shape:
+                                                                BoxShape.circle,
+                                                            color:
+                                                                Colors.white60
+                                                            //color:
+                                                            // Color(0xffD6D6D6),
+                                                            ),
+                                                        child: Center(
+                                                            child: Icon(
+                                                                Icons.person,
+                                                                size: 40,
+                                                                color: Color(
+                                                                        0xff57d77a)
+                                                                    .withOpacity(
+                                                                        0.4))),
+                                                      ),
+                                                    ), //to only show the allowed people to admin
 
                                                     Container(
                                                       margin:
@@ -266,12 +292,6 @@ class _Studentdispaly extends State<Studentdispaly>
                                                         InkWell(
                                                             // height: 80,
                                                             onTap: () {
-                                                              //////askkkk
-                                                              /* Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  //askkkkk faten where should it go ??;
-*/
                                                               CurrentID =
                                                                   snapshot.data![
                                                                       1][index];
@@ -364,7 +384,7 @@ class _Studentdispaly extends State<Studentdispaly>
                             child: Container(
                               padding: const EdgeInsets.only(left: 20),
                               child: Text(
-                                "مرحبا ",
+                                "قائمه الطلاب",
                                 textAlign: TextAlign.start,
                                 style: TextStyle(color: _iconColorTween.value),
                               ),

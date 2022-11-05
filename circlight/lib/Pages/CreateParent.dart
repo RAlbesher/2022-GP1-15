@@ -95,6 +95,8 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
   }
 
   bool issahre = false;
+  bool isshowadd = false;
+  bool showno = true;
   //to generate a random password
   var k = Random().nextInt(10000) + 10000000000000000;
   late TextEditingController controller;
@@ -261,7 +263,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                               children: <Widget>[
                                 Container(
                                   padding: const EdgeInsets.only(right: 5),
-                                  child: widget.header
+                                  child: isshowadd
                                       ? CupertinoButton(
                                           child: Text(
                                             "إضافة",
@@ -274,6 +276,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                                                 .validate()) {
                                               setState(() {
                                                 issahre = true;
+                                                isshowadd = false;
                                               });
                                               await parentx.addParent(
                                                   widget.Name,
@@ -291,11 +294,6 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                                               await showCupertinoDialog(
                                                   context: context,
                                                   builder: CreateDialog);
-
-                                              /* Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Nav(
-                                  TabValue: 10,
-                                )));*/
                                             }
                                           },
                                         )
@@ -960,7 +958,10 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                                         //scrollController.dispose();
                                         setState(() {
                                           _selectedNumber = _changedNumber;
+
+                                          isshowadd = true;
                                         });
+
                                         Navigator.pop(context);
                                         /*  parentx.UpdateParent(
                                               widget.documentId,
@@ -1026,6 +1027,9 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                     child: FloatingActionButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
+                          setState(() {
+                            isshowadd = true;
+                          });
                           Navigator.of(context).push(CupertinoPageRoute(
                             builder: (context) => Nav(
                               TabValue: 7,
@@ -1090,21 +1094,23 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                   child: FittedBox(
                     child: FloatingActionButton(
                       onPressed: () {
-                        Navigator.of(context).push(CupertinoPageRoute(
-                          builder: (context) => Nav(
-                            TabValue: 7,
-                            documentId: "Cu5WEwZNoe5eqIl0NOJp",
-                            index: 1,
-                            Realtion: value,
-                            Name: widget.Name,
-                            username: widget.username,
-                            email: widget.email,
-                            phone1: phoneNumber.text,
-                            phone2: altphoneNumber.text,
-                            header: false,
-                          ),
-                        ));
-                        //  if (formKey.currentState!.validate()) {}
+                        if (formKey.currentState!.validate()) {
+                          Navigator.of(context).push(CupertinoPageRoute(
+                            builder: (context) => Nav(
+                              TabValue: 7,
+                              documentId: "Cu5WEwZNoe5eqIl0NOJp",
+                              index: 1,
+                              Realtion: value,
+                              Name: widget.Name,
+                              username: widget.username,
+                              email: widget.email,
+                              phone1: phoneNumber.text,
+                              phone2: altphoneNumber.text,
+                              header: false,
+                            ),
+                          ));
+                          //  if (formKey.currentState!.validate()) {}
+                        }
                       },
                       elevation: 0,
                       child: Container(
@@ -1142,9 +1148,8 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
         break;
       case 3:
         setState(() {
-          issahre = true;
+          isshowadd = showno;
         });
-
         Fields = Column(
           children: [
             Directionality(
@@ -1348,21 +1353,25 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                     child: FittedBox(
                       child: FloatingActionButton(
                         onPressed: () async {
-                          Navigator.of(context).push(CupertinoPageRoute(
-                            builder: (context) => Nav(
-                              TabValue: 7,
-                              documentId: "Cu5WEwZNoe5eqIl0NOJp",
-                              index: 2,
-                              Realtion: value,
-                              Name: widget.Name,
-                              username: widget.username,
-                              email: widget.email,
-                              phone1: phoneNumber.text,
-                              phone2: altphoneNumber.text,
-                              header: false,
-                            ),
-                          ));
-
+                          if (formKey.currentState!.validate()) {
+                            setState(() {
+                              isshowadd = true;
+                            });
+                            Navigator.of(context).push(CupertinoPageRoute(
+                              builder: (context) => Nav(
+                                TabValue: 7,
+                                documentId: "Cu5WEwZNoe5eqIl0NOJp",
+                                index: 2,
+                                Realtion: value,
+                                Name: widget.Name,
+                                username: widget.username,
+                                email: widget.email,
+                                phone1: phoneNumber.text,
+                                phone2: altphoneNumber.text,
+                                header: false,
+                              ),
+                            ));
+                          }
                           //  if (formKey.currentState!.validate()) {}
                         },
                         elevation: 0,
@@ -1434,6 +1443,88 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
             const SizedBox(
               height: 40,
             ),
+            issahre
+                ? Align(
+                    alignment: Alignment(-0.99, 0.9),
+                    child: Container(
+                      height: 50.0,
+                      width: 50.0,
+                      child: FittedBox(
+                        child: FloatingActionButton(
+                          onPressed: () async {
+                            setState(() {
+                              showno = false;
+                            });
+                            showno = false;
+                            await showCupertinoDialog(
+                                context: context,
+                                builder: (context) => new CupertinoAlertDialog(
+                                      title: new Text(
+                                          "هل انت متأكد من رغبتك في مشاركه هذه المعلومات ؟"),
+                                      content: Column(
+                                        children: [
+                                          new Text("The Parent username:" +
+                                              widget.username),
+                                          Text("The Password:" + k.toString())
+                                        ],
+                                      ),
+                                      actions: <Widget>[
+                                        CupertinoDialogAction(
+                                          isDefaultAction: true,
+                                          child: Text("نعم"),
+                                          onPressed: () async {
+                                            await Share.share(
+                                                "Hello this is a private information about your account information :" +
+                                                    "The User Name :" +
+                                                    widget.username +
+                                                    "The Password:" +
+                                                    k.toString());
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                        CupertinoDialogAction(
+                                          child: Text("لا"),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                        )
+                                      ],
+                                    ));
+                          },
+                          elevation: 0,
+                          child: Container(
+                            height: 70,
+                            width: 70,
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  blurRadius: 6,
+                                ),
+                              ],
+                              borderRadius: BorderRadius.circular(90),
+                              gradient: LinearGradient(
+                                colors: [
+                                  const Color(0xff0da6c2),
+                                  const Color(0xff57d77a)
+                                ],
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "مشاركة",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                          backgroundColor: Color.fromARGB(0, 255, 253, 253),
+                        ),
+                      ),
+                    ),
+                  )
+                : SizedBox(),
           ],
         );
         break;
@@ -1454,12 +1545,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                     color: const Color(0xff57d77a),
                     fontWeight: FontWeight.bold)),
             onPressed: () {
-              Navigator.of(context).push(CupertinoPageRoute(
-                builder: (context) => Nav(
-                  TabValue: 10,
-                  documentId: "",
-                ),
-              ));
+              Navigator.pop(context);
             },
           )
         ],

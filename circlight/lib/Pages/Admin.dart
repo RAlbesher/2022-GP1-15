@@ -21,7 +21,7 @@ class Admin {
  
 
   
-  Future<List<String>> getDocId() async {
+   Future<List<String>> ParentListView() async {
     List<String> docIDS = [];
     // print("getDocId");
     await FirebaseFirestore.instance.collection("Parent").get().then(
@@ -47,7 +47,7 @@ class Admin {
     return AdminID;
   }
 
-  Future<List<String>> getDocIdstudent() async {
+  Future<List<String>> StudentListveiw() async {
     List<String> docIDSStudent = [];
     //print("getDocId");
     await FirebaseFirestore.instance.collection("Student").get().then(

@@ -138,6 +138,8 @@ class _CreateStudentState extends State<CreateStudent>
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     CollectionReference student =
         FirebaseFirestore.instance.collection("Student");
+    getAdminID();
+    getUserName();
 
     return Scaffold(
       // floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
@@ -252,7 +254,7 @@ class _CreateStudentState extends State<CreateStudent>
                                                   widget.nationality,
                                                   Numvalue,
                                                   blood,
-                                                  "gqvxZab1CsHCgT9kZgel");
+                                                  docAdmin[0]);
 
                                               showCupertinoDialog(
                                                   context: context,
