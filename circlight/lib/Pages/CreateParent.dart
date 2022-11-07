@@ -158,12 +158,13 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
   TextEditingController phoneNumber = TextEditingController();
   TextEditingController altphoneNumber = TextEditingController();
   TextEditingController RelativeRelation = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     Real = List<String>.filled(5, "");
-    final formKey = GlobalKey<FormState>();
+
     final double height = MediaQuery.of(context).size.height;
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+    //final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     CollectionReference Parent =
         FirebaseFirestore.instance.collection("Parent");
     getEmail();
@@ -233,7 +234,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                       padding: EdgeInsets.symmetric(horizontal: 35),
                       child: Form(
                         key: formKey,
-                        child: GetWidget(widget.index, formKey),
+                        child: GetWidget(widget.index),
                       ),
                     ),
                     const SizedBox(
@@ -388,7 +389,7 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
     );
   }
 
-  Widget GetWidget(Index, formKey) {
+  Widget GetWidget(Index) {
     Widget Fields = Text("");
 
     switch (Index) {
@@ -582,42 +583,6 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
             const SizedBox(
               height: 20,
             ),
-
-            /*  TextFieldWidget(
-                              'Name', Icons.person_outlined, parentName,
-                              (String? input) {
-                            if (input!.isEmpty) {
-                              return 'Name is required!';
-                            }
-
-                            if (input.length < 5) {
-                              return 'Please enter a valid name!';
-                            }
-
-                            return null;
-                          }),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          TextFieldWidget(
-                              'Name', Icons.person_outlined, parentName,
-                              (String? input) {
-                            if (input!.isEmpty) {
-                              return 'Name is required!';
-                            }
-
-                            if (input.length < 5) {
-                              return 'Please enter a valid name!';
-                            }
-
-                            return null;
-                          }),*/
-
-            /* greenButton('Submit', () {
-                    if (!formKey.currentState!.validate()) {
-                      return;
-                    }
-                  }),*/
             const SizedBox(
               height: 50,
             ),
@@ -986,43 +951,6 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
                     ),
                   ]),
             ),
-
-            /*  TextFieldWidget(
-                              'Name', Icons.person_outlined, parentName,
-                              (String? input) {
-                            if (input!.isEmpty) {
-                              return 'Name is required!';
-                            }
-
-                            if (input.length < 5) {
-                              return 'Please enter a valid name!';
-                            }
-
-                            return null;
-                          }),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          TextFieldWidget(
-                              'Name', Icons.person_outlined, parentName,
-                              (String? input) {
-                            if (input!.isEmpty) {
-                              return 'Name is required!';
-                            }
-
-                            if (input.length < 5) {
-                              return 'Please enter a valid name!';
-                            }
-
-                            return null;
-                          }),*/
-
-            /* greenButton('Submit', () {
-                    if (!formKey.currentState!.validate()) {
-                      return;
-                    }
-                  }),*/
-
             const SizedBox(
               height: 67,
             ),
@@ -1092,9 +1020,9 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
               const SizedBox(
                 width: 100,
               ),
-              const SizedBox(
+              /* const SizedBox(
                 width: 100,
-              ),
+              ),*/
               Align(
                 alignment: Alignment(-0.99, 0.9),
                 child: Container(
@@ -1403,9 +1331,9 @@ class _CreateState extends State<Createparent5> with TickerProviderStateMixin {
               const SizedBox(
                 width: 100,
               ),
-              const SizedBox(
-                width: 100,
-              ),
+              /* const SizedBox(
+                width: 50,
+              ),*/
               Align(
                 alignment: Alignment(-0.99, 0.9),
                 child: Container(

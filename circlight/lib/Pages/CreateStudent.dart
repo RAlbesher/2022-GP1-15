@@ -265,7 +265,7 @@ class _CreateStudentState extends State<CreateStudent>
                                       : Text("         "),
                                 ),
                                 SizedBox(
-                                  width: 80,
+                                  width: 30,
                                 ),
                                 Align(
                                   alignment: Alignment.topCenter,
@@ -760,7 +760,7 @@ class _CreateStudentState extends State<CreateStudent>
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 170,
+                                        width: 150,
                                       ),
                                       Row(children: [
                                         Text(
@@ -1061,9 +1061,9 @@ class _CreateStudentState extends State<CreateStudent>
                 const SizedBox(
                   width: 100,
                 ),
-                const SizedBox(
+                /*const SizedBox(
                   width: 100,
-                ),
+                ),*/
                 Align(
                   alignment: Alignment(0.80, 0.9),
                   child: Container(
