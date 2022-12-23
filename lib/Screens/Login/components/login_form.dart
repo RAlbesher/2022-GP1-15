@@ -46,7 +46,7 @@ class LoginForm extends StatelessWidget {
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(defaultPadding),
                   child: Icon(
-                    Icons.person,
+                    Icons.mail,
                     color: const Color(0xff42c98d),
                     size: 22,
                   ),

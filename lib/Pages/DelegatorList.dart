@@ -101,7 +101,7 @@ class _Paretdisplay extends State<Delegatordisplay>
 
   var SID;
   Request Req = new Request(
-      DName: "", Dusername: "", isAccepted: false, isActive: "false", SID: "");
+      DName: "", Dusername: "", isAccepted: false, isActive: false, SID: "");
 
   var CurrentID;
   var SCount = 0;

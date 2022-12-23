@@ -132,29 +132,36 @@ class _Studentdispaly extends State<Studentdispaly>
                       ),
                     ),
                     Container(
+                      //height: 230,
                       padding: EdgeInsets.only(right: 20, top: 20, left: 20),
-                      child: Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: TextFormField(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 20, top: 20, left: 20),
+                        child: TextField(
                           onChanged: (value) {
                             setState(() {
                               searchname = value;
                             });
                           },
+                          textAlign: TextAlign.right,
                           decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Color(0xff57d77a), width: 2),
-                                borderRadius: BorderRadius.circular(22.0),
+                              hintText: "..بحث",
+                              hintStyle: TextStyle(color: Colors.grey.shade600),
+                              prefixIcon: Icon(
+                                Icons.search,
+                                color: Colors.grey.shade600,
+                                size: 20,
                               ),
-                              labelText: "بحث",
-                              hintText: "بحث",
-                              prefixIcon: Icon(Icons.search),
-                              border: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Color(0xff57d77a), width: 2),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(22.0)))),
+                              filled: true,
+                              fillColor: Colors.grey.shade100,
+                              contentPadding: EdgeInsets.all(8),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  borderSide:
+                                      BorderSide(color: Colors.grey.shade100)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  borderSide:
+                                      BorderSide(color: Colors.grey.shade100))),
                         ),
                       ),
                     ),
@@ -208,9 +215,14 @@ class _Studentdispaly extends State<Studentdispaly>
                     //let's create a common header widget
 
                     StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance
-                          .collection("Student")
-                          .snapshots(),
+                      stream: (searchname != "" && searchname != null)
+                          ? FirebaseFirestore.instance
+                              .collection("Student")
+                              .where("Search", arrayContains: searchname)
+                              .snapshots()
+                          : FirebaseFirestore.instance
+                              .collection("Student")
+                              .snapshots(),
                       builder: (BuildContext context,
                           AsyncSnapshot<QuerySnapshot> snapshot) {
                         if (snapshot.hasData) {
@@ -254,34 +266,6 @@ class _Studentdispaly extends State<Studentdispaly>
                                                   alignment: Alignment.center,
                                                   children: [
                                                     Container(
-                                                      /*
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage('../assets/images/mask.jpeg'),
-                              fit: BoxFit.fill)),
-
-                      //height: Get.height * 0.3,
-                    ),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                        width: 120,
-                        height: 120,
-                        margin: EdgeInsets.only(bottom: 20),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color(0xffD6D6D6),
-                        ),
-                        child: Center(
-                            child: Icon(
-                          Icons.person,
-                          size: 60,
-                          color: Color.fromARGB(95, 60, 58, 58),
-                        )),
-                      ),
-                    )*/
-                                                      //for profile image
-
                                                       decoration:
                                                           BoxDecoration(),
                                                     ),

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,7 +5,6 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
 import 'package:encryptor/encryptor.dart';
-
 
 class Parent {
   String Name = " "; //
@@ -22,7 +19,7 @@ class Parent {
   String PPhoneNumber = ""; //
   String PAltPhoneNumber = ""; //
   String PRelativeRelation = "";
-
+  List<String> search = [];
   Parent(
       {required this.Name,
       required this.Email,
@@ -33,8 +30,6 @@ class Parent {
       required this.PAltPhoneNumber,
       required this.PNationality,
       required this.PRelativeRelation});
-
-
 
   UpdateParent(DocId, Field, Updated) async {
     CollectionReference Parents =
@@ -92,9 +87,12 @@ class Parent {
     return IsUpdated;
   }
 
-// to add the parent in the firebase 
+// to add the parent in the firebase
   addParent(PN, PUserName, Email, PID, ParenPhoneNo, AltPhoneNum, Nationality,
       randompass, JobT, PRelativeRelation) async {
+    for (var i = 0; i < PN.length; i++) {
+      search.add(PN.substring(0, i + 1));
+    }
     CollectionReference Parents =
         FirebaseFirestore.instance.collection("Parent");
     //for hashing
@@ -113,15 +111,14 @@ class Parent {
       'JobTitle': JobT,
       'LateStatus': false,
       "RelativeRelation": PRelativeRelation,
-     
+      'Search': search,
     });
   }
 
-// to delete the students 
+// to delete the students
   DeleteParent(String DocId) async {
     CollectionReference Parents =
         FirebaseFirestore.instance.collection("Parent");
     await Parents.doc(DocId).delete();
   }
-
-}//END OF CLASS
+} //END OF CLASS

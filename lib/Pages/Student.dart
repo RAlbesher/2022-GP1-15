@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 
 class Student {
   String Name = " "; //
@@ -9,7 +10,7 @@ class Student {
   String SNationality = " "; //
   String SUserName = " "; //
   String SBloodType = ""; //
-
+  List<String> search = [];
   Student({
     required this.Name,
     required this.Class,
@@ -69,10 +70,29 @@ class Student {
 // to add student
   addStudent(DocId, Name, SUserName, SNationalID, SNationality, Class,
       SBloodType, AdminID) async {
+    for (var i = 0; i < Name.length; i++) {
+      search.add(Name.substring(0, i + 1));
+    }
     final Student = FirebaseFirestore.instance;
     await Student.collection("Student").add({
       "ParentId": DocId,
       'Name': Name,
+      'UserName': SUserName,
+      'NationalID': SNationalID,
+      'Nationality': SNationality,
+      'Class': Class,
+      'BloodType': SBloodType,
+      'AdminID': AdminID,
+      'Search': search,
+    });
+  }
+
+  Existstudent(DocId, ParentID, Name, SUserName, SNationalID, SNationality,
+      Class, SBloodType, AdminID) async {
+    final Student = FirebaseFirestore.instance.collection("Student");
+    await Student.doc(DocId).set({
+      "ParentId": ParentID,
+      "Name": Name,
       'UserName': SUserName,
       'NationalID': SNationalID,
       'Nationality': SNationality,

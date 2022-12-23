@@ -13,6 +13,11 @@ import 'displayStudent.dart';
 
 import 'edit5.dart';
 import 'editStudent.dart';
+import 'StudentAssign.dart';
+import 'package:circlight/Pages/GenaralSearch.dart';
+import 'package:circlight/Pages/StudentAssign.dart';
+import 'package:circlight/Pages/viewprofileParent.dart';
+import 'package:circlight/Pages/viewprofileStudent.dart';
 
 class Nav extends StatefulWidget {
   final int TabValue;
@@ -131,6 +136,50 @@ class _Nav extends State<Nav> {
           currentScreen = Studentdispaly();
           Tab = 11;
           break;
+
+           case 12:
+          currentScreen = StudentAssign(
+            documentId: widget.documentId,
+            index: widget.index,
+            Name: widget.Name,
+            username: widget.username,
+            SID: widget.SID,
+            header: widget.header,
+            nationality: widget.nationality,
+            Class: widget.Class,
+            Blood: widget.Blood,
+          );
+          Tab = 12;
+          break;
+
+        case 13:
+          currentScreen = GeneralSearch();
+          Tab = 13;
+          break;
+
+        case 14:
+          currentScreen = ViewprofileParent(
+            documentId: widget.documentId,
+            Confirm: false,
+            Index: widget.index,
+            TheValue: widget.TheValue,
+            whichpag: widget.whichpag,
+            DropDown: false,
+          );
+          Tab = 14;
+          break;
+
+        case 15:
+          currentScreen = ViewprofileStudent(
+            documentId: widget.documentId,
+            DropDown: false,
+            Confirm: false,
+            Index: widget.index,
+            TheValue: widget.TheValue,
+            whichpag: widget.whichpag,
+          );
+          Tab = 15;
+          break;
       }
     });
   }
@@ -218,10 +267,21 @@ class _Nav extends State<Nav> {
                     MaterialButton(
                       minWidth: 40,
                       onPressed: () {
-                        setState(() {
+                      setState(() {
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => Nav(
+                                        TabValue: 13,
+                                        // documentId: widget.documentId,
+                                      )));
+                          currentScreen = GeneralSearch();
+                          Tab = 13;
+                        });
+                        /* setState(() {
                           currentScreen = Paretdisplay();
                           Tab = 2;
-                        });
+                        });*/
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -236,7 +296,7 @@ class _Nav extends State<Nav> {
                               Image.asset("assets/images/search.png",
                                   width: 25,
                                   height: 25,
-                                  color: Tab == 2
+                                  color: Tab == 13
                                       ? Color(0xff42c98d)
                                       : Color.fromARGB(255, 167, 166, 166)),
                             ]),
