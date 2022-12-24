@@ -1,4 +1,5 @@
 import 'package:circlight/Pages/CreateParent.dart';
+import 'package:circlight/Pages/DelegatorPending.dart';
 import 'package:circlight/Pages/constants.dart';
 
 import 'package:circlight/Pages/displayParent.dart';
@@ -93,15 +94,10 @@ class LoginUiApp extends StatelessWidget {
           ),
         ),
       ),
-      home: //DelegatorHome(),
-          //  WelcomeScreen(),
-          /*  NavDel(
-          TabValue: 0,
-        )*/
-          /* NavParent(
-        TabValue: 0,
-      ),*/
-          Delegatordisplay(),
+      home:
+          // DelegatorPending()
+
+          WelcomeScreen(),
     );
   }
 }

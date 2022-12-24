@@ -1,3 +1,9 @@
+<<<<<<< Updated upstream
 2022/12/24-22:54:42.237 3ff0 Reusing MANIFEST C:\Users\2022\AppData\Local\Temp\flutter_tools.4b7ce720\flutter_tools_chrome_device.581aa757\Default\Session Storage/MANIFEST-000001
 2022/12/24-22:54:42.239 3ff0 Recovering log #3
 2022/12/24-22:54:42.241 3ff0 Reusing old log C:\Users\2022\AppData\Local\Temp\flutter_tools.4b7ce720\flutter_tools_chrome_device.581aa757\Default\Session Storage/000003.log 
+=======
+2022/12/25-00:10:07.483 80dc Reusing MANIFEST C:\Users\lamaa\AppData\Local\Temp\flutter_tools.87be5965\flutter_tools_chrome_device.ebe7eaea\Default\Session Storage/MANIFEST-000001
+2022/12/25-00:10:07.485 80dc Recovering log #3
+2022/12/25-00:10:07.487 80dc Reusing old log C:\Users\lamaa\AppData\Local\Temp\flutter_tools.87be5965\flutter_tools_chrome_device.ebe7eaea\Default\Session Storage/000003.log 
+>>>>>>> Stashed changes

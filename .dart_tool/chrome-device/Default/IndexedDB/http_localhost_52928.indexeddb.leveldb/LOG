@@ -1,0 +1,4 @@
+2022/12/24-18:16:33.716 32d8 Reusing MANIFEST C:\Users\lamaa\AppData\Local\Temp\flutter_tools.fac41d0e\flutter_tools_chrome_device.78a60aae\Default\IndexedDB\http_localhost_52928.indexeddb.leveldb/MANIFEST-000001
+2022/12/24-18:16:33.716 32d8 Recovering log #4
+2022/12/24-18:16:33.717 32d8 Reusing old log C:\Users\lamaa\AppData\Local\Temp\flutter_tools.fac41d0e\flutter_tools_chrome_device.78a60aae\Default\IndexedDB\http_localhost_52928.indexeddb.leveldb/000004.log 
+2022/12/24-18:16:36.830 1c04 Manual compaction at level-0 from '\x00\x03\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x04\x00\x00\x00' @ 0 : 0; will stop at (end)

@@ -306,92 +306,7 @@ class _ViewprofileParent extends State<ViewprofileParent>
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                /*Container(
-                  padding: const EdgeInsets.only(right: 5),
-                  child: CupertinoButton(
-                    child: Text(
-                      "حفظ",
-                      style: TextStyle(color: const Color(0xff42c98d)),
-                    ),
-                    onPressed: () async {
-                      if (formKey.currentState!.validate()) {
-                        //t(DocId, Field, Name)
-                        if (save == false) {
-                          Navigator.pop(context);
-                        }
-
-                        switch (Field) {
-                          case "Name":
-                            UpdatedValue = parentName.text;
-                            break;
-                          case "UserName":
-                            UpdatedValue = parentUserName.text;
-                            break;
-                          case "Email":
-                            UpdatedValue = parentEmail.text;
-                            break;
-                          case "JobTitle":
-                            UpdatedValue = JobTitle.text;
-                            break;
-                          case "PhoneNumber":
-                            UpdatedValue = Phone.text;
-                            break;
-                          case "AltPhoneNumber":
-                            UpdatedValue = AltPhone.text;
-                            break;
-                          case "NationalID":
-                            UpdatedValue = NationalID.text;
-                            break;
-                          case "Nationality":
-                            UpdatedValue = Nationality.text;
-
-                            break;
-                          case "RelativeRelation":
-                            UpdatedValue = Dvalue;
-                            break;
-                        }
-
-                        if (save == true) {
-                          /* Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => editparent5(
-                                documentId: widget.documentId,
-                                Confirm: save,
-                                Index: 1,
-                                TheValue: "",
-                                whichpag: 0,
-                              )));*/
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(snackBar); // snack
-                          Future.delayed(const Duration(milliseconds: 1500))
-                              .then((value) {
-                            Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                    builder: (context) => editparent5(
-                                          documentId: widget.documentId,
-                                          Confirm: save,
-                                          Index: 1,
-                                          TheValue: "",
-                                          whichpag: 0,
-                                          DropDown: isDrop,
-                                        )));
-                          });
-                        }
-                        await parentx.UpdateParent(
-                            widget.documentId, Field, UpdatedValue);
-
-                        /* Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => editparent5(
-                              documentId: widget.documentId,
-                            )));*/
-
-                        // //
-
-                        //
-                      }
-                    },
-                  ),
-                ),*/
+               
                 SizedBox(
                   width: 80,
                 ),
@@ -1574,19 +1489,7 @@ class _ViewprofileParent extends State<ViewprofileParent>
                                     ),
                                   ),
                                 ),
-                                /* onTap: () {
-                                  Navigator.of(context).push(CupertinoPageRoute(
-                                    builder: (context) => Nav(
-                                      TabValue: 5,
-                                      index: 7,
-                                      documentId: widget.documentId,
-                                      TheValue: parentName.text,
-                                      whichpag: 1,
-                                      Confirm: false,
-                                      DropDown: isDrop,
-                                    ),
-                                  ));
-                                },*/
+                             
                               ),
                               const SizedBox(
                                 height: 32,
@@ -1595,17 +1498,7 @@ class _ViewprofileParent extends State<ViewprofileParent>
                                 child: Container(
                                   child: Row(
                                     children: <Widget>[
-                                      /*Container(
-                                        padding: EdgeInsets.only(bottom: 10),
-                                        child: Positioned(
-                                          left: 0.0,
-                                          child: Icon(
-                                            Icons.arrow_back_ios_outlined,
-                                            color: const Color(0xff57d77a),
-                                            size: 16,
-                                          ),
-                                        ),
-                                      ),*/
+                                     
                                       Expanded(
                                         child: Container(
                                           padding: EdgeInsets.only(
@@ -1647,19 +1540,7 @@ class _ViewprofileParent extends State<ViewprofileParent>
                                     ),
                                   ),
                                 ),
-                                /*onTap: () {
-                                  Navigator.of(context).push(CupertinoPageRoute(
-                                    builder: (context) => Nav(
-                                      TabValue: 5,
-                                      index: 8,
-                                      documentId: widget.documentId,
-                                      TheValue: parentName.text,
-                                      whichpag: 1,
-                                      Confirm: false,
-                                      DropDown: isDrop,
-                                    ),
-                                  ));
-                                },*/
+                                
                               ),
                               const SizedBox(
                                 height: 15,
@@ -1694,23 +1575,7 @@ class _ViewprofileParent extends State<ViewprofileParent>
                                             Container(
                                               child: Row(
                                                 children: <Widget>[
-                                                  /*Container(
-                                                    alignment: Alignment.center,
-                                                    padding: EdgeInsets.only(
-                                                        right: 4),
-                                                    child: Positioned(
-                                                      left: 0,
-                                                      child: Icon(
-                                                        Icons
-                                                            .arrow_circle_down_rounded,
-                                                        // Icons.arrow_downward_outlined,
-                                                        color: const Color(
-                                                            0xff57d77a),
-                                                        size: 16,
-                                                      ),
-                                                    ),
-                                                  ),*/
-                                                  Align(
+                                                 Align(
                                                     alignment:
                                                         Alignment.centerLeft,
                                                     child: Container(
@@ -1790,89 +1655,7 @@ class _ViewprofileParent extends State<ViewprofileParent>
                                     ),
                                   ),
                                   onPressed: () {
-                                    /*
-                                    showModalBottomSheet(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return Container(
-                                            height: 200.0,
-                                            color: Colors.white,
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                CupertinoButton(
-                                                  child: Text(
-                                                    "إلغاء",
-                                                    style: GoogleFonts.poppins(
-                                                      fontSize: 17,
-                                                      color: Color(0xffA7A7A7),
-                                                    ),
-                                                  ),
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                ),
-                                                Expanded(
-                                                  child: CupertinoPicker(
-                                                    scrollController:
-                                                        scrollController,
-                                                    looping: false,
-                                                    itemExtent: 64,
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    onSelectedItemChanged:
-                                                        (index) {
-                                                      print(index);
-
-                                                      DIndex = index;
-                                                      print(DIndex);
-                                                      final item =
-                                                          Relation[DIndex];
-                                                      DIndex = index;
-                                                      controller.text = item;
-                                                      Dvalue = item;
-                                                    },
-                                                    children: Relation.map(
-                                                        (item) => Center(
-                                                                child: Text(
-                                                              item,
-                                                              style: TextStyle(
-                                                                  fontSize: 20),
-                                                            ))).toList(),
-                                                  ),
-                                                ),
-                                                CupertinoButton(
-                                                  child: Text("موافق",
-                                                      style: GoogleFonts.poppins(
-                                                          fontSize: 17,
-                                                          color: const Color(
-                                                              0xff57d77a))),
-                                                  onPressed: () {
-                                                    scrollController =
-                                                        FixedExtentScrollController(
-                                                            initialItem:
-                                                                _changedNumber);
-                                                    //scrollController.dispose();
-                                                    setState(() {
-                                                      _selectedNumber =
-                                                          _changedNumber;
-                                                    });
-                                                    isDrop == true;
-                                                    widget.isDropDown = true;
-                                                    Dvalue = Relation[DIndex];
-                                                    Navigator.pop(context);
-                                                    /*  parentx.UpdateParent(
-                                              widget.documentId,
-                                              "RelativeRelation",
-                                              value);*/
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        });
-                                 */
+                                    
                                   },
                                 ),
                               ]),
@@ -1899,32 +1682,7 @@ class _ViewprofileParent extends State<ViewprofileParent>
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              /*Container(
-                                padding: const EdgeInsets.only(right: 5),
-                                child: CupertinoButton(
-                                  child: Text(
-                                    "حفظ",
-                                    style: TextStyle(
-                                        color: _icon2ColorTween.value,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                 /* onPressed: () async {
-                                    if (isSaved != true) {
-                                      Navigator.pop(context);
-                                    }
-                                    print(isSaved);
-                                    if (isSaved == true || widget.isDropDown) {
-                                      showCupertinoDialog(
-                                          context: context,
-                                          builder: CreateDialog2);
-                                    }
-                                    await parentx.UpdateParent(
-                                        widget.documentId,
-                                        "RelativeRelation",
-                                        Dvalue);
-                                  },*/
-                                ),
-                              ),*/
+                              
                               SizedBox(
                                 width: 55,
                               ),
@@ -2016,11 +1774,7 @@ class _ViewprofileParent extends State<ViewprofileParent>
           ),
         ),
 
-        /* greenButton('حفظ', () {
-                  if (!formKey.currentState!.validate()) {
-                    return;
-                  }
-                }),*/
+     
       ]);
 
   WhichColor() {

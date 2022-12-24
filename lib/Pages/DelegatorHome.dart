@@ -14,7 +14,6 @@ class DelegatorHome extends StatefulWidget {
   @override
   _DelegatorHome createState() => _DelegatorHome();
 }
-
 class _DelegatorHome extends State<DelegatorHome> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   CollectionReference request =

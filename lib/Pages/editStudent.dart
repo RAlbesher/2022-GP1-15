@@ -1733,22 +1733,7 @@ class _EditStudentState extends State<EditStudent>
       ),
     ]),
   );
-/*
-  Widget CreateDialog2(BuildContext context) {
-    String Msg = "تحديث معلومات الطالب";
 
-    return CupertinoAlertDialog(
-      content: Text("تم تحديث المعلومات بنجاح"),
-      actions: [
-        CupertinoDialogAction(
-            onPressed: () {
-              Future.delayed(const Duration(milliseconds: 1500));
-              /*Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => Studentdispaly()));*/
-            },
-            child: Text("موافق")),
-      ],
-    );*/
 
   Widget CreateDialog2(BuildContext context) {
     return AlertDialog(
