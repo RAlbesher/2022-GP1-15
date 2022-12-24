@@ -94,21 +94,12 @@ class LoginUiApp extends StatelessWidget {
             ),
           ),
         ),
-<<<<<<< Updated upstream
-      ),
-      home:
-          // DelegatorPending()
-
-          WelcomeScreen(),
-    );
-=======
-        home: DelegatorPending()
-
-        // Delegatordisplay()
+        home: Delegatordisplay()
+        //WelcomeScreen()
+        // DelegatorPending()
 
         //DelegatorHome(),
         // WelcomeScreen(),
         );
->>>>>>> Stashed changes
   }
 }

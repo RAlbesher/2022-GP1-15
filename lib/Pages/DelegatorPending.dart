@@ -102,11 +102,7 @@ class _DelegatorPending extends State<DelegatorPending>
 
   var SID;
   Request Req = new Request(
-<<<<<<< Updated upstream
-      DName: "", Dusername: "", isAccepted: false, isActive: "false", SID: "");
-=======
-      DName: "", Dusername: "", isAccepted: false, isActive: false, SID: "");
->>>>>>> Stashed changes
+      DName: "", Dusername: "", isAccepted: false, isActive: "", SID: "");
 
   var CurrentID;
   var SCount = 0;
@@ -190,7 +186,7 @@ class _DelegatorPending extends State<DelegatorPending>
                                 Align(
                                   alignment: Alignment(-0.7, -0.70),
                                   child: Text(
-                                    ' مرحبًا نورة البشر',
+                                    "قائمه الطلاب المفعلين والمعلقين ",
                                     textAlign: TextAlign.right,
                                     style: FlutterFlowTheme.of(context)
                                         .title1

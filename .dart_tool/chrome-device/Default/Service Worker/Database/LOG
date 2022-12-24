@@ -1,15 +1,2 @@
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-2022/12/24-22:54:42.067 477c Reusing MANIFEST C:\Users\2022\AppData\Local\Temp\flutter_tools.4b7ce720\flutter_tools_chrome_device.581aa757\Default\Service Worker\Database/MANIFEST-000001
-2022/12/24-22:54:42.068 477c Recovering log #3
-2022/12/24-22:54:42.069 477c Reusing old log C:\Users\2022\AppData\Local\Temp\flutter_tools.4b7ce720\flutter_tools_chrome_device.581aa757\Default\Service Worker\Database/000003.log 
-=======
-2022/12/25-00:10:07.015 7208 Reusing MANIFEST C:\Users\lamaa\AppData\Local\Temp\flutter_tools.87be5965\flutter_tools_chrome_device.ebe7eaea\Default\Service Worker\Database/MANIFEST-000001
-2022/12/25-00:10:07.016 7208 Recovering log #3
-2022/12/25-00:10:07.017 7208 Reusing old log C:\Users\lamaa\AppData\Local\Temp\flutter_tools.87be5965\flutter_tools_chrome_device.ebe7eaea\Default\Service Worker\Database/000003.log 
->>>>>>> Stashed changes
-=======
-2022/12/25-00:10:07.015 7208 Reusing MANIFEST C:\Users\lamaa\AppData\Local\Temp\flutter_tools.87be5965\flutter_tools_chrome_device.ebe7eaea\Default\Service Worker\Database/MANIFEST-000001
-2022/12/25-00:10:07.016 7208 Recovering log #3
-2022/12/25-00:10:07.017 7208 Reusing old log C:\Users\lamaa\AppData\Local\Temp\flutter_tools.87be5965\flutter_tools_chrome_device.ebe7eaea\Default\Service Worker\Database/000003.log 
->>>>>>> Stashed changes
+2022/12/25-00:28:23.799 628c Creating DB C:\Users\lamaa\AppData\Local\Temp\flutter_tools.3d12f594\flutter_tools_chrome_device.f598b1dc\Default\Service Worker\Database since it was missing.
+2022/12/25-00:28:23.807 628c Reusing MANIFEST C:\Users\lamaa\AppData\Local\Temp\flutter_tools.3d12f594\flutter_tools_chrome_device.f598b1dc\Default\Service Worker\Database/MANIFEST-000001
