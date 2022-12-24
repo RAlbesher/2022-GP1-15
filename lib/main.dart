@@ -16,6 +16,8 @@ import 'Pages/CreateStudent.dart';
 
 import 'Pages/DelegatorHome.dart';
 import 'Pages/DelegatorList.dart';
+import 'Pages/NavDelegator.dart';
+import 'Pages/NavParent.dart';
 import 'Pages/base_screen.dart';
 import 'Pages/edit5.dart';
 import 'Pages/editStudent.dart';
@@ -91,9 +93,14 @@ class LoginUiApp extends StatelessWidget {
           ),
         ),
       ),
-
       home: //DelegatorHome(),
-          // WelcomeScreen(),
+          //  WelcomeScreen(),
+          /*  NavDel(
+          TabValue: 0,
+        )*/
+          /* NavParent(
+        TabValue: 0,
+      ),*/
           Delegatordisplay(),
     );
   }

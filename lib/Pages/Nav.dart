@@ -137,7 +137,7 @@ class _Nav extends State<Nav> {
           Tab = 11;
           break;
 
-           case 12:
+        case 12:
           currentScreen = StudentAssign(
             documentId: widget.documentId,
             index: widget.index,
@@ -267,7 +267,7 @@ class _Nav extends State<Nav> {
                     MaterialButton(
                       minWidth: 40,
                       onPressed: () {
-                      setState(() {
+                        setState(() {
                           Navigator.push(
                               context,
                               CupertinoPageRoute(
@@ -311,7 +311,7 @@ class _Nav extends State<Nav> {
                               style: TextStyle(
                                   fontSize: 10,
                                   fontWeight: FontWeight.w700,
-                                  color: Tab == 2
+                                  color: Tab == 13
                                       ? Color(0xff42c98d)
                                       : Colors.grey),
                             ),
@@ -325,71 +325,59 @@ class _Nav extends State<Nav> {
                 ),
                 MaterialButton(
                   minWidth: 40,
-                  elevation: 0,
                   onPressed: () {
                     setState(() {
-                      // currentScreen = Announcement();
-                      Tab = 4;
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => Nav(
+                                    TabValue: 133,
+                                    // documentId: widget.documentId,
+                                  )));
+                      currentScreen = GeneralSearch();
+                      Tab = 13;
                     });
+                    /* setState(() {
+                          currentScreen = Paretdisplay();
+                          Tab = 2;
+                        });*/
                   },
                   child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 38,
-                          width: 38,
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
-                                blurRadius: 6,
-                              ),
-                            ],
-                            borderRadius: BorderRadius.circular(90),
-                            gradient: LinearGradient(
-                              colors: [
-                                const Color(0xff0da6c2),
-                                const Color(0xff42c98d),
-                                const Color(0xff57d77a)
-                              ],
-                            ),
-                          ),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          //     padding: const EdgeInsets.only(right: 50),
                           child: Align(
-                            // alignment: Alignment(0.30, -0.10),
-                            alignment: Alignment(0.30, 0.3),
-                            child: Column(children: [
-                              SizedBox(
-                                height: 9,
-                              ),
-                              Image.asset(
-                                "assets/images/announ.png",
-                                width: 25,
-                                height: 25,
-                                color: Tab == 3
-                                    ? Color(0xff42c98d)
-                                    : Color.fromARGB(255, 255, 254, 254),
-                              ),
-                              SizedBox(
-                                height: 1,
-                              ),
-                            ]),
+                        child: Column(children: [
+                          SizedBox(
+                            height: 11,
                           ),
+                          Image.asset("assets/images/announ.png",
+                              width: 25,
+                              height: 25,
+                              color: Tab == 133
+                                  ? Color(0xff42c98d)
+                                  : Color.fromARGB(255, 167, 166, 166)),
+                        ]),
+                      )),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Container(
+                        //  padding: const EdgeInsets.only(right: 50),
+                        child: Text(
+                          'الإعلانات',
+                          style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w700,
+                              color:
+                                  Tab == 133 ? Color(0xff42c98d) : Colors.grey),
                         ),
-                        SizedBox(
-                          height: 1,
-                        ),
-                        Container(
-                          //  padding: const EdgeInsets.only(right: 50),
-                          child: Text(
-                            'الإعلانات',
-                            style: TextStyle(
-                                fontSize: 8,
-                                fontWeight: FontWeight.w700,
-                                color:
-                                    Tab == 2 ? Color(0xff42c98d) : Colors.grey),
-                          ),
-                        ),
-                      ]),
+                      ),
+                      // Text
+                      // Column
+                    ],
+                  ),
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,

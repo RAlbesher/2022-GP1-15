@@ -622,21 +622,54 @@ class _Paretdisplay extends State<Delegatordisplay>
                                                                                 25,
                                                                             height:
                                                                                 25,
+                                                                            // color:
+                                                                            //    Color(0xFF4CD755),
                                                                             decoration:
                                                                                 BoxDecoration(
                                                                               borderRadius: BorderRadius.circular(40),
                                                                               color: Color(0xFF4CD755),
                                                                             ),
-                                                                            child: const Center(
-                                                                                child: Icon(
-                                                                              Icons.close,
-                                                                              color: Color.fromARGB(255, 250, 252, 253),
-                                                                              size: 13,
-                                                                            )),
+                                                                            child:
+                                                                                Center(
+                                                                              child: Image.asset("assets/images/Activate.png", width: 13, height: 13, color: Color.fromARGB(255, 252, 252, 252)),
+                                                                            ),
                                                                           )),
                                                                     )
-                                                                  : Text(
-                                                                      "aaaaaaa"),
+                                                                  : Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
+                                                                              10,
+                                                                              0,
+                                                                              4,
+                                                                              0),
+                                                                      child:
+                                                                          Container(
+                                                                        width:
+                                                                            25,
+                                                                        height:
+                                                                            25,
+                                                                        // color:
+                                                                        //    Color(0xFF4CD755),
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(40),
+                                                                          color: Color.fromARGB(
+                                                                              255,
+                                                                              171,
+                                                                              181,
+                                                                              172),
+                                                                        ),
+                                                                        child:
+                                                                            Center(
+                                                                          child: Image.asset(
+                                                                              "assets/images/Pending.png",
+                                                                              width: 13,
+                                                                              height: 13,
+                                                                              color: Color.fromARGB(255, 252, 252, 252)),
+                                                                        ),
+                                                                      ),
+                                                                    ),
                                                             ],
                                                           ),
                                                         ]))
@@ -995,12 +1028,10 @@ class _Paretdisplay extends State<Delegatordisplay>
                                                                               borderRadius: BorderRadius.circular(40),
                                                                               color: Color.fromARGB(255, 171, 181, 172),
                                                                             ),
-                                                                            child: const Center(
-                                                                                child: Icon(
-                                                                              Icons.close,
-                                                                              color: Color.fromARGB(255, 250, 252, 253),
-                                                                              size: 13,
-                                                                            )),
+                                                                            child:
+                                                                                Center(
+                                                                              child: Image.asset("assets/images/Activate.png", width: 13, height: 13, color: Color.fromARGB(255, 252, 252, 252)),
+                                                                            ),
                                                                           )),
                                                                     )
                                                                   : Padding(
@@ -1016,28 +1047,26 @@ class _Paretdisplay extends State<Delegatordisplay>
                                                                             25,
                                                                         height:
                                                                             25,
+                                                                        // color:
+                                                                        //    Color(0xFF4CD755),
                                                                         decoration:
                                                                             BoxDecoration(
                                                                           borderRadius:
                                                                               BorderRadius.circular(40),
                                                                           color: Color.fromARGB(
                                                                               255,
-                                                                              214,
-                                                                              13,
-                                                                              217),
+                                                                              171,
+                                                                              181,
+                                                                              172),
                                                                         ),
-                                                                        child: const Center(
-                                                                            child: Icon(
-                                                                          Icons
-                                                                              .close,
-                                                                          color: Color.fromARGB(
-                                                                              255,
-                                                                              250,
-                                                                              252,
-                                                                              253),
-                                                                          size:
-                                                                              13,
-                                                                        )),
+                                                                        child:
+                                                                            Center(
+                                                                          child: Image.asset(
+                                                                              "assets/images/Pending.png",
+                                                                              width: 13,
+                                                                              height: 13,
+                                                                              color: Color.fromARGB(255, 252, 252, 252)),
+                                                                        ),
                                                                       ),
                                                                     ),
                                                             ],

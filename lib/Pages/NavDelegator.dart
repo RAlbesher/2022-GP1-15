@@ -1,97 +1,62 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import 'CreateParent.dart';
-
-import 'CreateStudent.dart';
-
+import 'DelegatorHome.dart';
+import 'DelegatorList.dart';
 import 'base_screen.dart';
 import 'displayParent.dart';
 import 'displayStudent.dart';
 
-import 'edit5.dart';
-import 'editStudent.dart';
+import 'package:circlight/Pages/GenaralSearch.dart';
 
-class NavDelegator extends StatefulWidget {
+class NavDel extends StatefulWidget {
   final int TabValue;
-  final documentId;
-  final index;
-  final Realtion;
-  final Name;
-  final username;
-  final email;
-  final ID;
-  final Confirm;
-  final nationality;
-  final phone1;
-  final phone2;
-  final job;
-  final SID;
-  final Blood;
-  final Class;
-  final TheValue;
-  final whichpag;
-  final DropDown;
-  final header;
-  const NavDelegator(
-      {super.key,
-      this.DropDown,
-      required this.TabValue,
-      this.documentId,
-      this.Blood,
-      this.index,
-      this.whichpag,
-      this.TheValue,
-      this.SID,
-      this.Class,
-      this.Realtion,
-      this.Confirm,
-      this.ID,
-      this.Name,
-      this.username,
-      this.email,
-      this.nationality,
-      this.job,
-      this.phone1,
-      this.phone2,
-      this.header});
+
+  const NavDel({
+    super.key,
+    required this.TabValue,
+  });
 
   @override
-  State<NavDelegator> createState() => _NavDelegator();
+  State<NavDel> createState() => _NavDel();
 }
 
-class _NavDelegator extends State<NavDelegator> {
+class _NavDel extends State<NavDel> {
   SetTab() {
     setState(() {
       switch (widget.TabValue) {
         case 0:
+          currentScreen = DelegatorHome();
+          Tab = 0;
           break;
+
         case 5:
+          //   currentScreen = Delegatordisplay();
+          Tab = 1;
           break;
         case 6:
-          //  currentScreen = UpdateStudent(documentId: widget.documentId);
-          Tab = 6;
           break;
         case 7:
           break;
         case 8:
           break;
         case 9:
-          /*currentScreen = EditStudent(
-            documentId: widget.documentId,
-            DropDown: false,
-            Confirm: false,
-            Index: widget.index,
-            TheValue: widget.TheValue,
-            whichpag: widget.whichpag,
-          );
-          Tab = 9;*/
           break;
         case 10:
           break;
         case 11:
+          break;
+
+        case 12:
+          break;
+
+        case 13:
+          break;
+
+        case 14:
+          break;
+
+        case 15:
           break;
       }
     });
@@ -100,7 +65,7 @@ class _NavDelegator extends State<NavDelegator> {
   int _count = 0;
   int Tab = 0;
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = BaseScreen();
+  Widget currentScreen = DelegatorHome();
 
   @override
   Widget build(BuildContext context) {
@@ -127,13 +92,27 @@ class _NavDelegator extends State<NavDelegator> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(
+                      width: 10,
+                    ),
                     MaterialButton(
                       minWidth: 40,
                       onPressed: () {
                         setState(() {
-                          //currentScreen = Requests();
-                          Tab = 3;
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => NavDel(
+                                        TabValue: 1,
+                                        // documentId: widget.documentId,
+                                      )));
+                          currentScreen = GeneralSearch();
+                          Tab = 13;
                         });
+                        /* setState(() {
+                          currentScreen = Paretdisplay();
+                          Tab = 2;
+                        });*/
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -145,10 +124,10 @@ class _NavDelegator extends State<NavDelegator> {
                               SizedBox(
                                 height: 11,
                               ),
-                              Image.asset("assets/images/request.png",
+                              Image.asset("assets/images/list.png",
                                   width: 25,
                                   height: 25,
-                                  color: Tab == 3
+                                  color: Tab == 1
                                       ? Color(0xff42c98d)
                                       : Color.fromARGB(255, 167, 166, 166)),
                             ]),
@@ -159,16 +138,15 @@ class _NavDelegator extends State<NavDelegator> {
                           Container(
                             //  padding: const EdgeInsets.only(right: 50),
                             child: Text(
-                              'قائمة الطلاب',
+                              'الطلاب',
                               style: TextStyle(
                                   fontSize: 10,
                                   fontWeight: FontWeight.w700,
-                                  color: Tab == 3
+                                  color: Tab == 1
                                       ? Color(0xff42c98d)
                                       : Colors.grey),
                             ),
-                          )
-
+                          ),
                           // Text
                           // Column
                         ],
@@ -178,71 +156,59 @@ class _NavDelegator extends State<NavDelegator> {
                 ),
                 MaterialButton(
                   minWidth: 40,
-                  elevation: 0,
                   onPressed: () {
                     setState(() {
-                      // currentScreen = Announcement();
-                      Tab = 4;
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => NavDel(
+                                    TabValue: 133,
+                                    // documentId: widget.documentId,
+                                  )));
+                      currentScreen = GeneralSearch();
+                      Tab = 13;
                     });
+                    /* setState(() {
+                          currentScreen = Paretdisplay();
+                          Tab = 2;
+                        });*/
                   },
                   child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 38,
-                          width: 38,
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
-                                blurRadius: 6,
-                              ),
-                            ],
-                            borderRadius: BorderRadius.circular(90),
-                            gradient: LinearGradient(
-                              colors: [
-                                const Color(0xff0da6c2),
-                                const Color(0xff42c98d),
-                                const Color(0xff57d77a)
-                              ],
-                            ),
-                          ),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          //     padding: const EdgeInsets.only(right: 50),
                           child: Align(
-                            // alignment: Alignment(0.30, -0.10),
-                            alignment: Alignment(0.30, 0.3),
-                            child: Column(children: [
-                              SizedBox(
-                                height: 9,
-                              ),
-                              Image.asset(
-                                "assets/images/announ.png",
-                                width: 25,
-                                height: 25,
-                                color: Tab == 3
-                                    ? Color(0xff42c98d)
-                                    : Color.fromARGB(255, 255, 254, 254),
-                              ),
-                              SizedBox(
-                                height: 1,
-                              ),
-                            ]),
+                        child: Column(children: [
+                          SizedBox(
+                            height: 11,
                           ),
+                          Image.asset("assets/images/delegate.png",
+                              width: 25,
+                              height: 25,
+                              color: Tab == 133
+                                  ? Color(0xff42c98d)
+                                  : Color.fromARGB(255, 167, 166, 166)),
+                        ]),
+                      )),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Container(
+                        //  padding: const EdgeInsets.only(right: 50),
+                        child: Text(
+                          'وصلت',
+                          style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w700,
+                              color:
+                                  Tab == 133 ? Color(0xff42c98d) : Colors.grey),
                         ),
-                        SizedBox(
-                          height: 1,
-                        ),
-                        Container(
-                          //  padding: const EdgeInsets.only(right: 50),
-                          child: Text(
-                            'وصلت',
-                            style: TextStyle(
-                                fontSize: 8,
-                                fontWeight: FontWeight.w700,
-                                color:
-                                    Tab == 2 ? Color(0xff42c98d) : Colors.grey),
-                          ),
-                        ),
-                      ]),
+                      ),
+                      // Text
+                      // Column
+                    ],
+                  ),
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -257,9 +223,8 @@ class _NavDelegator extends State<NavDelegator> {
                           Navigator.push(
                               context,
                               CupertinoPageRoute(
-                                  builder: (context) => NavDelegator(
+                                  builder: (context) => NavDel(
                                         TabValue: 0,
-                                        documentId: widget.documentId,
                                       )));
                           currentScreen = BaseScreen();
                           Tab = 0;
