@@ -57,47 +57,58 @@ class LoginUiApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      // title: 'Flutter Login UI',
-      title: 'Circlight',
-      theme: ThemeData(
-        fontFamily: 'Poppins',
-        primaryColor: _primaryColor,
-        accentColor: _accentColor,
-        primarySwatch: Colors.grey,
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            elevation: 0,
-            shape: const StadiumBorder(),
-            maximumSize: const Size(double.infinity, 56),
-            minimumSize: const Size(double.infinity, 56),
+        debugShowCheckedModeBanner: false,
+        // title: 'Flutter Login UI',
+        title: 'Circlight',
+        theme: ThemeData(
+          fontFamily: 'Poppins',
+          primaryColor: _primaryColor,
+          accentColor: _accentColor,
+          primarySwatch: Colors.grey,
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              elevation: 0,
+              shape: const StadiumBorder(),
+              maximumSize: const Size(double.infinity, 56),
+              minimumSize: const Size(double.infinity, 56),
+            ),
+          ),
+          textTheme: const TextTheme(
+            titleLarge: TextStyle(
+              fontSize: 20,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+            ),
+            bodyLarge: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+            ),
+            bodyMedium: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+            displayMedium: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 18,
+              color: Colors.black,
+            ),
           ),
         ),
-        textTheme: const TextTheme(
-          titleLarge: TextStyle(
-            fontSize: 20,
-            color: Colors.white,
-            fontWeight: FontWeight.w500,
-          ),
-          bodyLarge: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
-          ),
-          bodyMedium: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
-          displayMedium: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 18,
-            color: Colors.black,
-          ),
-        ),
+<<<<<<< Updated upstream
       ),
       home:
           // DelegatorPending()
 
           WelcomeScreen(),
     );
+=======
+        home: DelegatorPending()
+
+        // Delegatordisplay()
+
+        //DelegatorHome(),
+        // WelcomeScreen(),
+        );
+>>>>>>> Stashed changes
   }
 }

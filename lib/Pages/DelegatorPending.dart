@@ -102,7 +102,11 @@ class _DelegatorPending extends State<DelegatorPending>
 
   var SID;
   Request Req = new Request(
+<<<<<<< Updated upstream
       DName: "", Dusername: "", isAccepted: false, isActive: "false", SID: "");
+=======
+      DName: "", Dusername: "", isAccepted: false, isActive: false, SID: "");
+>>>>>>> Stashed changes
 
   var CurrentID;
   var SCount = 0;
