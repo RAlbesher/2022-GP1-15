@@ -53,29 +53,34 @@ class _Paretdisplay extends State<Delegatordisplay>
 
   CollectionReference reques =
       FirebaseFirestore.instance.collection('Requests');
-  CheckForStudent(SID) {
+  Future<bool> CheckForStudent(SID) async {
     var ID;
     var bol = true;
     List<String> IsActive = [];
     reques.get().then(
           (snapshot) => snapshot.docs.forEach((document) {
+            //  print("fffffffffffffffffffffffff");
+            //  print("StudentID");
+            //  print(document["StudentID"]);
+            //   print("SID:");
+            //   print(CurID);
             if (document["StudentID"] == SID) {
+              print("222222222222222222222");
               if (document["IsActive"] == "true") {
-                IsActive.add(document["IsActive"]);
+                print("44444444444444444444444444444444");
+                IsIDExists = true;
+                bol = false;
               }
-            }
-            if (IsActive.isNotEmpty) {
-              IsIDExists = true;
-              bol = false;
-              print("IsIDExistsis truuuuuuuuuuuuuuueeeeeeeee");
             }
           }),
         );
 
-    if (bol) {
-      print("IsIDExistsis falseeeee");
-      IsIDExists = false;
+    if (!bol) {
+      return Future.value(true);
+    } else {
+      return Future.value(false);
     }
+    // return Future.value(false);
   }
 
   int SnapCount = 0;
@@ -87,6 +92,9 @@ class _Paretdisplay extends State<Delegatordisplay>
     SUserName: "",
     SBloodType: "",
   );
+
+  String Active = "";
+  late bool IsAct = true;
   bool ShowRequest = false;
   bool isNull = true;
   String CurID = "";
@@ -101,7 +109,7 @@ class _Paretdisplay extends State<Delegatordisplay>
 
   var SID;
   Request Req = new Request(
-      DName: "", Dusername: "", isAccepted: false, isActive: false, SID: "");
+      DName: "", Dusername: "", isAccepted: false, isActive: "false", SID: "");
 
   var CurrentID;
   var SCount = 0;
@@ -112,7 +120,7 @@ class _Paretdisplay extends State<Delegatordisplay>
         AnimationController(vsync: this, duration: Duration(seconds: 0));
     _colorTween = ColorTween(begin: Colors.transparent, end: Colors.white)
         .animate(_ColorAnimationController);
-    _iconColorTween = ColorTween(begin: Colors.white, end: Colors.grey)
+    _iconColorTween = ColorTween(begin: Colors.grey, end: Colors.grey)
         .animate(_ColorAnimationController);
     _icon2ColorTween =
         ColorTween(begin: Colors.white, end: const Color(0xff42c98d))
@@ -172,9 +180,12 @@ class _Paretdisplay extends State<Delegatordisplay>
                       Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Padding(
+                          SizedBox(
+                            height: 60,
+                          ),
+                          /* Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 10, 10, 8),
+                                EdgeInsetsDirectional.fromSTEB(0, 80, 10, 8),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -218,12 +229,12 @@ class _Paretdisplay extends State<Delegatordisplay>
                                 ),
                               ],
                             ),
-                          ),
-                          Divider(
+                          ),*/
+                          /* (
                             height: 0.2,
                             thickness: 1,
                             color: Color.fromARGB(255, 209, 209, 209),
-                          ),
+                          ),*/
                           Container(
                             child: Padding(
                               padding: EdgeInsets.only(
@@ -368,16 +379,34 @@ class _Paretdisplay extends State<Delegatordisplay>
                                             if (CountStudent < SnapCount) {
                                               CountStudent += 1;
                                             }
-
+                                            IsAct = true;
                                             SCount += 1;
                                             RID = snap[index].reference.id;
+                                            ShowRequest = false;
                                             // print(
                                             //     "aaaaaaaaaaaaaaaaaaaaaaaaaaa");
-
+                                            Active = snap[index]["IsActive"];
+                                            // print(RID);
+                                            //   print(
+                                            //      "+++++++++++++++++++++++++++");
+                                            //print(IsAct);
+                                            if (Active == "Pending") {
+                                              IsAct = false;
+                                              //print(RID);
+                                              //print("MMMMMMMMMMMMMMM");
+                                              //print(Active);
+                                              // print(IsAct);
+                                              if (Active == "true") {
+                                                Req.UpdateRequest(
+                                                    RID, "IsActive", "false");
+                                              }
+                                            }
                                             if (snap[index]["IsActive"] ==
                                                 "false") {
                                               ShowRequest = false;
-                                            } else {
+                                            } else if (snap[index]
+                                                    ["IsActive"] ==
+                                                "true") {
                                               ShowRequest = true;
                                             }
                                             return ShowRequest
@@ -553,35 +582,32 @@ class _Paretdisplay extends State<Delegatordisplay>
                                                                     )),
                                                               ),
                                                               //Here
-                                                              Padding(
-                                                                padding:
-                                                                    EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            10,
-                                                                            0,
-                                                                            4,
-                                                                            0),
-                                                                child: InkWell(
-                                                                    // height: 80,
 
-                                                                    onTap: () {
-                                                                      CurrentID =
-                                                                          snapshot.data![1]
-                                                                              [
-                                                                              index];
-                                                                      //print(
-                                                                      //    "RID");
-                                                                      RID = snap[
-                                                                              index]
-                                                                          .reference
-                                                                          .id;
-                                                                      //  print(
-                                                                      //      RID);
-                                                                      Req.UpdateRequest(
-                                                                          RID,
-                                                                          "IsActive",
-                                                                          "false");
-                                                                      /*   IsIDExists
+                                                              IsAct
+                                                                  ? Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
+                                                                              10,
+                                                                              0,
+                                                                              4,
+                                                                              0),
+                                                                      child: InkWell(
+                                                                          // height: 80,
+
+                                                                          onTap: () {
+                                                                            CurrentID =
+                                                                                snapshot.data![1][index];
+                                                                            //print(
+                                                                            //    "RID");
+                                                                            RID =
+                                                                                snap[index].reference.id;
+                                                                            //  print(
+                                                                            //      RID);
+                                                                            Req.UpdateRequest(
+                                                                                RID,
+                                                                                "IsActive",
+                                                                                "false");
+                                                                            /*   IsIDExists
                                                                           ? showCupertinoDialog(
                                                                               context:
                                                                                   context,
@@ -590,33 +616,27 @@ class _Paretdisplay extends State<Delegatordisplay>
                                                                           : showCupertinoDialog(
                                                                               context: context,
                                                                               builder: CreateDialog2);*/
-                                                                    },
-                                                                    child:
-                                                                        Container(
-                                                                      width: 25,
-                                                                      height:
-                                                                          25,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(40),
-                                                                        color: Color(
-                                                                            0xFF4CD755),
-                                                                      ),
-                                                                      child: const Center(
-                                                                          child: Icon(
-                                                                        Icons
-                                                                            .close,
-                                                                        color: Color.fromARGB(
-                                                                            255,
-                                                                            250,
-                                                                            252,
-                                                                            253),
-                                                                        size:
-                                                                            13,
-                                                                      )),
-                                                                    )),
-                                                              ),
+                                                                          },
+                                                                          child: Container(
+                                                                            width:
+                                                                                25,
+                                                                            height:
+                                                                                25,
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(40),
+                                                                              color: Color(0xFF4CD755),
+                                                                            ),
+                                                                            child: const Center(
+                                                                                child: Icon(
+                                                                              Icons.close,
+                                                                              color: Color.fromARGB(255, 250, 252, 253),
+                                                                              size: 13,
+                                                                            )),
+                                                                          )),
+                                                                    )
+                                                                  : Text(
+                                                                      "aaaaaaa"),
                                                             ],
                                                           ),
                                                         ]))
@@ -692,15 +712,45 @@ class _Paretdisplay extends State<Delegatordisplay>
                                             }
 
                                             SCount += 1;
+                                            IsAct = true;
+
+                                            Active = snap[index]["IsActive"];
+                                            print(RID);
+                                            print(
+                                                "33333333333333333333333333333333333");
+                                            print(IsAct);
+                                            if (Active == "Pending") {
+                                              IsAct = false;
+                                              print(RID);
+                                              print(
+                                                  "sssssssssssssssssssssssssssss");
+                                              print(Active);
+                                              print(IsAct);
+                                              if (Active == "true") {
+                                                Req.UpdateRequest(
+                                                    RID, "IsActive", "false");
+                                              }
+                                            }
                                             //  CurID = snap[index]["StudentID"];
                                             RID = snap[index].reference.id;
-                                            // print("showwwwwwwwwwwwwwwwwwwwwww");
+                                            ShowRequest = false;
+                                            //print("showwwwwwwwwwwwwwwwwwwwwww");
+                                            // print(snap[index]["IsActive"]);
+                                            // print(RID);
                                             if (snap[index]["IsActive"] ==
                                                 "false") {
                                               // print("snap[index]['IsActive']");
                                               // print(snap[index]["IsActive"]);
                                               ShowRequest = true;
-                                            } else {
+                                            } else if (snap[index]
+                                                    ["IsActive"] ==
+                                                "Pending") {
+                                              // print("snap[index]['IsActive']");
+                                              // print(snap[index]["IsActive"]);
+                                              ShowRequest = true;
+                                            } else if (snap[index]
+                                                    ["IsActive"] ==
+                                                "true") {
                                               ShowRequest = false;
                                             }
 
@@ -878,101 +928,118 @@ class _Paretdisplay extends State<Delegatordisplay>
                                                                     )),
                                                               ),
                                                               //Here
-                                                              Padding(
-                                                                padding:
-                                                                    EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            10,
-                                                                            0,
-                                                                            4,
-                                                                            0),
-                                                                child: InkWell(
-                                                                    // height: 80,
+                                                              IsAct
+                                                                  ? Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
+                                                                              10,
+                                                                              0,
+                                                                              4,
+                                                                              0),
+                                                                      child: InkWell(
+                                                                          // height: 80,
 
-                                                                    onTap: () {
-                                                                      /*  CurrentID =
+                                                                          onTap: () async {
+                                                                            /*  CurrentID =
                                                                           snapshot.data![1]
                                                                               [
                                                                               index];*/
-                                                                      // print(
-                                                                      //     "llllllllllllllllll");
-                                                                      //  print(
-                                                                      //     RID);
-                                                                      CurID = snap[
-                                                                              index]
-                                                                          [
-                                                                          "StudentID"];
-                                                                      RID = snap[
-                                                                              index]
-                                                                          .reference
-                                                                          .id;
-                                                                      CheckForStudent(
-                                                                          CurID);
+                                                                            // print(
+                                                                            //     "llllllllllllllllll");
+                                                                            //  print(
+                                                                            //     RID);
+                                                                            CurID =
+                                                                                snap[index]["StudentID"];
 
-                                                                      print(
-                                                                          "IsIDExists:");
-                                                                      print(
-                                                                          IsIDExists);
-                                                                      //  print(
-                                                                      //     "-=====000000000000000000000============");
-                                                                      // print(
-                                                                      //     CurID);
-                                                                      // print(
-                                                                      //     IsIDExists);
-                                                                      //  print(
-                                                                      //    IsIDExists);
-                                                                      setState(
-                                                                          () {
-                                                                        if (IsIDExists ==
-                                                                            true) {
-                                                                          showCupertinoDialog(
-                                                                              context: context,
-                                                                              builder: CreateDialog2);
-                                                                          IsIDExists =
-                                                                              false;
-                                                                          CheckForStudent(
-                                                                              CurID);
-                                                                          /*  print(
-                                                                            "Currrrriiidd");
-                                                                        print(
-                                                                            CurID);*/
-                                                                        } else {
-                                                                          Req.UpdateRequest(
-                                                                              RID,
-                                                                              "IsActive",
-                                                                              "true");
-                                                                        }
-                                                                      });
-                                                                    },
-                                                                    child:
-                                                                        Container(
-                                                                      width: 25,
-                                                                      height:
-                                                                          25,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(40),
-                                                                        color: Color.fromARGB(
-                                                                            255,
-                                                                            171,
-                                                                            181,
-                                                                            172),
+                                                                            RID =
+                                                                                snap[index].reference.id;
+
+                                                                            await Future.wait([
+                                                                              CheckForStudent(CurID),
+                                                                            ]);
+
+                                                                            print("00000000000000000000000000000000000");
+
+                                                                            //  print(
+                                                                            //     "-=====000000000000000000000============");
+                                                                            // print(
+                                                                            //     CurID);
+                                                                            // print(
+                                                                            //     IsIDExists);
+                                                                            //  print(
+                                                                            //    IsIDExists);
+                                                                            print("pppppppppppppppppppppppppp");
+
+                                                                            print(IsIDExists);
+
+                                                                            Future.delayed(Duration(seconds: 1),
+                                                                                () {
+                                                                              // print("Executed after 5 seconds");
+
+                                                                              if (IsIDExists == true) {
+                                                                                print("=========================");
+                                                                                showCupertinoDialog(context: context, builder: CreateDialog33);
+                                                                                IsIDExists = false;
+                                                                              } else {
+                                                                                Req.UpdateRequest(RID, "IsActive", "true");
+                                                                              }
+                                                                            });
+                                                                          },
+                                                                          child: Container(
+                                                                            width:
+                                                                                25,
+                                                                            height:
+                                                                                25,
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(40),
+                                                                              color: Color.fromARGB(255, 171, 181, 172),
+                                                                            ),
+                                                                            child: const Center(
+                                                                                child: Icon(
+                                                                              Icons.close,
+                                                                              color: Color.fromARGB(255, 250, 252, 253),
+                                                                              size: 13,
+                                                                            )),
+                                                                          )),
+                                                                    )
+                                                                  : Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
+                                                                              10,
+                                                                              0,
+                                                                              4,
+                                                                              0),
+                                                                      child:
+                                                                          Container(
+                                                                        width:
+                                                                            25,
+                                                                        height:
+                                                                            25,
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(40),
+                                                                          color: Color.fromARGB(
+                                                                              255,
+                                                                              214,
+                                                                              13,
+                                                                              217),
+                                                                        ),
+                                                                        child: const Center(
+                                                                            child: Icon(
+                                                                          Icons
+                                                                              .close,
+                                                                          color: Color.fromARGB(
+                                                                              255,
+                                                                              250,
+                                                                              252,
+                                                                              253),
+                                                                          size:
+                                                                              13,
+                                                                        )),
                                                                       ),
-                                                                      child: const Center(
-                                                                          child: Icon(
-                                                                        Icons
-                                                                            .close,
-                                                                        color: Color.fromARGB(
-                                                                            255,
-                                                                            250,
-                                                                            252,
-                                                                            253),
-                                                                        size:
-                                                                            13,
-                                                                      )),
-                                                                    )),
-                                                              ),
+                                                                    ),
                                                             ],
                                                           ),
                                                         ]))
@@ -998,11 +1065,12 @@ class _Paretdisplay extends State<Delegatordisplay>
                   ),
                 ),
                 Container(
-                  height: 75,
+                  height: 55,
                   child: AnimatedBuilder(
                     animation: _ColorAnimationController,
                     builder: (context, child) => AppBar(
-                      elevation: 0,
+                      elevation: 1.5,
+                      backgroundColor: Colors.white,
                       iconTheme: IconThemeData(
                         color: _iconColorTween.value,
                       ),
@@ -1013,26 +1081,7 @@ class _Paretdisplay extends State<Delegatordisplay>
                         style: TextStyle(color: _iconColorTween.value),
                       ),
                       centerTitle: true,
-                      actions: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                    builder: (context) => Nav(
-                                          TabValue: 0,
-                                          documentId: "",
-                                        )));
-                          },
-                          icon: Icon(
-                            Icons.arrow_forward_ios,
-                            size: 16,
-                            color: _iconColorTween.value,
-                          ),
-                          color: Colors.white,
-                        ),
-                      ],
-                      backgroundColor: _colorTween.value,
+                      actions: [],
                       titleSpacing: 0.0,
                     ),
                   ),
@@ -1213,7 +1262,8 @@ class _Paretdisplay extends State<Delegatordisplay>
           style: TextStyle(
               color: Color.fromARGB(255, 0, 0, 0),
               fontWeight: FontWeight.bold)),
-      content: const Text('هذا الطالب تم التفعيل ',
+      content: const Text(
+          'يوجد لهذا الطالب  مفوض مفعل الرجاء إلغاء التفعيل لتفويض  آخر ',
           textAlign: TextAlign.center,
           style: TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
       actions: <Widget>[

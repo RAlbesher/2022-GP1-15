@@ -149,7 +149,7 @@ class _CreateDelegator extends State<CreateDelegator>
 
   var SID;
   Request Req = new Request(
-      DName: "", Dusername: "", isAccepted: false, isActive: false, SID: "");
+      DName: "", Dusername: "", isAccepted: false, isActive: "false", SID: "");
 
   // void dispose() {
   //   // TODO: implement dispose

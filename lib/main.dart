@@ -93,7 +93,8 @@ class LoginUiApp extends StatelessWidget {
       ),
 
       home: //DelegatorHome(),
-          WelcomeScreen(),
+          // WelcomeScreen(),
+          Delegatordisplay(),
     );
   }
 }

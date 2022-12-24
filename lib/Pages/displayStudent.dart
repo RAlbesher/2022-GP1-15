@@ -104,7 +104,7 @@ class _Studentdispaly extends State<Studentdispaly>
   Widget build(BuildContext context) {
     double _headerHeight = 150;
     return Scaffold(
-      backgroundColor: Color(0xFFEEEEEE),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: NotificationListener<ScrollNotification>(
         onNotification: _scrollListener,
         child: Container(

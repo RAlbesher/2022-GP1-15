@@ -4,7 +4,7 @@ class Request {
   String Dusername = " "; //
 
   bool isAccepted = false; //
-  bool isActive; //
+  String isActive; //
   String DName = " ";
 
   String SID = " "; //

@@ -30,7 +30,7 @@ class _DelegatorHome extends State<DelegatorHome> {
   int count = 0;
   bool ShowRequest = false;
   Request Req = new Request(
-      DName: "", Dusername: "", isAccepted: false, isActive: false, SID: "");
+      DName: "", Dusername: "", isAccepted: false, isActive: "false", SID: "");
   var ID;
   @override
   Widget build(BuildContext context) {
